@@ -10,5 +10,8 @@ rails new CW-Encoding -T -d postgresql # --api
 echo ".idea/*" >> .gitignore
 ```
 
-* Added docker-compose for production
-* Added rails-docker
+* rails-docker
+* s3 config for active storage
+* docker-compose for production
+* sidekiq
+* ffmpeg
