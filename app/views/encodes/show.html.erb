@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Log:</strong>
+  <%= @encode.log %>
+</p>
+
+<p>
+  <strong>Started at:</strong>
+  <%= @encode.started_at %>
+</p>
+
+<p>
+  <strong>Ended at:</strong>
+  <%= @encode.ended_at %>
+</p>
+
+<p>
+  <strong>Runtime:</strong>
+  <%= @encode.runtime %>
+</p>
+
+<p>
+  <strong>Completed:</strong>
+  <%= @encode.completed %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @encode.user_id %>
+</p>
+
+<p>
+  <strong>Published:</strong>
+  <%= @encode.published %>
+</p>
+
+<%= link_to 'Edit', edit_encode_path(@encode) %> |
+<%= link_to 'Back', encodes_path %>
