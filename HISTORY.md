@@ -32,7 +32,7 @@ rake docker:pg:run
 
 ### Model
 ```bash
-rails g scaffold encoding log:text started_at:timestamp ended_at:timestamp runtime:float completed:boolean user:references published:boolean
+rails g scaffold encode log:text started_at:timestamp ended_at:timestamp runtime:float completed:boolean user:references published:boolean
 add_column :users, :disabled, :boolean, default: false
 ```
 
