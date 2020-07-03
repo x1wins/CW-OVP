@@ -1,0 +1,52 @@
+<%= form_with(model: encode, local: true) do |form| %>
+  <% if encode.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(encode.errors.count, "error") %> prohibited this encode from being saved:</h2>
+
+      <ul>
+        <% encode.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :log %>
+    <%= form.text_area :log %>
+  </div>
+
+  <div class="field">
+    <%= form.label :started_at %>
+    <%= form.datetime_select :started_at %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ended_at %>
+    <%= form.datetime_select :ended_at %>
+  </div>
+
+  <div class="field">
+    <%= form.label :runtime %>
+    <%= form.text_field :runtime %>
+  </div>
+
+  <div class="field">
+    <%= form.label :completed %>
+    <%= form.check_box :completed %>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.text_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :published %>
+    <%= form.check_box :published %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
