@@ -1,7 +1,19 @@
 # Index
+* [Project init](#Project-init)
+* [Added .idea/*](#Added-.idea/*)
 * [Devise](#Devise)
 * [Postgresql](#Postgresql)
 * [Model](#Model)
+
+### Project init
+```
+rails new CW-Encoding -T -d postgresql # --api
+```
+
+### Added .idea/*
+```
+echo ".idea/*" >> .gitignore
+```
 
 ### Devise
 ```bash
