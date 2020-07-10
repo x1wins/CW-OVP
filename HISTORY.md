@@ -49,3 +49,21 @@ add_column :users, :disabled, :boolean, default: false
 ```
 
 ### Sidekiq
+
+### bulma
+https://github.com/joshuajansen/bulma-rails
+* Gemfile
+    ```yaml
+      gem "bulma-rails", "~> 0.9.0"
+    ```
+* application.scss
+    > Change application.css to application.scss
+    ```scss
+      @import "bulma";
+    ```
+* install  
+    ```bash
+      bundle install
+    ```
+  
+  
