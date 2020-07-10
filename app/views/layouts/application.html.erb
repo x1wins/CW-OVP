@@ -10,14 +10,34 @@
   </head>
 
   <body>
-    <div class="container">
       <%= render "layouts/header" %>
-      <div class="columns">
-        <%= render "layouts/menu" %>
-        <main class="column main">
-          <%= yield %>
-        </main>
+      <div class="section">
+        <div class="columns">
+          <%= render "layouts/menu" %>
+          <main class="column">
+            <div class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <div class="title">Dashboard</div>
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
+                  <button type="button" class="button is-small">
+                    March 8, 2017 - April 6, 2017
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="columns is-multiline">
+              <div class="column is-fullwidth">
+                <%= yield %>
+              </div>
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+
   </body>
 </html>
