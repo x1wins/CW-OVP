@@ -30,3 +30,16 @@ OVP(online video platform)란<br/>
     * Postresql or Cubrid : database
     * Docker, docker-compose, k8s
 
+## Roadmap
+* encoding
+    * complete list
+        * preview
+    * processing list
+        * log show
+* history
+* meta
+    * tree category
+        * movie node
+* member
+
+    
