@@ -24,7 +24,7 @@ OVP(online video platform)란<br/>
     * AWS S3, CloudFront
 3. Skill Stack
     * FFMPEG : hls encoding
-    * Ruby on Rails : web framrwork
+    * Ruby on Rails : web framework
     * Redis : cache, queue
     * Sidekiq : background job
     * Postresql or Cubrid : database
