@@ -1,20 +1,44 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CWEncoding</title>
+    <title>CW-OVP</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
   </head>
 
   <body>
-  <div class="container">
-    <div class="notification">
-      This container is <strong>centered</strong> on desktop.
-    </div>
-    <%= yield %>
-  </div>
+      <%= render "layouts/header" %>
+      <div class="section">
+        <div class="columns">
+          <%= render "layouts/menu" %>
+          <main class="column">
+            <div class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <div class="title">Dashboard</div>
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
+                  <button type="button" class="button is-small">
+                    March 8, 2017 - April 6, 2017
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="columns is-multiline">
+              <div class="column is-fullwidth">
+                <%= yield %>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
   </body>
 </html>
