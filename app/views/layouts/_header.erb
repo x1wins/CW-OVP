@@ -1,33 +1,55 @@
-<header class="hero is-light">
-  <div class="hero-head">
-    <nav class="nav has-shadow">
-      <div class="nav-left">
-        <a class="nav-item">
-          <img src="http://bulma.io/images/bulma-logo.png" alt="Bulma logo">
-        </a>
-        <a class="nav-item is-tab is-hidden-mobile is-active">Home</a>
-        <a class="nav-item is-tab is-hidden-mobile">Features</a>
-        <a class="nav-item is-tab is-hidden-mobile">Pricing</a>
-        <a class="nav-item is-tab is-hidden-mobile">About</a>
-      </div>
-      <span class="nav-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </span>
-      <div class="nav-right nav-menu">
-        <a class="nav-item is-tab is-hidden-tablet is-active">Home</a>
-        <a class="nav-item is-tab is-hidden-tablet">Features</a>
-        <a class="nav-item is-tab is-hidden-tablet">Pricing</a>
-        <a class="nav-item is-tab is-hidden-tablet">About</a>
-        <a class="nav-item is-tab">
-          <figure class="image is-16x16" style="margin-right: 8px;">
-            <img src="http://bulma.io/images/jgthms.png">
-          </figure>
-          Profile
-        </a>
-        <a class="nav-item is-tab">Log out</a>
-      </div>
-    </nav>
+<nav class="navbar has-background-grey-lighter">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="https://bulma.io">
+      <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+    </a>
+    <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
-</header>
+
+  <div id="navbarExampleTransparentExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="https://bulma.io/">
+        Home
+      </a>
+      <a class="navbar-item" href="https://bulma.io/">
+        Band
+      </a>
+      <a class="navbar-item" href="https://bulma.io/">
+        Tour
+      </a>
+      <a class="navbar-item" href="https://bulma.io/">
+        Contact
+      </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link" href="/documentation/overview/start/">
+          More
+        </a>
+        <div class="navbar-dropdown is-boxed">
+          <a class="navbar-item" href="/documentation/overview/start/">
+            Mechandise
+          </a>
+          <a class="navbar-item" href="https://bulma.io/documentation/modifiers/syntax/">
+            Extras
+          </a>
+          <a class="navbar-item" href="https://bulma.io/documentation/columns/basics/">
+            Media
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="field">
+          <div class="control">
+            <input class="input" type="text" placeholder="Search . . .">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
