@@ -11,6 +11,7 @@
     <th>Completed</th>
     <th>User</th>
     <th>Published</th>
+    <th>File</th>
     <th colspan="3"></th>
   </tr>
   </thead>
@@ -25,6 +26,7 @@
       <td><%= encode.completed %></td>
       <td><%= encode.user_id %></td>
       <td><%= encode.published %></td>
+      <td><%= url_for(encode.file) if encode.file.attached? %></td>
       <td><%= link_to 'Show', encode %></td>
       <td><%= link_to 'Edit', edit_encode_path(encode) %></td>
       <td><%= link_to 'Destroy', encode, method: :delete, data: { confirm: 'Are you sure?' } %></td>

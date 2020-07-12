@@ -69,6 +69,6 @@ class EncodesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def encode_params
-      params.require(:encode).permit(:log, :started_at, :ended_at, :runtime, :completed, :user_id, :published)
+      params.require(:encode).permit(:log, :started_at, :ended_at, :runtime, :completed, :user_id, :published, :file)
     end
 end
