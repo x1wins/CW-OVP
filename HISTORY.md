@@ -50,8 +50,8 @@ add_column :users, :disabled, :boolean, default: false
 
 ```bash
 rails g migration AddUrlToEncode url:string
+rails g migration AddTitleToEncode title:string
 ```
-
 
 ```bash
 rails generate migration ChangeRuntimeToEncode
