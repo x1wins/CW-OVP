@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_13_162147) do
+ActiveRecord::Schema.define(version: 2020_07_13_220550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2020_07_13_162147) do
     t.text "log"
     t.datetime "started_at"
     t.datetime "ended_at"
-    t.float "runtime"
+    t.string "runtime"
     t.boolean "completed"
     t.bigint "user_id", null: false
     t.boolean "published"

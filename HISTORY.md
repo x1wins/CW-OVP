@@ -52,6 +52,17 @@ add_column :users, :disabled, :boolean, default: false
 rails g migration AddUrlToEncode url:string
 ```
 
+
+```bash
+rails generate migration ChangeRuntimeToEncode
+
+class ChangeRuntimeToEncode < ActiveRecord::Migration[6.0]
+  def change
+    change_column :encodes, :runtime, :string
+  end
+end
+```
+
 ### Sidekiq
 
 ### bulma
