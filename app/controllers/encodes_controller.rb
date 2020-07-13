@@ -4,6 +4,12 @@ class EncodesController < ApplicationController
   # GET /encodes
   # GET /encodes.json
   def index
+    # ok = system('sh app/encoding/hello.sh sample.mp4')
+    # puts "rails result #{ok}"
+    # quick_output = system("ls -la")
+    # puts "rails result #{quick_output}"
+    output = `sh app/encoding/hello.sh sample.mp4`
+    p "output = #{output}"
     @encodes = Encode.all
   end
 
