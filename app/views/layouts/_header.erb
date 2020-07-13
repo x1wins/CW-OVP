@@ -1,6 +1,6 @@
 <nav class="navbar has-background-grey-lighter">
   <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
+    <a class="navbar-item" href="<%= root_path %>">
       <img src="<%= image_url('CW_OVP_LOGO_200x200.png') %>" height="28"> CW-OVP
     </a>
     <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
@@ -12,34 +12,7 @@
 
   <div id="navbarExampleTransparentExample" class="navbar-menu">
     <div class="navbar-start">
-      <a class="navbar-item" href="https://bulma.io/">
-        Home
-      </a>
-      <a class="navbar-item" href="https://bulma.io/">
-        Band
-      </a>
-      <a class="navbar-item" href="https://bulma.io/">
-        Tour
-      </a>
-      <a class="navbar-item" href="https://bulma.io/">
-        Contact
-      </a>
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link" href="/documentation/overview/start/">
-          More
-        </a>
-        <div class="navbar-dropdown is-boxed">
-          <a class="navbar-item" href="/documentation/overview/start/">
-            Mechandise
-          </a>
-          <a class="navbar-item" href="https://bulma.io/documentation/modifiers/syntax/">
-            Extras
-          </a>
-          <a class="navbar-item" href="https://bulma.io/documentation/columns/basics/">
-            Media
-          </a>
-        </div>
-      </div>
+      <%= link_to Encode.model_name, encodes_path, class: "navbar-item #{'is-active' if controller.controller_name == Encode.model_name.to_s.downcase+'s' }" %>
     </div>
 
     <div class="navbar-end">
