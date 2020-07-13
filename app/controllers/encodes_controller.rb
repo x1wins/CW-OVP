@@ -34,9 +34,12 @@ class EncodesController < ApplicationController
             Rails.logger.debug "temp file path : #{f.path}"
             output = `sh app/encoding/duration.sh #{f.path}`
             Rails.logger.debug "ffmpeg parameter : #{File.basename(f.path)} #{f.path}"
-            encoding_output = `sh app/encoding/hls_h264.sh #{File.basename(f.path)} #{f.path}`
+            dir_name = "hls/#{File.basename(f.path, ".*")}"
+            full_dir_name = "public/#{dir_name}"
+            encoding_output = `sh app/encoding/hls_h264.sh #{full_dir_name} #{f.path}`
             Rails.logger.debug "output : #{output}"
             Rails.logger.debug "encoding_output : #{encoding_output}"
+            Rails.logger.debug "full url : #{request.base_url}/#{dir_name}/1080p.m3u8"
           end
           Rails.logger.debug "saved file path : #{rails_blob_path(@encode.file)}"
         end
