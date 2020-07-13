@@ -4,11 +4,10 @@
   <thead>
   <tr>
     <th>ID</th>
-    <th>Started at</th>
-    <th>Ended at</th>
+    <th>Title</th>
+    <th>Created at</th>
     <th>Runtime</th>
     <th>Completed</th>
-    <th>Published</th>
     <th>Url</th>
     <th colspan="3"></th>
   </tr>
@@ -17,11 +16,10 @@
   <% @encodes.each do |encode| %>
     <tr>
       <th><%= encode.id %></th>
-      <td><%= encode.started_at %></td>
-      <td><%= encode.ended_at %></td>
+      <td><%= encode.title %></td>
+      <td><%= encode.created_at %></td>
       <td><%= encode.runtime %></td>
       <td><%= encode.completed %></td>
-      <td><%= encode.published %></td>
       <td><%= encode.url %></td>
       <td><%= link_to 'Show', encode %></td>
       <td><%= link_to 'Edit', edit_encode_path(encode) %></td>
