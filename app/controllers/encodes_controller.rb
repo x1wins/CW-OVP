@@ -5,6 +5,7 @@ class EncodesController < ApplicationController
   # GET /encodes.json
   def index
     @encodes = Encode.all
+    @encodes = Encode.all.order(id: :desc)
   end
 
   # GET /encodes/1
