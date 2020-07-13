@@ -4,7 +4,8 @@ class Encode < ApplicationRecord
   validates :file, presence: true, blob: { content_type: :video } # supported options: :image, :audio, :video, :text
   before_save :default_values
   def default_values
-    self.published = true
-    self.completed = false
+    self.started_at ||= Time.now
+    self.published ||= true
+    self.completed ||= false
   end
 end

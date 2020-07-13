@@ -30,7 +30,6 @@ class EncodesController < ApplicationController
       if @encode.save
         if @encode.file.attached?
           @encode.file.open do |f|
-            @encode.update(started_at: Time.now)
             temp_file_full_path = f.path
             duration_output = `sh app/encoding/duration.sh #{temp_file_full_path}`
             file_path = "hls/#{File.basename(temp_file_full_path, ".*")}"
