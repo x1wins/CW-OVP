@@ -31,12 +31,11 @@ class EncodesController < ApplicationController
         if @encode.file.attached?
 
           @encode.file.open do |f|
-            p "@encode.file.path : #{f.path}"
+            p "temp file path : #{f.path}"
+            output = `sh app/encoding/duration.sh #{f.path}`
+            p "output : #{output}"
           end
-
-          output = `sh app/encoding/duration.sh #{rails_blob_path(@encode.file)}}`
-          p "output : #{output}"
-          p "file path : #{rails_blob_path(@encode.file)}"
+          p "saved file path : #{rails_blob_path(@encode.file)}"
         end
         format.html { redirect_to @encode, notice: 'Encode was successfully created.' }
         format.json { render :show, status: :created, location: @encode }
