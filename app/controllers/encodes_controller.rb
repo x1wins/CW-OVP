@@ -4,12 +4,6 @@ class EncodesController < ApplicationController
   # GET /encodes
   # GET /encodes.json
   def index
-    # ok = system('sh app/encoding/hello.sh sample.mp4')
-    # puts "rails result #{ok}"
-    # quick_output = system("ls -la")
-    # puts "rails result #{quick_output}"
-    output = `sh app/encoding/hello.sh sample.mp4`
-    p "output = #{output}"
     @encodes = Encode.all
   end
 
@@ -34,6 +28,16 @@ class EncodesController < ApplicationController
 
     respond_to do |format|
       if @encode.save
+        if @encode.file.attached?
+
+          @encode.file.open do |f|
+            p "@encode.file.path : #{f.path}"
+          end
+
+          output = `sh app/encoding/duration.sh #{rails_blob_path(@encode.file)}}`
+          p "output : #{output}"
+          p "file path : #{rails_blob_path(@encode.file)}"
+        end
         format.html { redirect_to @encode, notice: 'Encode was successfully created.' }
         format.json { render :show, status: :created, location: @encode }
       else
