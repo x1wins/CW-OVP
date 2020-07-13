@@ -31,11 +31,14 @@ class EncodesController < ApplicationController
         if @encode.file.attached?
 
           @encode.file.open do |f|
-            p "temp file path : #{f.path}"
+            Rails.logger.debug "temp file path : #{f.path}"
             output = `sh app/encoding/duration.sh #{f.path}`
-            p "output : #{output}"
+            Rails.logger.debug "ffmpeg parameter : #{File.basename(f.path)} #{f.path}"
+            encoding_output = `sh app/encoding/hls_h264.sh #{File.basename(f.path)} #{f.path}`
+            Rails.logger.debug "output : #{output}"
+            Rails.logger.debug "encoding_output : #{encoding_output}"
           end
-          p "saved file path : #{rails_blob_path(@encode.file)}"
+          Rails.logger.debug "saved file path : #{rails_blob_path(@encode.file)}"
         end
         format.html { redirect_to @encode, notice: 'Encode was successfully created.' }
         format.json { render :show, status: :created, location: @encode }
