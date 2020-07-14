@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Title:</strong>
+  <%= @encode.title %>
+</p>
+
+<p>
   <strong>Log:</strong>
   <%= @encode.log %>
 </p>
@@ -33,6 +38,11 @@
 <p>
   <strong>Published:</strong>
   <%= @encode.published %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @encode.url %>
 </p>
 
 <%= link_to 'Edit', edit_encode_path(@encode) %> |

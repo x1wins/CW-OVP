@@ -48,6 +48,21 @@ rails g scaffold encode log:text started_at:timestamp ended_at:timestamp runtime
 add_column :users, :disabled, :boolean, default: false
 ```
 
+```bash
+rails g migration AddUrlToEncode url:string
+rails g migration AddTitleToEncode title:string
+```
+
+```bash
+rails generate migration ChangeRuntimeToEncode
+
+class ChangeRuntimeToEncode < ActiveRecord::Migration[6.0]
+  def change
+    change_column :encodes, :runtime, :string
+  end
+end
+```
+
 ### Sidekiq
 
 ### bulma
