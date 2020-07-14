@@ -11,17 +11,30 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_area :title %>
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <%= form.label :title, class: "label" %>
+    </div>
+    <div class="field-body">
+      <%= form.text_field :title, class: "input", placeholder: "Title" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :file %>
-    <%= form.file_field :file %>
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <%= form.label :file, class: "label" %>
+    </div>
+    <div class="field-body">
+      <%= form.file_field :file, class: "input", placeholder: "Title" %>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="field is-horizontal">
+    <div class="field-label">
+      <!-- Left empty for spacing -->
+    </div>
+    <div class="field-body">
+        <%= form.submit class: "button is-primary" %>
+    </div>
   </div>
 <% end %>
