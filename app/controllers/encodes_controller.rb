@@ -1,10 +1,14 @@
+require './lib/pagination'
+
 class EncodesController < ApplicationController
   before_action :set_encode, only: [:show, :edit, :update, :destroy]
 
   # GET /encodes
   # GET /encodes.json
   def index
-    @encodes = Encode.all
+    page = params[:page].presence || 1
+    per = params[:per].presence || Pagination.per
+    @encodes = Encode.published.by_date.page(page).per(per)
   end
 
   # GET /encodes/1
