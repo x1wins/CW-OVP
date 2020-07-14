@@ -16,13 +16,13 @@
     </div>
 
     <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="field">
-          <div class="control">
-            <input class="input" type="text" placeholder="Search . . .">
-          </div>
-        </div>
-      </div>
+      <% if user_signed_in? %>
+        <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "navbar-item") %>
+        <%= link_to('Edit registration', edit_user_registration_path, class: "navbar-item") %>
+      <% else %>
+        <%= link_to('Login', new_user_session_path, class: "navbar-item") %>
+        <%= link_to('Register', new_user_registration_path, class: "navbar-item") %>
+      <% end %>
     </div>
   </div>
 </nav>
