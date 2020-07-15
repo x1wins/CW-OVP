@@ -78,6 +78,7 @@ GEM
     docker-postgres-rails (0.0.1)
     erubi (1.9.0)
     ffi (1.13.1)
+    foreman (0.87.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.8.3)
@@ -223,6 +224,7 @@ DEPENDENCIES
   byebug
   devise
   docker-postgres-rails (~> 0.0.1)
+  foreman
   jbuilder (~> 2.7)
   kaminari (>= 1.2.1)
   listen (~> 3.2)

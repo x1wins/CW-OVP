@@ -43,20 +43,20 @@ OVP(online video platform)란<br/>
 * member
 
 ## How To Run
-1. start postgresql with docker
-    ```bash
-        rake docker:pg:init # postgrsql config set up
-        rake docker:pg:run
-    ```
-2. start redis with docker
-    ```bash
-        docker run --rm --name my-redis-container -p 7001:6379 -d redis
-    ```
-3. start sidekiq
-    ```bash
-        bundle exec sidekiq
-    ```    
-4. start rails
-    ```bash
-        rails s
-    ```    
+1. Database
+    1. postgresql with docker
+        ```bash
+            rake docker:pg:init # postgrsql config set up
+            rake docker:pg:run
+        ```
+    2. redis with docker
+        ```bash
+            docker run --rm --name my-redis-container -p 7001:6379 -d redis
+        ```
+2. App server
+    1. rails server and sidekiq
+        > http://railscasts.com/episodes/281-foreman
+        ```bash
+            bundle exec foreman start    
+        ```
+3. open your web browser and connect ```http://localhost:3000```       
