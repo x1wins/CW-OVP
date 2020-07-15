@@ -11,6 +11,7 @@ class EncodesController < ApplicationController
     page = params[:page].presence || 1
     per = params[:per].presence || Pagination.per
     @encodes = Encode.published.by_date.page(page).per(per)
+    EncodeWorker.perform_async('bob', 5)
   end
 
   # GET /encodes/1
