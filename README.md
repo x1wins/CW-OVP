@@ -42,4 +42,21 @@ OVP(online video platform)란<br/>
         * movie node
 * member
 
-    
+## How To Run
+1. start postgresql with docker
+    ```bash
+        rake docker:pg:init # postgrsql config set up
+        rake docker:pg:run
+    ```
+2. start redis with docker
+    ```bash
+        docker run --rm --name my-redis-container -p 7001:6379 -d redis
+    ```
+3. start sidekiq
+    ```bash
+        bundle exec sidekiq
+    ```    
+4. start rails
+    ```bash
+        rails s
+    ```    
