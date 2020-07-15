@@ -54,6 +54,4 @@ gem 'kaminari'
 
 gem 'redis'
 gem 'redis-namespace'
-gem 'redis-rails'
-gem 'redis-rack-cache'
 gem 'sidekiq'
