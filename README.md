@@ -42,4 +42,8 @@ OVP(online video platform)란<br/>
         * movie node
 * member
 
-    
+### Foreman
+> http://railscasts.com/episodes/281-foreman
+    ```bash
+        foreman start    
+    ```
