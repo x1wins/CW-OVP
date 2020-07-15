@@ -1,4 +1,5 @@
 require './lib/pagination'
+require 'open3'
 
 class EncodesController < ApplicationController
   before_action :set_encode, only: [:show, :destroy]
