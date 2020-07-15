@@ -43,6 +43,9 @@ OVP(online video platform)란<br/>
 * member
 
 ## How To Run
+0. Download source
+    1. ```git clone https://github.com/x1wins/CW-OVP.git```
+    2. ```cd ./CW-OVP```
 1. Database
     1. postgresql with docker
         ```bash
