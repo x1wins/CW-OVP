@@ -62,7 +62,7 @@ class EncodesController < ApplicationController
   # DELETE /encodes/1
   # DELETE /encodes/1.json
   def destroy
-    @encode.destroy
+    @encode.update(published: false)
     respond_to do |format|
       format.html { redirect_to encodes_url, notice: 'Encode was successfully destroyed.' }
       format.json { head :no_content }
@@ -72,7 +72,7 @@ class EncodesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_encode
-      @encode = Encode.find(params[:id])
+      @encode = Encode.published.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
