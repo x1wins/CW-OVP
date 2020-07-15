@@ -11,7 +11,6 @@ class EncodesController < ApplicationController
     page = params[:page].presence || 1
     per = params[:per].presence || Pagination.per
     @encodes = Encode.published.by_date.page(page).per(per)
-    EncodeWorker.perform_async('bob', 5)
   end
 
   # GET /encodes/1
@@ -28,29 +27,10 @@ class EncodesController < ApplicationController
   # POST /encodes.json
   def create
     @encode = Encode.new(encode_params)
-
     respond_to do |format|
       if @encode.save
-        if @encode.file.attached?
-          @encode.file.open do |f|
-            temp_file_full_path = f.path
-            duration_output = `sh app/encoding/duration.sh #{temp_file_full_path}`
-            file_path = "hls/#{File.basename(temp_file_full_path, ".*")}"
-            file_full_path = "public/#{file_path}"
-            encoding_cmd = "sh app/encoding/hls_h264.sh #{file_full_path} #{temp_file_full_path}"
-            stdout, stderr, status = Open3.capture3(encoding_cmd)
-            encoding_output = "#{stdout} #{stderr} #{status}"
-            url = "#{request.base_url}/#{file_path}/1080p.m3u8"
-            # :log, :started_at, :ended_at, :runtime, :completed
-            @encode.update(log: encoding_output, ended_at: Time.now, runtime: duration_output, completed: true, url: url)
-            Rails.logger.debug "temp file path : #{temp_file_full_path}"
-            Rails.logger.debug "ffmpeg parameter : #{file_full_path} #{temp_file_full_path}"
-            Rails.logger.debug "output : #{duration_output}"
-            Rails.logger.debug "encoding_output : #{encoding_output}"
-            Rails.logger.debug "full url : #{url}"
-          end
-          Rails.logger.debug "saved file path : #{rails_blob_path(@encode.file)}"
-        end
+        EncodeWorker.perform_async(@encode.id, request.base_url)
+        Rails.logger.debug "saved file path : #{rails_blob_path(@encode.file)}"
         format.html { redirect_to @encode, notice: 'Encode was successfully created.' }
         format.json { render :show, status: :created, location: @encode }
       else
