@@ -50,4 +50,4 @@ gem 'devise'
 gem 'docker-postgres-rails', '~> 0.0.1'
 gem "bulma-rails", "~> 0.9.0"
 gem 'activestorage-validator'
-gem 'kaminari'
+gem "kaminari", ">= 1.2.1"
