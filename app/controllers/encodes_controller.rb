@@ -35,7 +35,9 @@ class EncodesController < ApplicationController
             duration_output = `sh app/encoding/duration.sh #{temp_file_full_path}`
             file_path = "hls/#{File.basename(temp_file_full_path, ".*")}"
             file_full_path = "public/#{file_path}"
-            encoding_output = `sh app/encoding/hls_h264.sh #{file_full_path} #{temp_file_full_path}`
+            encoding_cmd = "sh app/encoding/hls_h264.sh #{file_full_path} #{temp_file_full_path}"
+            stdout, stderr, status = Open3.capture3(encoding_cmd)
+            encoding_output = "#{stdout} #{stderr} #{status}"
             url = "#{request.base_url}/#{file_path}/1080p.m3u8"
             # :log, :started_at, :ended_at, :runtime, :completed
             @encode.update(log: encoding_output, ended_at: Time.now, runtime: duration_output, completed: true, url: url)
