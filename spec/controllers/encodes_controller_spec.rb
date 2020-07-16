@@ -93,7 +93,7 @@ RSpec.describe EncodesController, type: :controller do
       encode = Encode.create! valid_attributes
       put :destroy, params: {id: encode.to_param}
       encode.reload
-      expect(encode.published).to false
+      expect(encode.published).to eq false
     end
 
     it "redirects to the encodes list" do
