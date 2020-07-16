@@ -36,9 +36,9 @@ OVP(online video platform)란<br/>
         * preview
     * processing list
         * log show
-    * rest api for encoding request
-    * apikey for rest api                
     * webhook - http callback call when encoding complete
+    * rest api, apikey, webhook id for encoding request
+    * encoding worker scale out with multiple node
 * history
 * meta
     * tree category
