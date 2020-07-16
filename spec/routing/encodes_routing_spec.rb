@@ -14,21 +14,8 @@ RSpec.describe EncodesController, type: :routing do
       expect(:get => "/encodes/1").to route_to("encodes#show", :id => "1")
     end
 
-    it "routes to #edit" do
-      expect(:get => "/encodes/1/edit").to route_to("encodes#edit", :id => "1")
-    end
-
-
     it "routes to #create" do
       expect(:post => "/encodes").to route_to("encodes#create")
-    end
-
-    it "routes to #update via PUT" do
-      expect(:put => "/encodes/1").to route_to("encodes#update", :id => "1")
-    end
-
-    it "routes to #update via PATCH" do
-      expect(:patch => "/encodes/1").to route_to("encodes#update", :id => "1")
     end
 
     it "routes to #destroy" do
