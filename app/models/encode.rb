@@ -11,4 +11,11 @@ class Encode < ApplicationRecord
     self.published ||= true
     self.completed ||= false
   end
+  def file_path
+    yyyy = self.created_at.strftime("%Y")
+    mm = self.created_at.strftime("%m")
+    dd = self.created_at.strftime("%d")
+    id = self.id
+    "hls/#{yyyy}/#{mm}/#{dd}/#{id}"
+  end
 end
