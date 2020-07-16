@@ -13,7 +13,12 @@ class EncodeWorker
       encode.file.open do |f|
         temp_file_full_path = f.path
         duration_output = `sh app/encoding/duration.sh #{temp_file_full_path}`
-        file_path = "hls/#{File.basename(temp_file_full_path, ".*")}"
+        yyyy = encode.created_at.strftime("%Y")
+        mm = encode.created_at.strftime("%m")
+        dd = encode.created_at.strftime("%d")
+        id = encode.id
+        title = encode.title
+        file_path = "hls/#{yyyy}/#{mm}/#{dd}/#{id}"
         file_full_path = "public/#{file_path}"
         encoding_cmd = "sh app/encoding/hls_h264.sh #{file_full_path} #{temp_file_full_path}"
         stdout, stderr, status = Open3.capture3(encoding_cmd)
