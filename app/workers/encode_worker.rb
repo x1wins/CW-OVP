@@ -17,8 +17,9 @@ class EncodeWorker
         file_full_path = "public/#{file_path}"
         encoding_cmd = "sh app/encoding/hls_h264.sh #{file_full_path} #{temp_file_full_path}"
         stdout, stderr, status = Open3.capture3(encoding_cmd)
-        encoding_output = "#{stdout} #{stderr} #{status}"
-        url = "#{base_url}/#{file_path}/1080p.m3u8"
+        playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{file_full_path}`
+        encoding_output = "#{stdout} #{stderr} #{status} #{playlist_cp_cmd}"
+        url = "#{base_url}/#{file_path}/playlist.m3u8"
         encode.update(log: encoding_output, ended_at: Time.now, runtime: duration_output, completed: true, url: url)
         Sidekiq.logger.debug "temp file path : #{temp_file_full_path}"
         Sidekiq.logger.debug "ffmpeg parameter : #{file_full_path} #{temp_file_full_path}"
