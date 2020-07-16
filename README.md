@@ -63,3 +63,7 @@ OVP(online video platform)란<br/>
             bundle exec foreman start    
         ```
 3. open your web browser and connect ```http://localhost:3000```       
+4. Testing
+    ```bash
+        bundle exec rspec --format documentation
+    ```
