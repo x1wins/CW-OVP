@@ -51,6 +51,7 @@ OVP(online video platform)란<br/>
         ```bash
             rake docker:pg:init # postgrsql config set up
             rake docker:pg:run
+            rake db:migrate
         ```
     2. redis with docker
         ```bash
