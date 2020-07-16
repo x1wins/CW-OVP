@@ -35,7 +35,7 @@ RSpec.describe EncodesController, type: :controller do
   }
 
   let(:invalid_attributes) {
-    {title: "", user: @user, file: nil}
+    {title: "", user: @user, file: Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.mp4"))}
   }
 
   # This should return the minimal set of values that should be in the session
