@@ -42,11 +42,11 @@ OVP(online video platform)란<br/>
         * movie node
 * member
 
-## How To Run
-0. Download source
+## How To Run Development mode
+1. Download source
     1. ```git clone https://github.com/x1wins/CW-OVP.git```
     2. ```cd ./CW-OVP```
-1. Database
+2. Database
     1. postgresql with docker
         ```bash
             rake docker:pg:init # postgrsql config set up
