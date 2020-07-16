@@ -13,6 +13,7 @@
   <div id="navbarExampleTransparentExample" class="navbar-menu">
     <div class="navbar-start">
       <%= link_to Encode.model_name, encodes_path, class: "navbar-item #{'is-active' if controller.controller_name == Encode.model_name.to_s.downcase+'s' }" %>
+      <%= link_to "Sidekiq", sidekiq_web_path, class: "navbar-item", target: "_blank" %>
     </div>
 
     <div class="navbar-end">
