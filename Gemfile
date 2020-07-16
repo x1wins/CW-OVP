@@ -56,3 +56,10 @@ gem 'foreman'
 gem 'redis'
 gem 'redis-namespace'
 gem 'sidekiq'
+
+group :test do
+  gem 'rspec-rails', '~> 3.5'
+  gem 'database_cleaner'
+  gem 'factory_bot_rails'
+  gem 'faker'
+end
