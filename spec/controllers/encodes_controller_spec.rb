@@ -66,14 +66,6 @@ RSpec.describe EncodesController, type: :controller do
     end
   end
 
-  describe "GET #edit" do
-    it "returns a success response" do
-      encode = Encode.create! valid_attributes
-      get :edit, params: {id: encode.to_param}
-      expect(response).to be_successful
-    end
-  end
-
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Encode" do
@@ -96,41 +88,12 @@ RSpec.describe EncodesController, type: :controller do
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested encode" do
-        encode = Encode.create! valid_attributes
-        put :update, params: {id: encode.to_param, encode: new_attributes}
-        encode.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the encode" do
-        encode = Encode.create! valid_attributes
-        put :update, params: {id: encode.to_param, encode: valid_attributes}
-        expect(response).to redirect_to(encode)
-      end
-    end
-
-    context "with invalid params" do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        encode = Encode.create! valid_attributes
-        put :update, params: {id: encode.to_param, encode: invalid_attributes}
-        expect(response).to be_successful
-      end
-    end
-  end
-
   describe "DELETE #destroy" do
     it "destroys the requested encode" do
       encode = Encode.create! valid_attributes
-      expect {
-        delete :destroy, params: {id: encode.to_param}
-      }.to change(Encode, :count).by(-1)
+      put :destroy, params: {id: encode.to_param}
+      encode.reload
+      expect(encode.published).to false
     end
 
     it "redirects to the encodes list" do
