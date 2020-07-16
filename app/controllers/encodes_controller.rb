@@ -58,6 +58,6 @@ class EncodesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def encode_params
-      params.require(:encode).permit(:title, :file).merge(user_id: 1) # @current_user.id
+      params.require(:encode).permit(:title, :file).merge(user_id: current_user.id)
     end
 end
