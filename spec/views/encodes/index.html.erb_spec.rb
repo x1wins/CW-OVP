@@ -10,5 +10,6 @@ RSpec.describe "encodes/index", type: :view do
 
   it "renders a list of encodes" do
     render
+    expect(rendered).to match /hello/
   end
 end
