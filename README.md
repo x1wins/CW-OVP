@@ -42,11 +42,11 @@ OVP(online video platform)란<br/>
         * movie node
 * member
 
-## How To Run
-0. Download source
+## How To Run Development mode
+1. Download source
     1. ```git clone https://github.com/x1wins/CW-OVP.git```
     2. ```cd ./CW-OVP```
-1. Database
+2. Database
     1. postgresql with docker
         ```bash
             rake docker:pg:init # postgrsql config set up
@@ -56,8 +56,12 @@ OVP(online video platform)란<br/>
         ```bash
             docker run --rm --name my-redis-container -p 7001:6379 -d redis
         ```
-2. App server
-    1. rails server and sidekiq
+3. App server
+    1. webpacker install
+        ```bash
+            bundle exec rails webpacker:install 
+        ```
+    2. rails server and sidekiq
         > http://railscasts.com/episodes/281-foreman
         ```bash
             bundle exec foreman start    
