@@ -61,11 +61,12 @@ OVP(online video platform)란<br/>
             docker run --rm --name my-redis-container -p 7001:6379 -d redis
         ```
 3. App server
-    1. webpacker install
+    1. bundle & webpacker install
         ```bash
+            bundle install
             bundle exec rails webpacker:install 
         ```
-    2. rails server and sidekiq
+    2. rails server & sidekiq
         > http://railscasts.com/episodes/281-foreman
         ```bash
             bundle exec foreman start    
