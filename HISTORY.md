@@ -118,3 +118,11 @@ mkdir -p spec/support
 vim spec/support/controller_macros.rb
 ```
 
+> Ruby: Printing system output in real time? https://stackoverflow.com/questions/23550595/ruby-printing-system-output-in-real-time
+```ruby
+Open3.popen3("yes | head -10") do |_,out,_,_|
+  out.each_line do |line|
+    puts "line : #{line}"
+  end
+end
+```
