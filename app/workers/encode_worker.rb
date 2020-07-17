@@ -17,11 +17,11 @@ class EncodeWorker
         log << "#{encoding_cmd}\n"
         Open3.popen3(encoding_cmd) do |stdin, stdout, stderr, wait_thr|
           stdout.each_line do |line|
-            puts "stdout: #{line}"
+            Sidekiq.logger.debug "stdout: #{line}"
             log << "#{line}"
           end
           stderr.each_line do |line|
-            puts "stderr: #{line}"
+            Sidekiq.logger.debug "stderr: #{line}"
             log << "#{line}"
           end
         end
