@@ -12,10 +12,22 @@ class EncodeWorker
 
         duration_output_cmd = `sh app/encoding/duration.sh #{temp_file_full_path}`
         encoding_cmd = "sh app/encoding/hls_h264.sh #{file_full_path} #{temp_file_full_path}"
-        stdout, stderr, status = Open3.capture3(encoding_cmd)
+        log = ""
+        log << "#{duration_output_cmd}\n"
+        log << "#{encoding_cmd}\n"
+        Open3.popen3(encoding_cmd) do |stdin, stdout, stderr, wait_thr|
+          stdout.each_line do |line|
+            puts "stdout: #{line}"
+            log << "#{line}"
+          end
+          stderr.each_line do |line|
+            puts "stderr: #{line}"
+            log << "#{line}"
+          end
+        end
         playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{file_full_path}/`
+        log << playlist_cp_cmd
 
-        log = "#{stdout} #{stderr} #{status} #{playlist_cp_cmd}"
         url = "#{base_url}/#{file_path}/playlist.m3u8"
         encode.update(log: log, ended_at: Time.now, runtime: duration_output_cmd, completed: true, url: url)
 
