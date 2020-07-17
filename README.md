@@ -36,9 +36,9 @@ OVP(online video platform)란<br/>
         * preview
     * processing list
         * log show
-    * rest api for encoding request
-    * apikey for rest api                
     * webhook - http callback call when encoding complete
+    * rest api, apikey, webhook id for encoding request
+    * encoding worker scale out with multiple node
 * history
 * meta
     * tree category
@@ -61,11 +61,12 @@ OVP(online video platform)란<br/>
             docker run --rm --name my-redis-container -p 7001:6379 -d redis
         ```
 3. App server
-    1. webpacker install
+    1. bundle & webpacker install
         ```bash
+            bundle install
             bundle exec rails webpacker:install 
         ```
-    2. rails server and sidekiq
+    2. rails server & sidekiq
         > http://railscasts.com/episodes/281-foreman
         ```bash
             bundle exec foreman start    
@@ -75,3 +76,42 @@ OVP(online video platform)란<br/>
     ```bash
         bundle exec rspec --format documentation
     ```
+    * result
+        ```bash
+            EncodesController
+              GET #index
+                returns a success response
+              GET #show
+                returns a success response
+              GET #new
+                returns a success response
+              POST #create
+                with valid params
+                  creates a new Encode
+                  redirects to the created encode
+                with invalid params
+                  returns a success response (i.e. to display the 'new' template)
+              DELETE #destroy
+                destroys the requested encode
+                redirects to the encodes list
+            
+            EncodesController
+              routing
+                routes to #index
+                routes to #new
+                routes to #show
+                routes to #create
+                routes to #destroy
+            
+            encodes/index
+              renders a list of encodes
+            
+            encodes/new
+              renders new encode form
+            
+            encodes/show
+              renders attributes in <p>
+            
+            Finished in 2.08 seconds (files took 2.29 seconds to load)
+            16 examples, 0 failures
+        ```
