@@ -18,10 +18,13 @@ class EncodeWorker
         Open3.popen3(encoding_cmd) do |stdin, stdout, stderr, wait_thr|
           stdout.each_line do |line|
             Sidekiq.logger.debug "stdout: #{line}"
-            log << "#{line}"
-          end
-          stderr.each_line do |line|
-            Sidekiq.logger.debug "stderr: #{line}"
+              matched_time = line.to_s.match(/time=(\d+:\d+:\d+.\d+)/)
+              unless matched_time.nil?
+                unless matched_time.kind_of?(Array)
+                  time = matched_time[1]
+                  Sidekiq.logger.info "time: #{time}/#{duration_output_cmd}"
+                end
+              end
             log << "#{line}"
           end
         end
