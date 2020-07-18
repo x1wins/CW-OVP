@@ -18,7 +18,7 @@ class EncodeWorker
         Open3.popen3(encoding_cmd) do |stdin, stdout, stderr, wait_thr|
           stdout.each_line do |line|
             Sidekiq.logger.debug "stdout: #{line}"
-              matched_time = line.to_s.match(/time=(\d+:\d+:\d+.\d+)/)
+              matched_time = line.to_s.match(/^frame=.+time=(\d{2,}:\d{2,}:\d{2,}.\d{2,}) bitrate.+$/)
               unless matched_time.nil?
                 unless matched_time.kind_of?(Array)
                   time = matched_time[1]
