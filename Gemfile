@@ -59,6 +59,7 @@ gem 'sidekiq'
 
 group :test do
   gem 'rspec-rails', '4.0.0.beta3'
+  gem 'rspec-sidekiq'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'
