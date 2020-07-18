@@ -11,6 +11,7 @@ class EncodeWorker
         file_full_path = "public/#{file_path}"
 
         duration_output_cmd = `sh app/encoding/duration.sh #{temp_file_full_path}`
+        duration_output_cmd.delete!("\n")
         encoding_cmd = "sh app/encoding/hls_h264.sh #{file_full_path} #{temp_file_full_path}"
         log = ""
         log << "#{duration_output_cmd}\n"
