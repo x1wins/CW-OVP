@@ -121,6 +121,6 @@ OVP(online video platform)란<br/>
         ```
 ## Screenshot
 1. Encode Index      
-    ![index](/screenshot/cw_ovp_form.png)
+    ![index](/screenshot/cw_ovp_index.png)
 2. Encode Form
-    ![form](/screenshot/cw_ovp_index.png)          
+    ![form](/screenshot/cw_ovp_form.png)          
