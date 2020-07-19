@@ -6,13 +6,6 @@
   <h2 class="subtitle"><%= @encode.title %></h2>
 </p>
 <p>
-  <h1 class="title">Log:</h1>
-  <h2 class="subtitle">
-    <%= simple_format(@encode.log) %>
-    <p id="messages"></p>
-  </h2>
-</p>
-<p>
   <h1 class="title">Started at:</h1>
   <h2 class="subtitle"><%= @encode.started_at %></h2>
 </p>
@@ -39,5 +32,12 @@
 <p>
   <h1 class="title">Url:</h1>
   <h2 class="subtitle"><%= @encode.url %></h2>
+</p>
+<p>
+  <h1 class="title">Log:</h1>
+  <h2 class="subtitle">
+    <%= simple_format(@encode.log) %>
+    <p id="messages"></p>
+  </h2>
 </p>
 
