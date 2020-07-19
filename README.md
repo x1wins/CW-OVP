@@ -17,13 +17,13 @@ OVP(online video platform)란<br/>
 이에 오픈소스로 OVP를 개발하여 기업이나 단체, 개인에 도움이 되고자 한다.
 
 ## Skill Stack
-1. Encoding
-    * H.264
-    * HLS
+1. Transcoding
+    * h.264 codec
+    * playlist.m3u8 for HLS
 2. Hosting 
     * AWS S3, CloudFront
 3. Skill Stack
-    * FFMPEG : hls encoding
+    * FFMPEG : transcoding for HLS
     * Ruby on Rails : web framework
     * Redis : cache, queue
     * Sidekiq : background job
