@@ -23,7 +23,9 @@ class EncodeWorker
             unless matched_time.nil?
               unless matched_time.kind_of?(Array)
                 time = matched_time[1]
-                Sidekiq.logger.info "time: #{time}/#{duration_output_cmd}"
+                content = "time: #{time}/#{duration_output_cmd}"
+                ActionCable.server.broadcast "encode_channel", content: content
+                Sidekiq.logger.info content
               end
             end
             log << "#{line}"
