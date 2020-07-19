@@ -11,32 +11,33 @@ class EncodeWorker
         file_full_path = "public/#{file_path}"
 
         duration_output_cmd = `sh app/encoding/duration.sh #{temp_file_full_path}`
-        duration_output_cmd.delete!("\n")
         encoding_cmd = "sh app/encoding/hls_h264.sh #{file_full_path} #{temp_file_full_path}"
         log = ""
-        log << "#{duration_output_cmd}\n"
+        log << "#{duration_output_cmd}"
+        ActionCable.server.broadcast "encode_channel", content: duration_output_cmd.to_s
         log << "#{encoding_cmd}\n"
+        ActionCable.server.broadcast "encode_channel", content: encoding_cmd.to_s
         Open3.popen3(encoding_cmd) do |stdin, stdout, stderr, wait_thr|
           stdout.each do |line|
             Sidekiq.logger.debug "stdout: #{line}"
             matched_time = line.to_s.match(/^frame=.+time=(\d{2,}:\d{2,}:\d{2,}.\d{2,}) bitrate.+$/)
             unless matched_time.nil?
               unless matched_time.kind_of?(Array)
-                time = matched_time[1]
-                content = "time: #{time}/#{duration_output_cmd}"
-                ActionCable.server.broadcast "encode_channel", content: content
-                Sidekiq.logger.info content
+                status = matched_time[0]
+                log << "#{status}"
+                ActionCable.server.broadcast "encode_channel", content: status
+                Sidekiq.logger.info status
               end
             end
-            log << "#{line}"
           end
         end
-        playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{file_full_path}/`
-        log << playlist_cp_cmd
+
+        complete = "Completed"
+        log << "\n"+complete
+        ActionCable.server.broadcast "encode_channel", content: complete
 
         url = "#{base_url}/#{file_path}/playlist.m3u8"
         encode.update(log: log, ended_at: Time.now, runtime: duration_output_cmd, completed: true, url: url)
-        ActionCable.server.broadcast "encode_channel", content: "Completed"
 
         Sidekiq.logger.debug "temp file path : #{temp_file_full_path}"
         Sidekiq.logger.debug "ffmpeg parameter : #{file_full_path} #{temp_file_full_path}"
