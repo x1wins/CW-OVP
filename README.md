@@ -17,38 +17,43 @@ OVP(online video platform)란<br/>
 이에 오픈소스로 OVP를 개발하여 기업이나 단체, 개인에 도움이 되고자 한다.
 
 ## Skill Stack
-1. Encoding
-    * H.264
-    * HLS
-2. Hosting 
-    * AWS S3, CloudFront
+1. Transcoding
+    * h.264 codec
+    * playlist.m3u8 for HLS
+2. Hosting
+    * localhost
+    * AWS S3, CloudFront - required Active storage config
 3. Skill Stack
-    * FFMPEG : hls encoding
-    * Ruby on Rails : web framework
-    * Redis : cache, queue
-    * Sidekiq : background job
-    * Postresql or Cubrid : database
-    * Docker, docker-compose, k8s
+
+    |what use|description|
+    |---|---|
+    |FFMPEG|transcoding for HLS|
+    |Ruby on Rails|web framework|
+    |Redis|cache, queue|
+    |Sidekiq|background job|
+    |Postresql or Cubrid|database|
+    |Docker, docker-compose|install environment|
 
 ## Roadmap
-* encoding
-    * complete list
-        * preview
-    * processing list
-        * log show
-    * webhook - http callback call when encoding complete
-    * rest api, apikey, webhook id for encoding request
-    * encoding worker scale out with multiple node
+* Transcoding
+    * processing percentage show
+    * webhook - http callback call when transcoding complete
+    * rest api, apikey, webhook id for transcoding request
+    * transcoding worker scale out with multiple node
+* setting
+    * webhook url config
+    * apikey config for rest api authentication
 * history
 * meta
     * tree category
-        * movie node
+        * video node
 * member
 
 ## How To Run Development mode
 1. Download source
     1. ```git clone https://github.com/x1wins/CW-OVP.git```
     2. ```cd ./CW-OVP```
+    3. ```bundle install```
 2. Database
     1. postgresql with docker
         ```bash
@@ -63,7 +68,6 @@ OVP(online video platform)란<br/>
 3. App server
     1. bundle & webpacker install
         ```bash
-            bundle install
             bundle exec rails webpacker:install 
         ```
     2. rails server & sidekiq
@@ -71,8 +75,8 @@ OVP(online video platform)란<br/>
         ```bash
             bundle exec foreman start    
         ```
-3. open your web browser and connect ```http://localhost:3000```       
-4. Testing
+4. open your web browser and connect ```http://localhost:3000```       
+5. Testing
     ```bash
         bundle exec rspec --format documentation
     ```
@@ -115,3 +119,8 @@ OVP(online video platform)란<br/>
             Finished in 2.08 seconds (files took 2.29 seconds to load)
             16 examples, 0 failures
         ```
+## Screenshot
+1. Encode Index      
+    ![index](/screenshot/cw_ovp_index.png)
+2. Encode Form
+    ![form](/screenshot/cw_ovp_form.png)          
