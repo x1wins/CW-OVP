@@ -3,12 +3,12 @@ import consumer from "./consumer"
 consumer.subscriptions.create("EncodeChannel", {
   connected() {
     // Called when the subscription is ready for use on the server
-    console.log("Connected to the room!");
+    console.log("Connected to Encode channel!");
   },
 
   disconnected() {
     // Called when the subscription has been terminated by the server
-    console.log("disconnected")
+    console.log("disconnected from Encode channel")
   },
 
   received(data) {
@@ -16,10 +16,10 @@ consumer.subscriptions.create("EncodeChannel", {
     console.log("Recieving:")
     console.log(data.content)
     // document.getElementById("messages").append(data.content + "<br/>")
-    var tag = "<div>" + data.content + "</div>"
-    var message = document.getElementById("messages")
+    var tag = data.content;
+    var message = document.getElementById("messages");
     if(message){
-      message.innerHTML += tag
+      message.innerHTML += (tag+"<br/>");
     }
   }
 });
