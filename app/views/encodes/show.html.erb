@@ -1,11 +1,13 @@
 <h1 class="title">Encode > List > <%= @encode.title %></h1>
 <p id="notice"><%= notice %></p>
+<input type="hidden" id="encodeid" value="<%= @encode.id %>" data-encode-id="<%= @encode.id %>"/>
 <p>
   <h1 class="title">Title:</h1>
   <h2 class="subtitle"><%= @encode.title %></h2>
 </p>
 <p>
   <h1 class="title">Log:</h1>
+  <h2 class="subtitle"><div id="messages"></div></h2>
   <h2 class="subtitle"><%= simple_format(@encode.log) %></h2>
 </p>
 <p>
@@ -36,3 +38,4 @@
   <h1 class="title">Url:</h1>
   <h2 class="subtitle"><%= @encode.url %></h2>
 </p>
+

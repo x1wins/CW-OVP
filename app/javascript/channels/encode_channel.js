@@ -15,5 +15,11 @@ consumer.subscriptions.create("EncodeChannel", {
     // Called when there's incoming data on the websocket for this channel
     console.log("Recieving:")
     console.log(data.content)
+    // document.getElementById("messages").append(data.content + "<br/>")
+    var tag = "<div>" + data.content + "</div>"
+    var message = document.getElementById("messages")
+    if(message){
+      message.innerHTML += tag
+    }
   }
 });
