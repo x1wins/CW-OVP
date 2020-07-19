@@ -36,6 +36,7 @@ class EncodeWorker
 
         url = "#{base_url}/#{file_path}/playlist.m3u8"
         encode.update(log: log, ended_at: Time.now, runtime: duration_output_cmd, completed: true, url: url)
+        ActionCable.server.broadcast "encode_channel", content: "Completed"
 
         Sidekiq.logger.debug "temp file path : #{temp_file_full_path}"
         Sidekiq.logger.debug "ffmpeg parameter : #{file_full_path} #{temp_file_full_path}"
