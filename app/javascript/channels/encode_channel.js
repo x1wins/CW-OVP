@@ -17,10 +17,10 @@ consumer.subscriptions.create("EncodeChannel", {
     console.log("encode_id: " +encode_id.value)
     console.log("Recieving:")
     console.log(data.content)
-    var tag = data.content;
+    var content = data.content;
     var message = document.getElementById("messages");
     if(message){
-      message.innerHTML += (tag+"<br/>");
+      message.innerHTML += (content+"<br/>");
       var scrollingElement = (document.scrollingElement || document.body);
       scrollingElement.scrollTop = scrollingElement.scrollHeight;
     }
