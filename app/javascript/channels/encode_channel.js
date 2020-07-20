@@ -55,7 +55,21 @@ consumer.subscriptions.create("EncodeChannel", {
       if(status){
         status.innerHTML = data.percentage
         if(data.percentage == '100%'){
-          var encode = data.encode
+          var encode = data.encode;
+          var tr = document.querySelectorAll("[id='encode_id']");
+          var found_index = 0;
+          console.log("tr.length : " + tr.length)
+          for(var i = 0; i < tr.length; i++){
+            var data_encode_id = tr[i].getAttribute("data-encode-id")
+            if(data_encode_id == encode.id){
+              found_index = i;
+            }
+          }
+          var tds = tr[found_index].getElementsByTagName("td")
+          console.log("encode "+ encode.id + " "+ encode.runtime + " "+ encode.url)
+          tds[3].innerHTML = encode.runtime;
+          tds[4].innerHTML = encode.completed;
+          tds[5].innerHTML = encode.url;
         }
       }
       return

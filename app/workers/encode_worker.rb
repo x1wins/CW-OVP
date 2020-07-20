@@ -13,6 +13,7 @@ class EncodeWorker
         duration_output_cmd = `sh app/encoding/duration.sh #{temp_file_full_path}`
         encoding_cmd = "sh app/encoding/hls_h264.sh #{file_full_path} #{temp_file_full_path}"
         log = ""
+        encode.update(runtime: duration_output_cmd)
         encode.send_message duration_output_cmd, log
         encode.send_message encoding_cmd, log
         Open3.popen3(encoding_cmd) do |stdin, stdout, stderr, wait_thr|
@@ -32,9 +33,9 @@ class EncodeWorker
         end
 
         playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{file_full_path}/`
-        encode.send_message playlist_cp_cmd, log, "100%"
         url = "#{base_url}/#{file_path}/playlist.m3u8"
-        encode.update(log: log, ended_at: Time.now, runtime: duration_output_cmd, completed: true, url: url)
+        encode.update(log: log, ended_at: Time.now, completed: true, url: url)
+        encode.send_message playlist_cp_cmd, log, "100%"
         encode.send_message "Completed", log, "100%"
 
         Sidekiq.logger.debug "temp file path : #{temp_file_full_path}"
