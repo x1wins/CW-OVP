@@ -17,6 +17,13 @@ consumer.subscriptions.create("EncodeChannel", {
     console.log("encode_id: " +encode_id.value)
     console.log("Recieving:")
     console.log(data.content)
+    var hidden_encode_id = encode_id.value;
+    var received_encode_id = data.encode_id;
+    if(hidden_encode_id != received_encode_id){
+      console.log("hidden_encode_id != received_encode_id")
+      console.log(hidden_encode_id + " "+ received_encode_id)
+      return
+    }
     var content = data.content;
     var message = document.getElementById("messages");
     if(message){
