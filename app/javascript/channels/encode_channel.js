@@ -14,28 +14,24 @@ consumer.subscriptions.create("EncodeChannel", {
   received(data) {
     // Called when there's incoming data on the websocket for this channel
     console.log("Recieving:")
-    console.log(data.encode_id + " " + data.content)
+    console.log("encode_id: "+data.encode_id + " content:" + data.content)
     var encodes_table = document.getElementById("encodes");
     if(encodes_table){
       console.log("encodes_table exist")
       return
     }
 
+    var messages = document.getElementById("messages");
     var encode_id = document.getElementById("encode_id");
-    console.log("encode_id: " +encode_id.value)
-    var hidden_encode_id = encode_id.value;
-    var received_encode_id = data.encode_id;
-    if(hidden_encode_id != received_encode_id){
-      console.log("hidden_encode_id != received_encode_id")
-      console.log(hidden_encode_id + " "+ received_encode_id)
-      return
-    }
-    var content = data.content;
-    var message = document.getElementById("messages");
-    if(message){
-      message.innerHTML += (content+"<br/>");
+    if(messages && encode_id && (encode_id.value == data.encode_id)){
+      var hidden_encode_id = encode_id.value;
+      var received_encode_id = data.encode_id;
+      console.log("hidden_encode_id == received_encode_id")
+      var content = data.content;
+      messages.innerHTML += (content+"<br/>");
       var scrollingElement = (document.scrollingElement || document.body);
       scrollingElement.scrollTop = scrollingElement.scrollHeight;
+      return
     }
   }
 });
