@@ -27,13 +27,19 @@ OVP(online video platform)란<br/>
 
     |what use|description|
     |---|---|
-    |FFMPEG|transcoding for HLS|
-    |Ruby on Rails|web framework|
-    |Redis|cache, queue|
-    |Sidekiq|background job|
+    |FFMPEG|video transcoding|
+    |Ruby on Rails|web framework, websocket(action cable)|
+    |Redis|queue, pub/sub|
+    |Sidekiq|background job, queue|
     |Postresql or Cubrid|database|
     |Docker, docker-compose|install environment|
 
+## Screenshot
+1. Encode Index      
+    ![index](/screenshot/cw_ovp_index.png)
+2. Encode Form
+    ![form](/screenshot/cw_ovp_form.png)          
+    
 ## Roadmap
 * Transcoding
     * processing percentage show
@@ -119,8 +125,3 @@ OVP(online video platform)란<br/>
             Finished in 2.08 seconds (files took 2.29 seconds to load)
             16 examples, 0 failures
         ```
-## Screenshot
-1. Encode Index      
-    ![index](/screenshot/cw_ovp_index.png)
-2. Encode Form
-    ![form](/screenshot/cw_ovp_form.png)          
