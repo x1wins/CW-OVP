@@ -38,6 +38,8 @@ consumer.subscriptions.create("EncodeChannel", {
       messages.innerHTML += (content+"<br/>");
       var scrollingElement = (document.scrollingElement || document.body);
       scrollingElement.scrollTop = scrollingElement.scrollHeight;
+      var completed = document.getElementById("completed");
+      completed.innerHTML = data.percentage
       return
     }
   }

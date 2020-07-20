@@ -18,10 +18,6 @@
   <h2 class="subtitle"><%= @encode.runtime %></h2>
 </p>
 <p>
-  <h1 class="title">Completed:</h1>
-  <h2 class="subtitle"><%= @encode.completed %></h2>
-</p>
-<p>
   <h1 class="title">User:</h1>
   <h2 class="subtitle"><%= @encode.user.email %></h2>
 </p>
@@ -40,5 +36,8 @@
     <p id="messages"></p>
   </h2>
 </p>
-
+<p>
+  <h1 class="title">Completed:</h1>
+  <h2 class="subtitle" id="completed"><%= @encode.completed %></h2>
+</p>
 <input type="hidden" value="<%= @encode.id %>" id="encode_id"/>
