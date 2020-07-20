@@ -13,10 +13,8 @@ class EncodeWorker
         duration_output_cmd = `sh app/encoding/duration.sh #{temp_file_full_path}`
         encoding_cmd = "sh app/encoding/hls_h264.sh #{file_full_path} #{temp_file_full_path}"
         log = ""
-        log << "#{duration_output_cmd}"
-        ActionCable.server.broadcast "encode_channel", content: duration_output_cmd.to_s
-        log << "#{encoding_cmd}\n"
-        ActionCable.server.broadcast "encode_channel", content: encoding_cmd.to_s
+        encode.send_message duration_output_cmd, log
+        encode.send_message encoding_cmd, log
         Open3.popen3(encoding_cmd) do |stdin, stdout, stderr, wait_thr|
           stdout.each do |line|
             Sidekiq.logger.debug "stdout: #{line}"
@@ -24,18 +22,14 @@ class EncodeWorker
             unless matched_time.nil?
               unless matched_time.kind_of?(Array)
                 status = matched_time[0]
-                log << "#{status}"
-                ActionCable.server.broadcast "encode_channel", content: status
+                encode.send_message status, log
                 Sidekiq.logger.info status
               end
             end
           end
         end
 
-        complete = "Completed"
-        log << "\n"+complete
-        ActionCable.server.broadcast "encode_channel", content: complete
-
+        encode.send_message "Completed", log
         url = "#{base_url}/#{file_path}/playlist.m3u8"
         encode.update(log: log, ended_at: Time.now, runtime: duration_output_cmd, completed: true, url: url)
 
