@@ -13,23 +13,29 @@ consumer.subscriptions.create("EncodeChannel", {
 
   received(data) {
     // Called when there's incoming data on the websocket for this channel
-    var encode_id = document.getElementById("encode_id");
-    console.log("encode_id: " +encode_id.value)
     console.log("Recieving:")
-    console.log(data.content)
-    var hidden_encode_id = encode_id.value;
-    var received_encode_id = data.encode_id;
-    if(hidden_encode_id != received_encode_id){
-      console.log("hidden_encode_id != received_encode_id")
-      console.log(hidden_encode_id + " "+ received_encode_id)
+    console.log("encode_id: "+data.encode_id + " content:" + data.content + " percentage:" + data.percentage)
+    var encodes_table = document.getElementById("encodes");
+    if(encodes_table){
+      console.log("encodes_table exist")
+      var status = document.getElementById("status_"+data.encode_id);
+      if(status){
+        status.innerHTML = data.percentage
+      }
       return
     }
-    var content = data.content;
-    var message = document.getElementById("messages");
-    if(message){
-      message.innerHTML += (content+"<br/>");
+
+    var messages = document.getElementById("messages");
+    var encode_id = document.getElementById("encode_id");
+    if(messages && encode_id && (encode_id.value == data.encode_id)){
+      var hidden_encode_id = encode_id.value;
+      var received_encode_id = data.encode_id;
+      console.log("hidden_encode_id == received_encode_id")
+      var content = data.content;
+      messages.innerHTML += (content+"<br/>");
       var scrollingElement = (document.scrollingElement || document.body);
       scrollingElement.scrollTop = scrollingElement.scrollHeight;
+      return
     }
   }
 });

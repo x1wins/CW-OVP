@@ -22,14 +22,16 @@ class EncodeWorker
             unless matched_time.nil?
               unless matched_time.kind_of?(Array)
                 status = matched_time[0]
-                encode.send_message status, log
-                Sidekiq.logger.info status
+                now_time = matched_time[1]
+                percentage = encode.percentage(now_time.to_s, duration_output_cmd.to_s)
+                encode.send_message status, log, percentage
+                Sidekiq.logger.info status + " now_time:" + now_time
               end
             end
           end
         end
 
-        encode.send_message "Completed", log
+        encode.send_message "Completed", log, "100%"
         url = "#{base_url}/#{file_path}/playlist.m3u8"
         encode.update(log: log, ended_at: Time.now, runtime: duration_output_cmd, completed: true, url: url)
 

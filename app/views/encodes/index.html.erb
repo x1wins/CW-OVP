@@ -1,6 +1,6 @@
 <h1 class="title">Encode > List</h1>
 <p id="notice"><%= notice %></p>
-<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="encodes">
   <thead>
   <tr>
     <th>ID</th>
@@ -19,7 +19,7 @@
       <td><%= encode.title %></td>
       <td><%= encode.created_at %></td>
       <td><%= encode.runtime %></td>
-      <td><%= encode.completed %></td>
+      <td id="status_<%= encode.id %>"><%= encode.completed %></td>
       <td><%= encode.url %></td>
       <td><%= link_to 'Show', encode %></td>
       <td><%= link_to 'Destroy', encode, method: :delete, data: { confirm: 'Are you sure?' } %></td>
