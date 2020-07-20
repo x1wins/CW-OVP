@@ -21,6 +21,9 @@ consumer.subscriptions.create("EncodeChannel", {
       var status = document.getElementById("status_"+data.encode_id);
       if(status){
         status.innerHTML = data.percentage
+        if(data.percentage == '100%'){
+          location.reload();
+        }
       }
       return
     }
