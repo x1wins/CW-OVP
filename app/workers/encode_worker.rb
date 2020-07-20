@@ -29,6 +29,8 @@ class EncodeWorker
           end
         end
 
+        playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{file_full_path}/`
+        encode.send_message playlist_cp_cmd, log
         encode.send_message "Completed", log
         url = "#{base_url}/#{file_path}/playlist.m3u8"
         encode.update(log: log, ended_at: Time.now, runtime: duration_output_cmd, completed: true, url: url)
