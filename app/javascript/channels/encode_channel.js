@@ -21,6 +21,12 @@ consumer.subscriptions.create("EncodeChannel", {
       var status = document.getElementById("status_"+data.encode_id);
       if(status){
         status.innerHTML = data.percentage
+        if(data.percentage == '100%'){
+          setTimeout(() => {
+            console.log("2sec Wait!");
+            location.reload();
+          }, 2000);
+        }
       }
       return
     }
@@ -35,6 +41,8 @@ consumer.subscriptions.create("EncodeChannel", {
       messages.innerHTML += (content+"<br/>");
       var scrollingElement = (document.scrollingElement || document.body);
       scrollingElement.scrollTop = scrollingElement.scrollHeight;
+      var completed = document.getElementById("completed");
+      completed.innerHTML = data.percentage
       return
     }
   }
