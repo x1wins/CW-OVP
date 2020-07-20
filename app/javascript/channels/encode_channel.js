@@ -14,10 +14,14 @@ consumer.subscriptions.create("EncodeChannel", {
   received(data) {
     // Called when there's incoming data on the websocket for this channel
     console.log("Recieving:")
-    console.log("encode_id: "+data.encode_id + " content:" + data.content)
+    console.log("encode_id: "+data.encode_id + " content:" + data.content + " percentage:" + data.percentage)
     var encodes_table = document.getElementById("encodes");
     if(encodes_table){
       console.log("encodes_table exist")
+      var status = document.getElementById("status_"+data.encode_id);
+      if(status){
+        status.innerHTML = data.percentage
+      }
       return
     }
 
