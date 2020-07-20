@@ -18,8 +18,21 @@ class Encode < ApplicationRecord
     id = self.id
     "hls/#{yyyy}/#{mm}/#{dd}/#{id}"
   end
-  def send_message message, log
+  def send_message message, log, percentage = "0%"
     log << message.to_s+"\n"
-    ActionCable.server.broadcast "encode_channel", content: message.to_s+"\n", encode_id: self.id
+    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage
+    Rails.logger.debug "percentage: #{percentage}"
+  end
+  def percentage now_time = nil, total_time = nil
+    if now_time.nil? or total_time.nil?
+      percentage = "0%"
+    else
+      percentage = (self.convert_to_second(now_time) / self.convert_to_second(total_time) * 100).floor
+      percentage = 100 if percentage > 100
+      percentage.to_s + "%"
+    end
+  end
+  def convert_to_second time
+    (Time.parse(time).to_i - Date.today.to_time.to_i).to_f
   end
 end
