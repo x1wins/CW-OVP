@@ -18,4 +18,8 @@ class Encode < ApplicationRecord
     id = self.id
     "hls/#{yyyy}/#{mm}/#{dd}/#{id}"
   end
+  def send_message message, log
+    log << message.to_s+"\n"
+    ActionCable.server.broadcast "encode_channel", content: message.to_s+"\n", encode_id: self.id
+  end
 end
