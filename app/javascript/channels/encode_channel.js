@@ -22,7 +22,10 @@ consumer.subscriptions.create("EncodeChannel", {
       if(status){
         status.innerHTML = data.percentage
         if(data.percentage == '100%'){
-          location.reload();
+          setTimeout(() => {
+            console.log("2sec Wait!");
+            location.reload();
+          }, 2000);
         }
       }
       return
