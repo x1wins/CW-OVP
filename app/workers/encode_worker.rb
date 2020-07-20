@@ -33,9 +33,9 @@ class EncodeWorker
 
         playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{file_full_path}/`
         encode.send_message playlist_cp_cmd, log, "100%"
-        encode.send_message "Completed", log, "100%"
         url = "#{base_url}/#{file_path}/playlist.m3u8"
         encode.update(log: log, ended_at: Time.now, runtime: duration_output_cmd, completed: true, url: url)
+        encode.send_message "Completed", log, "100%"
 
         Sidekiq.logger.debug "temp file path : #{temp_file_full_path}"
         Sidekiq.logger.debug "ffmpeg parameter : #{file_full_path} #{temp_file_full_path}"
