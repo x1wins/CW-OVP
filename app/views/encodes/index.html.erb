@@ -14,7 +14,7 @@
   </thead>
   <tbody>
   <% @encodes.each do |encode| %>
-    <tr>
+    <tr id="encode_id" data-encode-id="<%= encode.id %>">
       <th><%= encode.id %></th>
       <td><%= encode.title %></td>
       <td><%= encode.created_at %></td>

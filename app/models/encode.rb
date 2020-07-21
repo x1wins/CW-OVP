@@ -20,7 +20,7 @@ class Encode < ApplicationRecord
   end
   def send_message message, log, percentage = "0%"
     log << message.to_s+"\n"
-    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage
+    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self
     Rails.logger.debug "percentage: #{percentage}"
   end
   def percentage now_time = nil, total_time = nil
