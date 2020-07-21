@@ -68,9 +68,9 @@ consumer.subscriptions.create("EncodeChannel", {
           }
           var tds = tr[found_index].getElementsByTagName("td")
           console.log("encode "+ encode.id + " "+ encode.runtime + " "+ encode.url)
-          tds[3].innerHTML = encode.runtime;
-          tds[4].innerHTML = encode.completed;
-          tds[5].innerHTML = encode.url;
+          tds[2].innerHTML = encode.runtime;
+          tds[3].innerHTML = encode.completed;
+          tds[4].innerHTML = encode.url;
         }
       }
       return
