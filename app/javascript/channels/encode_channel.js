@@ -32,7 +32,8 @@ consumer.subscriptions.create("EncodeChannel", {
         var row = encodes_table.insertRow(1);
         row.setAttribute("id","encode_id");
         row.setAttribute("data-encode-id",encode.id);
-        var id_cell = row.insertCell(0);
+        var id_cell = document.createElement('th');
+        row.appendChild(id_cell);
         var title_cell = row.insertCell(1);
         var craeted_at_cell = row.insertCell(2);
         var runtime_cell = row.insertCell(3);
