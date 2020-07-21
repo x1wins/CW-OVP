@@ -39,5 +39,8 @@
 <p>
   <h1 class="title">Completed:</h1>
   <h2 class="subtitle" id="completed"><%= @encode.completed %></h2>
+  <progress class="progress is-link" value="<%= @encode.completed ? '100' : '0' %>" max="100" id="progress">100%</progress>
 </p>
 <input type="hidden" value="<%= @encode.id %>" id="encode_id"/>
+<p>
+</p>
