@@ -27,7 +27,7 @@ class Encode < ApplicationRecord
     if now_time.nil? or total_time.nil?
       percentage = "0%"
     else
-      percentage = (self.convert_to_second(now_time) / self.convert_to_second(total_time) * 100).floor
+      percentage = (self.convert_to_second(now_time) / self.convert_to_second(total_time) * 100).truncate(2)
       percentage = 100 if percentage > 100
       percentage.to_s + "%"
     end
