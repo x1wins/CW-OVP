@@ -12,18 +12,24 @@
 
   <div id="navbarExampleTransparentExample" class="navbar-menu">
     <div class="navbar-start">
-      <%= link_to Encode.model_name, encodes_path, class: "navbar-item #{'is-active' if controller.controller_name == Encode.model_name.to_s.downcase+'s' }" %>
       <%= link_to "Sidekiq", sidekiq_web_path, class: "navbar-item", target: "_blank" %>
     </div>
 
+
     <div class="navbar-end">
-      <% if user_signed_in? %>
-        <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "navbar-item") %>
-        <%= link_to('Edit registration', edit_user_registration_path, class: "navbar-item") %>
-      <% else %>
-        <%= link_to('Login', new_user_session_path, class: "navbar-item") %>
-        <%= link_to('Register', new_user_registration_path, class: "navbar-item") %>
-      <% end %>
+      <div class="navbar-item">
+        <div class="buttons">
+          <% if user_signed_in? %>
+            <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "button is-primary") %>
+            <%= link_to('Edit registration', edit_user_registration_path, class: "button is-light") %>
+          <% else %>
+            <%= link_to('Login', new_user_session_path, class: "is-primary") %>
+            <%= link_to('Register', new_user_registration_path, class: "is-light") %>
+          <% end %>
+        </div>
+      </div>
     </div>
+
+
   </div>
 </nav>
