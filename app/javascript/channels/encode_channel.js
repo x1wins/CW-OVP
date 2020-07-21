@@ -88,6 +88,18 @@ consumer.subscriptions.create("EncodeChannel", {
       scrollingElement.scrollTop = scrollingElement.scrollHeight;
       var completed = document.getElementById("completed");
       completed.innerHTML = data.percentage
+
+      encode = data.encode;
+      if(encode.completed == true){
+        console.log("completed");
+        var ended_at = document.getElementById("ended_at");
+        var runtime = document.getElementById("runtime");
+        var url = document.getElementById("url");
+        ended_at.innerHTML = encode.ended_at;
+        runtime.innerHTML = encode.runtime;
+        url.innerHTML = encode.url;
+        completed.innerHTML = encode.completed;
+      }
       return
     }
   }
