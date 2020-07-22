@@ -118,3 +118,7 @@ function scrollingLogContainerToBottom(){
     log_container.scrollTop = log_container.scrollHeight;
   }
 }
+
+document.addEventListener("turbolinks:load", function() {
+  scrollingLogContainerToBottom();
+});
