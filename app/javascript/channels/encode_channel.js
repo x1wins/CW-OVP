@@ -76,21 +76,24 @@ consumer.subscriptions.create("EncodeChannel", {
       return
     }
 
-    var messages = document.getElementById("messages");
+    var logs_table = document.getElementById("logs");
     var encode_id = document.getElementById("encode_id");
-    if(messages && encode_id && (encode_id.value == data.encode_id)){
+    if(logs_table && encode_id && (encode_id.value == data.encode_id)){
       var hidden_encode_id = encode_id.value;
       var received_encode_id = data.encode_id;
       console.log("hidden_encode_id == received_encode_id")
       var content = data.content;
-      messages.innerHTML += (content+"<br/>");
-      var scrollingElement = (document.scrollingElement || document.body);
-      scrollingElement.scrollTop = scrollingElement.scrollHeight;
-      var completed = document.getElementById("completed");
-      completed.innerHTML = data.percentage
+      var row = logs_table.insertRow(logs_table.size);
+      var log_cell = row.insertCell(0);
+      log_cell.innerHTML = content;
+
       var progress = document.getElementById("progress");
       var progress_value = data.percentage.replace('%', '');
       progress.setAttribute("value", progress_value);
+      var percentage = document.getElementById("percentage");
+      percentage.innerHTML = data.percentage;
+
+      scrollingLogContainerToBottom();
 
       encode = data.encode;
       if(encode.completed == true){
@@ -101,9 +104,21 @@ consumer.subscriptions.create("EncodeChannel", {
         ended_at.innerHTML = encode.ended_at;
         runtime.innerHTML = encode.runtime;
         url.innerHTML = encode.url;
+        var completed = document.getElementById("completed");
         completed.innerHTML = encode.completed;
       }
       return
     }
   }
+});
+
+function scrollingLogContainerToBottom(){
+  var log_container = document.getElementById("log_container");
+  if(log_container){
+    log_container.scrollTop = log_container.scrollHeight;
+  }
+}
+
+document.addEventListener("turbolinks:load", function() {
+  scrollingLogContainerToBottom();
 });

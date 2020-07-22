@@ -1,46 +1,102 @@
 <h1 class="title">Encode > List > <%= @encode.title %></h1>
 <p id="notice"><%= notice %></p>
+
 <input type="hidden" id="encodeid" value="<%= @encode.id %>" data-encode-id="<%= @encode.id %>"/>
-<p>
-  <h1 class="title">Title:</h1>
-  <h2 class="subtitle"><%= @encode.title %></h2>
-</p>
-<p>
-  <h1 class="title">Started at:</h1>
-  <h2 class="subtitle"><%= @encode.started_at %></h2>
-</p>
-<p>
-  <h1 class="title">Ended at:</h1>
-  <h2 class="subtitle" id="ended_at"><%= @encode.ended_at %></h2>
-</p>
-<p>
-  <h1 class="title">Runtime:</h1>
-  <h2 class="subtitle" id="runtime"><%= @encode.runtime %></h2>
-</p>
-<p>
-  <h1 class="title">User:</h1>
-  <h2 class="subtitle"><%= @encode.user.email %></h2>
-</p>
-<p>
-  <h1 class="title">Published:</h1>
-  <h2 class="subtitle"><%= @encode.published %></h2>
-</p>
-<p>
-  <h1 class="title">Url:</h1>
-  <h2 class="subtitle" id="url"><%= @encode.url %></h2>
-</p>
-<p>
-  <h1 class="title">Log:</h1>
-  <h2 class="subtitle">
-    <%= simple_format(@encode.log) %>
-    <p id="messages"></p>
-  </h2>
-</p>
-<p>
-  <h1 class="title">Completed:</h1>
-  <h2 class="subtitle" id="completed"><%= @encode.completed %></h2>
-  <progress class="progress is-link" value="<%= @encode.completed ? '100' : '0' %>" max="100" id="progress">100%</progress>
-</p>
 <input type="hidden" value="<%= @encode.id %>" id="encode_id"/>
-<p>
-</p>
+
+<div class="columns">
+  <div class="column is-fullwidth">
+    <div class="card events-card">
+      <header class="card-header">
+        <p class="card-header-title">
+          Encode Infomation
+        </p>
+      </header>
+      <div class="card-table">
+        <div class="content">
+          <table class="table is-fullwidth is-striped is-hoverable">
+            <tbody>
+            <tr>
+              <td>Runtime</td>
+              <td id="runtime"><%= @encode.runtime %></td>
+            </tr>
+            <tr>
+              <td>Title</td>
+              <td><%= @encode.title %></td>
+            </tr>
+            <tr>
+              <td>Onwer Email</td>
+              <td><%= @encode.user.email %></td>
+            </tr>
+            <tr>
+              <td>Encode Started at</td>
+              <td><%= @encode.started_at %></td>
+            </tr>
+            <tr>
+              <td>Encode Ended at</td>
+              <td id="ended_at"><%= @encode.ended_at %></td>
+            </tr>
+            <tr>
+              <td>Url</td>
+              <td id="url"><%= @encode.url %></td>
+            </tr>
+            <tr>
+              <td>Completed</td>
+              <td id="completed"><%= @encode.completed %></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column is-fullwidth">
+    <div class="card events-card">
+      <header class="card-header">
+        <p class="card-header-title">
+          Progress
+        </p>
+      </header>
+      <div class="card-table">
+        <div class="content">
+          <table class="table is-fullwidth">
+            <tbody>
+            <tr>
+              <td width="30px" id="percentage"><%= @encode.completed ? '100' : '0' %>%</td>
+              <td><progress class="progress is-link" value="<%= @encode.completed ? '100' : '0' %>" max="100" id="progress">100%</progress></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column is-fullwidth">
+    <div class="card events-card">
+      <header class="card-header">
+        <p class="card-header-title">
+          Logs
+        </p>
+      </header>
+      <div class="card-table">
+        <div class="content pic-container" id="log_container">
+          <table class="table is-fullwidth is-striped" id="logs">
+            <tbody>
+              <% unless @encode.log.nil?
+                  arr = @encode.log.split("\n")
+                  arr.each { |a|  text="<tr><td>"+a+"</td></tr>"%> <%= text.html_safe %><% }
+                 end
+              %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
