@@ -114,5 +114,7 @@ consumer.subscriptions.create("EncodeChannel", {
 
 function scrollingLogContainerToBottom(){
   var log_container = document.getElementById("log_container");
-  log_container.scrollTop = log_container.scrollHeight;
+  if(log_container){
+    log_container.scrollTop = log_container.scrollHeight;
+  }
 }
