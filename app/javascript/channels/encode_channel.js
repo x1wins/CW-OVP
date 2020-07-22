@@ -89,11 +89,12 @@ consumer.subscriptions.create("EncodeChannel", {
 
       var scrollingElement = (document.scrollingElement || document.body);
       scrollingElement.scrollTop = scrollingElement.scrollHeight;
-      var completed = document.getElementById("completed");
-      completed.innerHTML = data.percentage
+
       var progress = document.getElementById("progress");
       var progress_value = data.percentage.replace('%', '');
       progress.setAttribute("value", progress_value);
+      var percentage = document.getElementById("percentage");
+      percentage.innerHTML = data.percentage;
 
       encode = data.encode;
       if(encode.completed == true){
@@ -104,6 +105,7 @@ consumer.subscriptions.create("EncodeChannel", {
         ended_at.innerHTML = encode.ended_at;
         runtime.innerHTML = encode.runtime;
         url.innerHTML = encode.url;
+        var completed = document.getElementById("completed");
         completed.innerHTML = encode.completed;
       }
       return
