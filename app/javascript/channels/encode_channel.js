@@ -76,14 +76,17 @@ consumer.subscriptions.create("EncodeChannel", {
       return
     }
 
-    var messages = document.getElementById("messages");
+    var logs_table = document.getElementById("logs");
     var encode_id = document.getElementById("encode_id");
-    if(messages && encode_id && (encode_id.value == data.encode_id)){
+    if(logs_table && encode_id && (encode_id.value == data.encode_id)){
       var hidden_encode_id = encode_id.value;
       var received_encode_id = data.encode_id;
       console.log("hidden_encode_id == received_encode_id")
       var content = data.content;
-      messages.innerHTML += (content+"<br/>");
+      var row = logs_table.insertRow(logs_table.size);
+      var log_cell = row.insertCell(0);
+      log_cell.innerHTML = content;
+
       var scrollingElement = (document.scrollingElement || document.body);
       scrollingElement.scrollTop = scrollingElement.scrollHeight;
       var completed = document.getElementById("completed");
