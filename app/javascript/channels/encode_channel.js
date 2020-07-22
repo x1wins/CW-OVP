@@ -93,9 +93,7 @@ consumer.subscriptions.create("EncodeChannel", {
       var percentage = document.getElementById("percentage");
       percentage.innerHTML = data.percentage;
 
-      var log_container = document.getElementById("log_container");
-      console.log("log_container :" + log_container);
-      log_container.scrollTop = log_container.scrollHeight;
+      scrollingLogContainerToBottom();
 
       encode = data.encode;
       if(encode.completed == true){
@@ -113,3 +111,8 @@ consumer.subscriptions.create("EncodeChannel", {
     }
   }
 });
+
+function scrollingLogContainerToBottom(){
+  var log_container = document.getElementById("log_container");
+  log_container.scrollTop = log_container.scrollHeight;
+}
