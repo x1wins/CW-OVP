@@ -78,31 +78,29 @@ consumer.subscriptions.create("EncodeChannel", {
 
     var logs_table = document.getElementById("logs");
     var encode_id = document.getElementById("encode_id");
-    if(logs_table && encode_id && (encode_id.value == data.encode_id)){
-      var hidden_encode_id = encode_id.value;
-      var received_encode_id = data.encode_id;
-      console.log("hidden_encode_id == received_encode_id")
-      var content = data.content;
-      var row = logs_table.insertRow(logs_table.size);
-      var log_cell = row.insertCell(0);
-      log_cell.innerHTML = content;
-
+    var hidden_encode_id = encode_id.value;
+    var received_encode_id = data.encode_id;
+    if(logs_table && encode_id && (hidden_encode_id == received_encode_id)){
+      encode = data.encode;
+      var runtime = document.getElementById("runtime");
+      runtime.innerHTML = encode.runtime;
       var progress = document.getElementById("progress");
       var progress_value = data.percentage.replace('%', '');
       progress.setAttribute("value", progress_value);
       var percentage = document.getElementById("percentage");
       percentage.innerHTML = data.percentage;
-
       scrollingLogContainerToBottom();
 
-      encode = data.encode;
+      var content = data.content;
+      var row = logs_table.insertRow(logs_table.size);
+      var log_cell = row.insertCell(0);
+      log_cell.innerHTML = content;
+
       if(encode.completed == true){
         console.log("completed");
         var ended_at = document.getElementById("ended_at");
-        var runtime = document.getElementById("runtime");
-        var url = document.getElementById("url");
         ended_at.innerHTML = encode.ended_at;
-        runtime.innerHTML = encode.runtime;
+        var url = document.getElementById("url");
         url.innerHTML = encode.url;
         var completed = document.getElementById("completed");
         completed.innerHTML = encode.completed;
