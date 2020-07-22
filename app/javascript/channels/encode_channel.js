@@ -87,9 +87,6 @@ consumer.subscriptions.create("EncodeChannel", {
       var log_cell = row.insertCell(0);
       log_cell.innerHTML = content;
 
-      var scrollingElement = (document.scrollingElement || document.body);
-      scrollingElement.scrollTop = scrollingElement.scrollHeight;
-
       var progress = document.getElementById("progress");
       var progress_value = data.percentage.replace('%', '');
       progress.setAttribute("value", progress_value);
