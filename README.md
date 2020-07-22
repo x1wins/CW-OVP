@@ -37,9 +37,7 @@ OVP(online video platform)란<br/>
 ## Screenshot
 1. Encode Index - realtime progess      
     ![index](/screenshot/cw_ovp_index.png)
-2. Encode Form
-    ![form](/screenshot/cw_ovp_form.png)
-3. Encode Show - realtime progess bar, logs
+2. Encode Form, Show - realtime progess bar, logs
     ![show](/screenshot/cw_ovp_show.png)          
     
 ## Roadmap
