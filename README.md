@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/x1wins/CW-OVP.svg?branch=develop)](https://travis-ci.com/x1wins/CW-OVP)
+
 # CW-OVP
 ## EN
 OVP(online video platform) mean that online encoding and hosting service with movie file upload to online storage or cloud system.<br/>
