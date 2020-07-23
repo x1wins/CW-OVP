@@ -25,8 +25,7 @@ services:
       - cw_ovp_network
   web:
     build: .
-    restart: always
-    command: bash -c "rm -f tmp/pids/server.pid && yarn install --check-files && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     env_file: .env.dev.docker.compose
     volumes:
       - .:/myapp
@@ -40,7 +39,6 @@ services:
       - cw_ovp_network
   sidekiq:
     build: .
-    restart: always
     command: bundle exec sidekiq
     env_file: .env.dev.docker.compose
     volumes:
