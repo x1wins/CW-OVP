@@ -11,6 +11,8 @@ services:
       - POSTGRES_USER=docker_postgres_rails
       - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_DB=cw_ovp_development
+    networks:
+      - cw_ovp_network
   redis:
     image: redis:latest
     restart: always
@@ -19,10 +21,13 @@ services:
     entrypoint: redis-server --appendonly yes
     ports:
       - "6379:6379"
+    networks:
+      - cw_ovp_network
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && yarn install --check-files && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
       - RAILS_SERVE_STATIC_FILES=true
       - DATABASE_USERNAME=docker_postgres_rails
       - DATABASE_PASSWORD=mysecretpassword
@@ -39,6 +44,8 @@ services:
     depends_on:
       - redis
       - db
+    networks:
+      - cw_ovp_network
   sidekiq:
     build: .
     command: bundle exec sidekiq
@@ -55,3 +62,8 @@ services:
       - ~/storage:/storage
     depends_on:
       - redis
+    networks:
+      - cw_ovp_network
+networks:
+  cw_ovp_network:
+    driver: bridge
