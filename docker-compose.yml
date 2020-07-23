@@ -26,16 +26,9 @@ services:
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && yarn install --check-files && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    env_file: .env
     environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
-      - RAILS_SERVE_STATIC_FILES=true
-      - DATABASE_USERNAME=docker_postgres_rails
-      - DATABASE_PASSWORD=mysecretpassword
-      - DATABASE_NAME=cw_ovp_development
-      - DATABASE_URL=postgres://db
-      - DATABASE_PORT=5432
-      - REDIS_SERVER_URL=redis://redis:6379/0
-      - REDIS_CLIENT_URL=redis://redis:6379/0
+      - RAILS_ENV=development
     volumes:
       - .:/myapp
       - ~/storage:/storage
@@ -49,14 +42,9 @@ services:
   sidekiq:
     build: .
     command: bundle exec sidekiq
+    env_file: .env
     environment:
-      - DATABASE_USERNAME=docker_postgres_rails
-      - DATABASE_PASSWORD=mysecretpassword
-      - DATABASE_NAME=cw_ovp_development
-      - DATABASE_URL=postgres://db
-      - DATABASE_PORT=5432
-      - REDIS_SERVER_URL=redis://redis:6379/0
-      - REDIS_CLIENT_URL=redis://redis:6379/0
+      - RAILS_ENV=development
     volumes:
       - .:/myapp
       - ~/storage:/storage
