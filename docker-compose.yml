@@ -7,10 +7,11 @@ services:
       - ./tmp/db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    env_file: .env.dev.docker.compose
     environment:
-      - POSTGRES_USER=docker_postgres_rails
-      - POSTGRES_PASSWORD=mysecretpassword
-      - POSTGRES_DB=cw_ovp_development
+      - POSTGRES_USER=$DATABASE_USERNAME
+      - POSTGRES_PASSWORD=$DATABASE_PASSWORD
+      - POSTGRES_DB=$DATABASE_NAME
     networks:
       - cw_ovp_network
   redis:
