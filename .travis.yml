@@ -14,7 +14,6 @@ before_script:
   - docker-compose run --rm --no-deps web echo 'Gems now pre-installed.'
   - docker-compose up -d
   - docker ps
-  - docker-compose run --no-deps web bundle exec rails webpacker:install
   - docker-compose run --no-deps web bundle exec rake db:migrate RAILS_ENV=test
   - docker-compose run --no-deps web bundle exec rspec --format documentation
 
