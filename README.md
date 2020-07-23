@@ -35,11 +35,9 @@ OVP(online video platform)란<br/>
     |Docker, docker-compose|install environment|
 
 ## Screenshot
-1. Encode Index - realtime progess      
+1. Encode Index - realtime percentage progress
     ![index](/screenshot/cw_ovp_index.png)
-2. Encode Form
-    ![form](/screenshot/cw_ovp_form.png)
-3. Encode Show - realtime progess bar, logs
+2. Encode Form, Show - realtime progress bar, logs
     ![show](/screenshot/cw_ovp_show.png)          
     
 ## Roadmap
