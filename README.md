@@ -129,6 +129,7 @@ OVP(online video platform)란<br/>
         ```
 ## How To Run Development mode with Docker-compose
 1. ```docker-compose up --build -d```
-2. ```docker-compose run --no-deps web bundle exec rake db:migrate```
-3. ```docker-compose run --no-deps web bundle exec rake db:migrate RAILS_ENV=test```
-4. ```docker-compose run --no-deps web bundle exec rspec --format documentation```
+2. ```docker-compose run --no-deps web bundle exec rails webpacker:install```
+3. ```docker-compose run --no-deps web bundle exec rake db:migrate```
+4. ```docker-compose run --no-deps web bundle exec rake db:migrate RAILS_ENV=test```
+5. ```docker-compose run --no-deps web bundle exec rspec --format documentation```
