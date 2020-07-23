@@ -67,4 +67,6 @@ Rails.application.configure do
   Sidekiq.configure_client do |config|
     config.redis = { url: ENV['REDIS_CLIENT_URL'] }
   end
+
+  config.hosts = nil
 end
