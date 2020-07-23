@@ -1,0 +1,53 @@
+version: '3'
+services:
+  db:
+    image: postgres:10.10
+    restart: always
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=docker_postgres_rails
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=cw_ovp_development
+    networks:
+      - cw_ovp_network
+  redis:
+    image: redis:latest
+    restart: always
+    volumes:
+      - ./tmp/redis:/data
+    entrypoint: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    networks:
+      - cw_ovp_network
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    env_file: .env.dev.docker.compose
+    volumes:
+      - .:/myapp
+      - ~/storage:/storage
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+      - db
+    networks:
+      - cw_ovp_network
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    env_file: .env.dev.docker.compose
+    volumes:
+      - .:/myapp
+      - ~/storage:/storage
+    depends_on:
+      - redis
+    networks:
+      - cw_ovp_network
+networks:
+  cw_ovp_network:
+    driver: bridge

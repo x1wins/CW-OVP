@@ -63,13 +63,17 @@ OVP(online video platform)란<br/>
 2. Database
     1. postgresql with docker
         ```bash
-            rake docker:pg:init # postgrsql config set up
-            rake docker:pg:run
+            docker run --rm --name cw_ovp_development \
+                  -v $HOME/docker/volumes/cw_ovp_development:/var/lib/postgresql/data \
+                  -e POSTGRES_DB=cw_ovp_development \
+                  -e POSTGRES_USER=docker_postgres_rails \
+                  -e POSTGRES_PASSWORD=mysecretpassword \
+                  -p 5432:5432 -d postgres            
             rake db:migrate
         ```
     2. redis with docker
         ```bash
-            docker run --rm --name my-redis-container -p 7001:6379 -d redis
+            docker run --rm --name my-redis-container -p 6379:6379 -d redis
         ```
 3. App server
     1. bundle & webpacker install
@@ -79,7 +83,8 @@ OVP(online video platform)란<br/>
     2. rails server & sidekiq
         > http://railscasts.com/episodes/281-foreman
         ```bash
-            bundle exec foreman start    
+            yarn install --check-files
+            bundle exec foreman start -e .env.dev.procfile    
         ```
 4. open your web browser and connect ```http://localhost:3000```       
 5. Testing
@@ -125,3 +130,9 @@ OVP(online video platform)란<br/>
             Finished in 2.08 seconds (files took 2.29 seconds to load)
             16 examples, 0 failures
         ```
+## How To Run Development mode with Docker-compose
+1. ```docker-compose up --build -d```
+2. ```docker-compose run --no-deps web bundle exec rails webpacker:install```
+3. ```docker-compose run --no-deps web bundle exec rake db:migrate```
+4. ```docker-compose run --no-deps web bundle exec rake db:migrate RAILS_ENV=test```
+5. ```docker-compose run --no-deps web bundle exec rspec --format documentation```
