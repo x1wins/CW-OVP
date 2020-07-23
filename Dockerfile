@@ -4,7 +4,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
     apt-get update && \
     apt-get install -qq -y build-essential nodejs yarn vim \
-    libpq-dev postgresql-client
+    libpq-dev postgresql-client ffmpeg
 RUN mkdir /myapp
 RUN mkdir /storage
 WORKDIR /myapp
