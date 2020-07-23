@@ -27,7 +27,7 @@ services:
     build: .
     restart: always
     command: bash -c "rm -f tmp/pids/server.pid && yarn install --check-files && bundle exec rails s -p 3000 -b '0.0.0.0'"
-    env_file: .env
+    env_file: .env.dev.docker.compose
     environment:
       - RAILS_ENV=development
     volumes:
@@ -44,7 +44,7 @@ services:
     build: .
     restart: always
     command: bundle exec sidekiq
-    env_file: .env
+    env_file: .env.dev.docker.compose
     environment:
       - RAILS_ENV=development
     volumes:
