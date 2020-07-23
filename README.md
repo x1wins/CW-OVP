@@ -63,11 +63,10 @@ OVP(online video platform)란<br/>
 2. Database
     1. postgresql with docker
         ```bash
+            mkdir $HOME/docker/volumes/cw_ovp_development
             docker run --rm --name cw_ovp_development \
+                  --env-file .env.dev.procfile \
                   -v $HOME/docker/volumes/cw_ovp_development:/var/lib/postgresql/data \
-                  -e POSTGRES_DB=cw_ovp_development \
-                  -e POSTGRES_USER=docker_postgres_rails \
-                  -e POSTGRES_PASSWORD=mysecretpassword \
                   -p 5432:5432 -d postgres            
             rake db:migrate
         ```
