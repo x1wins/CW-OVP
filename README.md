@@ -127,3 +127,8 @@ OVP(online video platform)란<br/>
             Finished in 2.08 seconds (files took 2.29 seconds to load)
             16 examples, 0 failures
         ```
+## How To Run Development mode with Docker-compose
+1. ```docker-compose up --build -d```
+2. ```docker-compose run --no-deps web bundle exec rake db:migrate```
+3. ```docker-compose run --no-deps web bundle exec rake db:migrate RAILS_ENV=test```
+4. ```docker-compose run --no-deps web bundle exec rspec --format documentation```
