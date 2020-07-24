@@ -89,7 +89,6 @@ consumer.subscriptions.create("EncodeChannel", {
       progress.setAttribute("value", progress_value);
       var percentage = document.getElementById("percentage");
       percentage.innerHTML = data.percentage;
-      scrollingLogContainerToBottom();
 
       var content = data.content;
       var row = logs_table.insertRow(logs_table.size);
@@ -105,6 +104,7 @@ consumer.subscriptions.create("EncodeChannel", {
         var completed = document.getElementById("completed");
         completed.innerHTML = encode.completed;
       }
+      scrollingLogContainerToBottom();
       return
     }
   }
