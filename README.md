@@ -1,12 +1,6 @@
 [![Build Status](https://travis-ci.com/x1wins/CW-OVP.svg?branch=develop)](https://travis-ci.com/x1wins/CW-OVP)
 
 # CW-OVP
-## Preview
-1. Encode Form, Show - realtime progress bar, logs
-    ![show](/screenshot/cw_ovp_show.png)          
-2. Encode Index - realtime percentage progress
-    ![index](/screenshot/cw_ovp_index.png)
-
 ## EN
 OVP(online video platform) mean that online encoding and hosting service with movie file upload to online storage or cloud system.<br/>
 Internet speed was increase and many internet user need streaming service than Content provier and Broadcaster use OVP or solution for start streaming service with Mobile, web, OTT(over the top).<br/>
@@ -41,6 +35,12 @@ OVP(online video platform)란<br/>
     |Sidekiq|background job, queue|
     |Postresql or Cubrid|database|
     |Docker, docker-compose|install environment|
+
+## Preview
+1. Encode Form, Show - realtime progress bar, logs
+    ![show](/screenshot/cw_ovp_show.png)          
+2. Encode Index - realtime percentage progress
+    ![index](/screenshot/cw_ovp_index.png)
 
 ## Roadmap
 * Transcoding
