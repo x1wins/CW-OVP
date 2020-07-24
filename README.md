@@ -132,9 +132,18 @@ OVP(online video platform)란<br/>
             16 examples, 0 failures
         ```
 ## How To Run Development mode with Docker-compose
-1. ```docker-compose up --build -d```
-2. ```docker-compose run --no-deps web bundle exec rails webpacker:install```
-3. ```docker-compose run --no-deps web bundle exec rake db:migrate```
-4. ```docker-compose run --no-deps web bundle exec rake db:create RAILS_ENV=test```
-4. ```docker-compose run --no-deps web bundle exec rake db:migrate RAILS_ENV=test```
-5. ```docker-compose run --no-deps web bundle exec rspec --format documentation```
+1. Download source
+    1. ```git clone https://github.com/x1wins/CW-OVP.git```
+    2. ```cd ./CW-OVP```
+2. Start docker-compose    
+    1. ```docker-compose up --build -d```
+    2. ```docker-compose run --no-deps web bundle exec rails webpacker:install```
+    3. ```docker-compose run --no-deps web bundle exec rake db:migrate```
+    4. ```docker-compose run --no-deps web bundle exec rake db:create RAILS_ENV=test```
+    4. ```docker-compose run --no-deps web bundle exec rake db:migrate RAILS_ENV=test```
+    5. ```docker-compose run --no-deps web bundle exec rspec --format documentation```
+3. Restart for updated code
+    1. ```git pull origin develop```
+    2. ```git reset --hard origin/develop```
+    3. ```docker-compose restart web```
+             
