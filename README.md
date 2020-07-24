@@ -34,12 +34,12 @@ OVP(online video platform)란<br/>
     * localhost
     * AWS S3, CloudFront - required Active storage config
 
-## Screenshot
-1. Encode Index - realtime percentage progress
-    ![index](/screenshot/cw_ovp_index.png)
-2. Encode Form, Show - realtime progress bar, logs
+## Preview
+1. Encode Form, Show - realtime progress bar, logs
     ![show](/screenshot/cw_ovp_show.png)          
-    
+2. Encode Index - realtime percentage progress
+    ![index](/screenshot/cw_ovp_index.png)
+
 ## Roadmap
 * Transcoding
     * processing percentage show
