@@ -4,27 +4,18 @@ addEventListener("direct-upload:initialize", event => {
     console.log("direct-upload:initialize")
     const { target, detail } = event
     const { id, file } = detail
-    target.insertAdjacentHTML("beforebegin", `
-    <div id="direct-upload-${id}" class="direct-upload direct-upload--pending">
-      <div id="direct-upload-progress-${id}" class="direct-upload__progress" style="width: 0%"></div>
-      <span class="direct-upload__filename"></span>
-    </div>
-  `)
-    target.previousElementSibling.querySelector(`.direct-upload__filename`).textContent = file.name
+    target.insertAdjacentHTML("beforebegin", `<span class="direct-upload__filename">${file.name}</span>`)
 })
 
 addEventListener("direct-upload:start", event => {
     console.log("direct-upload:start")
     const { id } = event.detail
-    const element = document.getElementById(`direct-upload-${id}`)
-    element.classList.remove("direct-upload--pending")
 })
 
 addEventListener("direct-upload:progress", event => {
     console.log("direct-upload:progress")
     const { id, progress } = event.detail
-    const progressElement = document.getElementById(`direct-upload-progress-${id}`)
-    progressElement.style.width = `${progress}%`
+    changeProgress(progress)
 })
 
 addEventListener("direct-upload:error", event => {
@@ -39,6 +30,21 @@ addEventListener("direct-upload:error", event => {
 addEventListener("direct-upload:end", event => {
     console.log("direct-upload:end")
     const { id } = event.detail
-    const element = document.getElementById(`direct-upload-${id}`)
-    element.classList.add("direct-upload--complete")
 })
+
+addEventListener("turbolinks:load", function() {
+    console.log('It works on each visit!');
+    console.log("turbolinks:load!");
+    const encodeFileElement = document.getElementById('encode_file')
+    if(encodeFileElement.value){
+        console.log("encodeFileElement value exist "+ encodeFileElement.value);
+        changeProgress(100)
+    }
+});
+
+function changeProgress(progress) {
+    const percentageElement = document.getElementById(`file-upload-percentage`)
+    const progressElement = document.getElementById(`file-upload-progress`)
+    percentageElement.innerText = `${progress.toFixed(2)}%`
+    progressElement.value = `${progress}`
+}

@@ -26,10 +26,7 @@
     </div>
     <div class="field-body">
       <% if form.object.file.attached? %>
-        <div id="direct-upload-${id}" class="direct-upload direct-upload--pending">
-          <div id="direct-upload-progress-${id}" class="direct-upload__progress" style="width: 100%"></div>
-          <span class="direct-upload__filename"><%= form.object.file.filename %></span>
-        </div>
+        <span class="direct-upload__filename"><%= form.object.file.filename %></span>
         <%= form.hidden_field :file, value: form.object.file.signed_id %>
       <% else %>
         <%= form.file_field :file, direct_upload: true, class: 'input' %>
@@ -39,19 +36,10 @@
 
   <div class="field is-horizontal">
     <div class="field-label">
-      <%= form.label :file, class: "label" %>
+      <div class="label" id="file-upload-percentage">0%</div>
     </div>
     <div class="field-body">
-      sample_movie.mov
-    </div>
-  </div>
-
-  <div class="field is-horizontal">
-    <div class="field-label">
-      <div class="label">100%</div>
-    </div>
-    <div class="field-body">
-      <progress class="progress is-success" value="10" max="100" id="progress">100%</progress>
+      <progress class="progress is-success" value="0" max="100" id="file-upload-progress">100%</progress>
     </div>
   </div>
    
