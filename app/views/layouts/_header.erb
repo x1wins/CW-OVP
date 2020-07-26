@@ -3,6 +3,10 @@
     <a class="navbar-item" href="<%= root_path %>">
       <img src="<%= image_url('CW_OVP_LOGO_200x200.png') %>" height="28">
     </a>
+    <a class="navbar-item" href="<%= root_path %>">
+      CW-OVP
+    </a>
+
     <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
       <span></span>
       <span></span>
@@ -11,15 +15,11 @@
   </div>
 
   <div id="navbarExampleTransparentExample" class="navbar-menu">
-    <div class="navbar-start">
-      <%= link_to "Sidekiq", sidekiq_web_path, class: "navbar-item", target: "_blank" %>
-    </div>
-
-
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
           <% if user_signed_in? %>
+            <%= link_to "Sidekiq", sidekiq_web_path, class: "button is-danger", target: "_blank" %>
             <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "button is-primary") %>
             <%= link_to('Edit registration', edit_user_registration_path, class: "button is-light") %>
           <% else %>
