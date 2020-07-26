@@ -78,9 +78,8 @@ consumer.subscriptions.create("EncodeChannel", {
 
     var logs_table = document.getElementById("logs");
     var encode_id = document.getElementById("encode_id");
-    var hidden_encode_id = encode_id.value;
     var received_encode_id = data.encode_id;
-    if(logs_table && encode_id && (hidden_encode_id == received_encode_id)){
+    if(logs_table && encode_id && (encode_id.value == received_encode_id)){
       encode = data.encode;
       var runtime = document.getElementById("runtime");
       runtime.innerHTML = encode.runtime;
