@@ -26,10 +26,13 @@
     </div>
     <div class="field-body">
       <% if form.object.file.attached? %>
-        <%= form.object.file.filename %>
+        <div id="direct-upload-${id}" class="direct-upload direct-upload--pending">
+          <div id="direct-upload-progress-${id}" class="direct-upload__progress" style="width: 100%"></div>
+          <span class="direct-upload__filename"><%= form.object.file.filename %></span>
+        </div>
         <%= form.hidden_field :file, value: form.object.file.signed_id %>
       <% else %>
-        <%= form.file_field :file, direct_upload: true %>
+        <%= form.file_field :file, direct_upload: true, class: 'input' %>
       <% end %>
     </div>
   </div>
