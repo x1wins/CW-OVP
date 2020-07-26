@@ -68,7 +68,8 @@ OVP(online video platform)란<br/>
         * video node
 * member
 
-## How To Run Development mode
+## Getting started
+### How To Run Development mode
 1. Download source
     1. ```git clone https://github.com/x1wins/CW-OVP.git```
     2. ```cd ./CW-OVP```
@@ -142,7 +143,7 @@ OVP(online video platform)란<br/>
             Finished in 2.08 seconds (files took 2.29 seconds to load)
             16 examples, 0 failures
         ```
-## How To Run Development mode with Docker-compose
+### How To Run Development mode with Docker-compose
 1. Download source
     1. ```git clone https://github.com/x1wins/CW-OVP.git```
     2. ```cd ./CW-OVP```
