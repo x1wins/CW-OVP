@@ -21,11 +21,33 @@
   </div>
 
   <div class="field is-horizontal">
-    <div class="field-label is-normal">
+    <div class="field-label">
       <%= form.label :file, class: "label" %>
     </div>
     <div class="field-body">
-      <%= form.file_field :file, class: "input", placeholder: "Title" %>
+      <% if form.object.file.attached? %>
+        <span class="direct-upload__filename"><%= form.object.file.filename %></span>
+        <%= form.hidden_field :file, value: form.object.file.signed_id %>
+      <% else %>
+        <%= form.file_field :file, direct_upload: true, class: 'input' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label">
+      <div class="label" id="file-upload-percentage">0%</div>
+    </div>
+    <div class="field-body">
+      <progress class="progress is-success" value="0" max="100" id="file-upload-progress">100%</progress>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label">
+    </div>
+    <div class="field-body">
+      <div id="direct-upload-error"></div>
     </div>
   </div>
 
@@ -37,4 +59,5 @@
         <%= form.submit class: "button is-primary" %>
     </div>
   </div>
+
 <% end %>
