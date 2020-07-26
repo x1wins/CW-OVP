@@ -1,8 +1,6 @@
 [![Build Status](https://travis-ci.com/x1wins/CW-OVP.svg?branch=develop)](https://travis-ci.com/x1wins/CW-OVP)
 
 # CW-OVP
-
-# Index
 * [Introduction](#Introduction)
     * [EN](#EN)
     * [KO](#KO)
