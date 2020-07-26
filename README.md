@@ -1,7 +1,20 @@
 [![Build Status](https://travis-ci.com/x1wins/CW-OVP.svg?branch=develop)](https://travis-ci.com/x1wins/CW-OVP)
 
 # CW-OVP
-## EN
+
+# Index
+* [Introduction](#Introduction)
+    * [EN](#EN)
+    * [KO](#KO)
+* [Skill Stack](#Skill-Stack)
+* [Preview](#Preview)
+* [Roadmap](#Roadmap)
+* [Getting started](#Getting-started)
+    * [How To Run Development mode](#How-To-Run-Development-mode)
+    * [How To Run Development mode with Docker-compose](#How-To-Run-Development-mode-with-Docker-compose)
+
+## Introduction
+### EN
 OVP(online video platform) mean that online encoding and hosting service with movie file upload to online storage or cloud system.<br/>
 Internet speed was increase and many internet user need streaming service than Content provier and Broadcaster use OVP or solution for start streaming service with Mobile, web, OTT(over the top).<br/>
 Famous OVP business company is mux.com, dacast.com, vimeo.com, Dacast.com and Wowza solution.<br/>
@@ -9,7 +22,7 @@ But Korea OVP company is not many and company should spend more than thousand of
 CW-OVP project will commit helping for who want ready for streaming service.<br/>
 This is why CW-OVP project was built.
 
-## KO
+### KO
 OVP(online video platform)란<br/>
 온라인 저장소 또는 클라우드에 영상파일을 업로드하여 인코딩과 호스팅 서비스를 제공함을 말한다.<br/>
 인터넷 속도의 발달과 사용자들의 요구로 많은 스트리밍 서비스가 생겨나고 있고, 기존의 방송사들도 흐름에 따라  Mobile, web, OTT(over the top) 셋탑기기의 스트리밍 서비스를 제공하기 위해서 OVP(online video platform)이나 솔류션을 많이 사용하고 있다.<br/>
