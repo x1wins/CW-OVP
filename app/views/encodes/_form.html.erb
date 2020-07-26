@@ -21,11 +21,18 @@
   </div>
 
   <div class="field is-horizontal">
-    <div class="field-label is-normal">
+    <div class="field-label">
       <%= form.label :file, class: "label" %>
     </div>
     <div class="field-body">
-      <%= form.file_field :file, class: "input", placeholder: "Title", direct_upload: true %>
+      <% if form.object.file.attached? %>
+        <%= form.object.file.filename %>
+        <%= form.hidden_field :file, value: form.object.file.signed_id %>
+      <% else %>
+        <%= form.file_field :file, direct_upload: true %>
+      <% end %>
+    </div>
+  </div>
     </div>
   </div>
 
