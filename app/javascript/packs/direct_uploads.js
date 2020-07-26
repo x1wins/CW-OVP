@@ -36,7 +36,7 @@ addEventListener("turbolinks:load", function() {
     console.log('It works on each visit!');
     console.log("turbolinks:load!");
     const encodeFileElement = document.getElementById('encode_file')
-    if(encodeFileElement.value){
+    if(encodeFileElement && encodeFileElement.value){
         console.log("encodeFileElement value exist "+ encodeFileElement.value);
         changeProgress(100)
     }
