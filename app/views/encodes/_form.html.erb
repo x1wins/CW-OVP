@@ -29,7 +29,7 @@
         <span class="direct-upload__filename"><%= form.object.file.filename %></span>
         <%= form.hidden_field :file, value: form.object.file.signed_id %>
       <% else %>
-        <%= form.file_field :file, direct_upload: true, class: 'input' %>
+        <%= form.file_field :file, direct_upload: true, class: 'input', accept: Encode::VALIDATED_FILE_EXTENSIONS.join(',') %>
       <% end %>
     </div>
   </div>
