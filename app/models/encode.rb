@@ -6,6 +6,9 @@ class Encode < ApplicationRecord
   scope :published, -> { where(published: true) }
   scope :by_date, -> { order('id DESC') }
   before_create :default_values
+  VALIDATED_FILE_EXTENSIONS = %w( .ts .mp4 .mov .avi .mkv )
+  DAYS = [ "monday", "tuesday", "wednesday", "thursday","friday", "saturday","sunday"]
+
   def default_values
     self.started_at ||= Time.now
     self.published ||= true
@@ -47,6 +50,6 @@ class Encode < ApplicationRecord
 
   def valid_extension?(filename)
     ext = File.extname(filename)
-    %w( .ts .mp4 .mov .avi .mkv ).include? ext.downcase
+    VALIDATED_FILE_EXTENSIONS.include? ext.downcase
   end
 end
