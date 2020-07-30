@@ -24,6 +24,10 @@
               <td><%= @encode.title %></td>
             </tr>
             <tr>
+              <td>File name</td>
+              <td><%= @encode.file.filename if @encode.file.attached? %></td>
+            </tr>
+            <tr>
               <td>Onwer Email</td>
               <td><%= @encode.user.email %></td>
             </tr>

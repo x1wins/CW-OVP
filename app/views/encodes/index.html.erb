@@ -5,10 +5,11 @@
   <tr>
     <th>ID</th>
     <th>Title</th>
-    <th>Created at</th>
+    <th>File name</th>
     <th>Runtime</th>
     <th>Completed</th>
     <th>Url</th>
+    <th>Created at</th>
     <th colspan="2"></th>
   </tr>
   </thead>
@@ -17,10 +18,11 @@
     <tr id="encode_id" data-encode-id="<%= encode.id %>">
       <th><%= encode.id %></th>
       <td><%= encode.title %></td>
-      <td><%= encode.created_at %></td>
+      <td><%= encode.file.filename if encode.file.attached? %></td>
       <td><%= encode.runtime %></td>
       <td id="status_<%= encode.id %>"><%= encode.completed %></td>
       <td><%= encode.url %></td>
+      <td><%= encode.created_at %></td>
       <td><%= link_to 'Show', encode %></td>
       <td><%= link_to 'Destroy', encode, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
