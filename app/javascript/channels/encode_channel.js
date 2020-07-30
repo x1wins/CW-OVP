@@ -28,27 +28,28 @@ consumer.subscriptions.create("EncodeChannel", {
         }
       }
       if(count == 0){
-        encode = data.encode;
+        var encode = data.encode;
+        var filename = data.filename;
         var row = encodes_table.insertRow(1);
         row.setAttribute("id","encode_id");
         row.setAttribute("data-encode-id",encode.id);
         var id_cell = document.createElement('th');
         row.appendChild(id_cell);
         var title_cell = row.insertCell(1);
-        var craeted_at_cell = row.insertCell(2);
+        var filename_cell = row.insertCell(2);
         var runtime_cell = row.insertCell(3);
-        var completed_cell = row.insertCell(4);
+        var url_cell = row.insertCell(4);
+        var craeted_at_cell = row.insertCell(5);
+        var completed_cell = row.insertCell(6);
         completed_cell.setAttribute("id","status_"+encode.id);
-        var url_cell = row.insertCell(5);
-        var show_cell = row.insertCell(6);
         var del_cell = row.insertCell(7);
         id_cell.innerHTML = encode.id;
         title_cell.innerHTML = encode.title;
-        craeted_at_cell.innerHTML = encode.created_at;
+        filename_cell.innerHTML = filename;
         runtime_cell.innerHTML = encode.runtime;
-        completed_cell.innerHTML = encode.completed;
         url_cell.innerHTML = encode.url;
-        show_cell.innerHTML = "";
+        craeted_at_cell.innerHTML = encode.created_at;
+        completed_cell.innerHTML = encode.completed;
         del_cell.innerHTML = "";
       }
 
@@ -57,6 +58,7 @@ consumer.subscriptions.create("EncodeChannel", {
         status.innerHTML = data.percentage
         if(data.percentage == '100%'){
           var encode = data.encode;
+          var filename = data.filename;
           var tr = document.querySelectorAll("[id='encode_id']");
           var found_index = 0;
           console.log("tr.length : " + tr.length)
@@ -67,10 +69,11 @@ consumer.subscriptions.create("EncodeChannel", {
             }
           }
           var tds = tr[found_index].getElementsByTagName("td")
-          console.log("encode "+ encode.id + " "+ encode.runtime + " "+ encode.url)
+          console.log("encode "+ encode)
+          tds[1].innerHTML = filename;
           tds[2].innerHTML = encode.runtime;
-          tds[3].innerHTML = encode.completed;
-          tds[4].innerHTML = encode.url;
+          tds[3].innerHTML = encode.url;
+          tds[5].innerHTML = encode.completed;
         }
       }
       return
