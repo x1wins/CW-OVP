@@ -14,7 +14,7 @@ consumer.subscriptions.create("EncodeChannel", {
   received(data) {
     // Called when there's incoming data on the websocket for this channel
     console.log("Recieving:")
-    console.log("encode_id: "+data.encode_id + " content:" + data.content + " percentage:" + data.percentage)
+    console.log("encode_id: "+data.encode_id + " content:" + data.content + " percentage:" + data.percentage + "thumbnail_urls:"+ data.thumbnail_urls)
     var encodes_table = document.getElementById("encodes");
     if(encodes_table){
       console.log("encodes_table exist")
@@ -83,6 +83,16 @@ consumer.subscriptions.create("EncodeChannel", {
     var encode_id = document.getElementById("encode_id");
     var received_encode_id = data.encode_id;
     if(logs_table && encode_id && (encode_id.value == received_encode_id)){
+      if(data.thumbnail_urls){
+        var thumbnail_urls = data.thumbnail_urls.toString().split(',');
+        var thumbnailContainer = document.getElementById("thumbnail-container")
+        for(var i = 0; i < thumbnail_urls.length; i++){
+          console.log("thumbnail_urls[i]" + thumbnail_urls[i])
+          var img = document. createElement("img")
+          img.src = thumbnail_urls[i]
+          thumbnailContainer.appendChild(img);
+        }
+      }
       encode = data.encode;
       var runtime = document.getElementById("runtime");
       runtime.innerHTML = encode.runtime;
