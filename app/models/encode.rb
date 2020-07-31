@@ -1,7 +1,7 @@
 class Encode < ApplicationRecord
   belongs_to :user
   has_one_attached :file
-  has_one_attached :thumbnail
+  has_many_attached :thumbnails
   validates :title, presence: true
   validates :file, presence: true, blob: { content_type: :video } # supported options: :image, :audio, :video, :text
   scope :published, -> { where(published: true) }
@@ -45,12 +45,14 @@ class Encode < ApplicationRecord
     seconds = prng.rand(0..end_second.floor)
     Time.at(seconds).utc.strftime("%H:%M:%S.%L")
   end
-  def extract_thumbnail runtime, temp_file_full_path, file_full_path
-    ss = self.rand_second(runtime)
-    thumbnail_cmd = `sh app/encoding/thumbnail.sh #{temp_file_full_path} #{ss} #{file_full_path}`
-    Rails.logger.debug "thumbnail_cmd : #{thumbnail_cmd}"
-    thumbnail_path = "#{file_full_path}/thumbnail.png"
-    Rails.logger.debug "thumbnail path : #{thumbnail_path}"
-    self.thumbnail.attach(io: File.open(thumbnail_path), filename: "#{self.id}_thumbnail.png", content_type: "image/png")
+  def extract_thumbnail runtime, temp_file_full_path, file_full_path, count = 1
+    for i in 1..count
+      ss = self.rand_second(runtime)
+      thumbnail_full_path = "#{file_full_path}/#{i}_thumbnail.png"
+      thumbnail_cmd = `sh app/encoding/thumbnail.sh #{temp_file_full_path} #{ss} #{thumbnail_full_path}`
+      Rails.logger.debug "thumbnail_cmd : #{thumbnail_cmd}"
+      Rails.logger.debug "thumbnail full path : #{thumbnail_full_path}"
+      self.thumbnails.attach(io: File.open(thumbnail_full_path), filename: "#{self.id}_#{i}_thumbnail.png", content_type: "image/png")
+    end
   end
 end

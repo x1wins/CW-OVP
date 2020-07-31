@@ -99,5 +99,7 @@
     </div>
   </div>
 </div>
+<% @encode.thumbnails.each { |t| %>
+<%= image_tag url_for(t) %>
+<% } %>
 
-<%= image_tag url_for(@encode.thumbnail) if @encode.thumbnail.attached? %>
