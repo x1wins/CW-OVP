@@ -33,7 +33,7 @@ class Encode < ApplicationRecord
     end
   end
   def convert_to_second time
-    Time.parse(time).to_i - Date.today.to_time.to_i
+    (Time.parse(time).to_i - Date.today.to_time.to_i).to_f
   end
   def rand_second total_time = nil
     if total_time.nil?
@@ -41,7 +41,7 @@ class Encode < ApplicationRecord
     end
     end_second = convert_to_second total_time
     prng = Random.new
-    seconds = prng.rand(0..end_second)
+    seconds = prng.rand(0..end_second.floor)
     Time.at(seconds).utc.strftime("%H:%M:%S.%L")
   end
 end
