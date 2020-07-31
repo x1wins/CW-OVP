@@ -25,7 +25,7 @@ class Encode < ApplicationRecord
 
   def send_message message, log, percentage = "0%"
     log << message.to_s+"\n"
-    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self
+    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename
     Rails.logger.debug "percentage: #{percentage}"
   end
 

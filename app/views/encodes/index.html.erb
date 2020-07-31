@@ -5,23 +5,24 @@
   <tr>
     <th>ID</th>
     <th>Title</th>
-    <th>Created at</th>
+    <th>File name</th>
     <th>Runtime</th>
-    <th>Completed</th>
     <th>Url</th>
-    <th colspan="2"></th>
+    <th>Created at</th>
+    <th>Completed</th>
+    <th>Delete</th>
   </tr>
   </thead>
   <tbody>
   <% @encodes.each do |encode| %>
     <tr id="encode_id" data-encode-id="<%= encode.id %>">
       <th><%= encode.id %></th>
-      <td><%= encode.title %></td>
-      <td><%= encode.created_at %></td>
+      <td><%= link_to encode.title, encode %></td>
+      <td><%= encode.file.filename if encode.file.attached? %></td>
       <td><%= encode.runtime %></td>
-      <td id="status_<%= encode.id %>"><%= encode.completed %></td>
       <td><%= encode.url %></td>
-      <td><%= link_to 'Show', encode %></td>
+      <td><%= encode.created_at %></td>
+      <td id="status_<%= encode.id %>"><%= encode.completed %></td>
       <td><%= link_to 'Destroy', encode, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
   <% end %>
