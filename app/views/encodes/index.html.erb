@@ -10,7 +10,7 @@
     <th>Url</th>
     <th>Created at</th>
     <th>Completed</th>
-    <th>Delete</th>
+    <th>Thumbnail</th>
   </tr>
   </thead>
   <tbody>
@@ -24,11 +24,11 @@
       <td><%= encode.created_at %></td>
       <td id="status_<%= encode.id %>"><%= encode.completed %></td>
       <td>
-        <% encode.thumbnails.each { |t| %>
-          <figure class="image is-32x32">
-            <%= image_tag url_for(t) %>
-          </figure>
-        <% } %>
+        <% if encode.thumbnails.first %>
+        <figure class="image is-32x32">
+          <%= image_tag url_for(encode.thumbnails.first) %>
+        </figure>
+        <% end %>
       </td>
     </tr>
   <% end %>
