@@ -14,6 +14,8 @@ class EncodeWorker
         encoding_cmd = "sh app/encoding/hls_h264.sh #{file_full_path} #{temp_file_full_path}"
         log = ""
         encode.update(runtime: duration_output_cmd)
+        ss = encode.rand_second(duration_output_cmd)
+        thumbnail_cmd = `sh app/encoding/thumbnail.sh #{temp_file_full_path} #{ss} #{file_full_path}`
         Open3.popen3(encoding_cmd) do |stdin, stdout, stderr, wait_thr|
           stdout.each do |line|
             Sidekiq.logger.debug "stdout: #{line}"
