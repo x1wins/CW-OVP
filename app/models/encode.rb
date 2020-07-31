@@ -45,4 +45,12 @@ class Encode < ApplicationRecord
     seconds = prng.rand(0..end_second.floor)
     Time.at(seconds).utc.strftime("%H:%M:%S.%L")
   end
+  def extract_thumbnail runtime, temp_file_full_path, file_full_path
+    ss = self.rand_second(runtime)
+    thumbnail_cmd = `sh app/encoding/thumbnail.sh #{temp_file_full_path} #{ss} #{file_full_path}`
+    Rails.logger.debug "thumbnail_cmd : #{thumbnail_cmd}"
+    thumbnail_path = "#{file_full_path}/thumbnail.png"
+    Rails.logger.debug "thumbnail path : #{thumbnail_path}"
+    self.thumbnail.attach(io: File.open(thumbnail_path), filename: "#{self.id}_thumbnail.png", content_type: "image/png")
+  end
 end

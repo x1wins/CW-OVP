@@ -41,14 +41,7 @@ class EncodeWorker
         Sidekiq.logger.debug "log : #{log}"
         Sidekiq.logger.debug "full url : #{url}"
 
-        ss = encode.rand_second(duration_output_cmd)
-        thumbnail_cmd = `sh app/encoding/thumbnail.sh #{temp_file_full_path} #{ss} #{file_full_path}`
-        Sidekiq.logger.debug "thumbnail_cmd : #{thumbnail_cmd}"
-        thumbnail_url = "#{base_url}/#{file_path}/thumbnail.png"
-        Sidekiq.logger.debug "thumbnail url : #{thumbnail_url}"
-        thumbnail_path = "#{file_full_path}/thumbnail.png"
-        Sidekiq.logger.debug "thumbnail path : #{thumbnail_path}"
-        encode.thumbnail.attach(io: File.open(thumbnail_path), filename: "#{encode.id}_thumbnail.png", content_type: "image/png")
+        encode.extract_thumbnail duration_output_cmd, temp_file_full_path, file_full_path
         # Sidekiq.logger.info "thumbnail active storage url : #{Rails.application.routes.url_helpers.url_for(encode.thumbnail)}"
       end
     end
