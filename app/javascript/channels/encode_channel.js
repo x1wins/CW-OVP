@@ -83,16 +83,7 @@ consumer.subscriptions.create("EncodeChannel", {
     var encode_id = document.getElementById("encode_id");
     var received_encode_id = data.encode_id;
     if(logs_table && encode_id && (encode_id.value == received_encode_id)){
-      if(data.thumbnail_urls){
-        var thumbnail_urls = data.thumbnail_urls.toString().split(',');
-        var thumbnailContainer = document.getElementById("thumbnail-container")
-        for(var i = 0; i < thumbnail_urls.length; i++){
-          console.log("thumbnail_urls[i]" + thumbnail_urls[i])
-          var img = document. createElement("img")
-          img.src = thumbnail_urls[i]
-          thumbnailContainer.appendChild(img);
-        }
-      }
+      addThumbnailInShow(data.thumbnail_urls)
       encode = data.encode;
       var runtime = document.getElementById("runtime");
       runtime.innerHTML = encode.runtime;
@@ -126,6 +117,19 @@ function scrollingLogContainerToBottom(){
   var log_container = document.getElementById("log_container");
   if(log_container){
     log_container.scrollTop = log_container.scrollHeight;
+  }
+}
+
+function addThumbnailInShow(thumbnail_urls){
+  if(thumbnail_urls){
+    var thumbnail_urls = thumbnail_urls.toString().split(',');
+    var thumbnailContainer = document.getElementById("thumbnail-container")
+    for(var i = 0; i < thumbnail_urls.length; i++){
+      console.log("thumbnail_urls[i]" + thumbnail_urls[i])
+      var img = document. createElement("img")
+      img.src = thumbnail_urls[i]
+      thumbnailContainer.appendChild(img);
+    }
   }
 }
 
