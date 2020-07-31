@@ -41,7 +41,7 @@ class EncodeWorker
         Sidekiq.logger.debug "log : #{log}"
         Sidekiq.logger.debug "full url : #{url}"
 
-        encode.extract_thumbnail duration_output_cmd, temp_file_full_path, file_full_path
+        encode.extract_thumbnail duration_output_cmd, temp_file_full_path, file_full_path, 5
         # Sidekiq.logger.info "thumbnail active storage url : #{Rails.application.routes.url_helpers.url_for(encode.thumbnail)}"
       end
     end
