@@ -33,7 +33,7 @@ class EncodeWorker
         playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{file_full_path}/`
         url = "#{base_url}/#{file_path}/playlist.m3u8"
         encode.update(log: log, ended_at: Time.now, completed: true, url: url)
-        encode.send_message "Completed", log, "100%"
+        encode.send_message "Transcoding Completed", log, "100%"
 
         Sidekiq.logger.debug "temp file path : #{temp_file_full_path}"
         Sidekiq.logger.debug "ffmpeg parameter : #{file_full_path} #{temp_file_full_path}"
@@ -41,8 +41,9 @@ class EncodeWorker
         Sidekiq.logger.debug "log : #{log}"
         Sidekiq.logger.debug "full url : #{url}"
 
-        encode.extract_thumbnail duration_output_cmd, temp_file_full_path, file_full_path, 5
-        # Sidekiq.logger.info "thumbnail active storage url : #{Rails.application.routes.url_helpers.url_for(encode.thumbnail)}"
+        encode.send_message "Extract Thumbnail Start", log, "100%"
+        thumbnail_urls = encode.extract_thumbnail duration_output_cmd, temp_file_full_path, file_full_path, 6
+        encode.send_message "Extract Thumbnail Completed", log, "100%", thumbnail_urls
       end
     end
   end
