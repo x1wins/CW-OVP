@@ -1,6 +1,4 @@
 #!/bin/bash
-
 # thumbnail
-#encoding -i $1.mp4 -s 400x222 -ss 00:00:14.435 -vframes 1 out.png
-ffmepg -i $1.mp4 -r 0.5 -f image2 output_%05d.jpg
-
+# ffmpeg -i SampleVideo_1280x720_5mb.mp4 -vf scale=w=-2:h=360 -ss 00:00:17.000 -vframes 1 out_13.png
+ffmpeg -i $1 -vf scale=w=-2:h=360 -ss $2 -vframes 1 $3

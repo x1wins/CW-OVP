@@ -99,3 +99,7 @@
     </div>
   </div>
 </div>
+<% @encode.thumbnails.each { |t| %>
+<%= image_tag url_for(t) %>
+<% } %>
+

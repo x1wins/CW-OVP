@@ -1,6 +1,7 @@
 class Encode < ApplicationRecord
   belongs_to :user
   has_one_attached :file
+  has_many_attached :thumbnails
   validates :title, presence: true
   validate :file_format
   scope :published, -> { where(published: true) }
@@ -13,6 +14,7 @@ class Encode < ApplicationRecord
     self.published ||= true
     self.completed ||= false
   end
+
   def file_path
     yyyy = self.created_at.strftime("%Y")
     mm = self.created_at.strftime("%m")
@@ -20,11 +22,13 @@ class Encode < ApplicationRecord
     id = self.id
     "hls/#{yyyy}/#{mm}/#{dd}/#{id}"
   end
+
   def send_message message, log, percentage = "0%"
     log << message.to_s+"\n"
     ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self
     Rails.logger.debug "percentage: #{percentage}"
   end
+
   def percentage now_time = nil, total_time = nil
     if now_time.nil? or total_time.nil?
       percentage = "0%"
@@ -34,9 +38,11 @@ class Encode < ApplicationRecord
       percentage.to_s + "%"
     end
   end
+
   def convert_to_second time
     (Time.parse(time).to_i - Date.today.to_time.to_i).to_f
   end
+
   def file_format
     if !file.attached?
       errors[:file] << " must not blank"
@@ -50,5 +56,26 @@ class Encode < ApplicationRecord
   def valid_extension?(filename)
     ext = File.extname(filename)
     VALIDATED_FILE_EXTENSIONS.include? ext.downcase
+  end
+
+  def rand_second total_time = nil
+    if total_time.nil?
+      return "00:00:00.000"
+    end
+    end_second = convert_to_second total_time
+    prng = Random.new
+    seconds = prng.rand(0..end_second.floor)
+    Time.at(seconds).utc.strftime("%H:%M:%S.%L")
+  end
+
+  def extract_thumbnail runtime, temp_file_full_path, file_full_path, count = 1
+    for i in 1..count
+      ss = self.rand_second(runtime)
+      thumbnail_full_path = "#{file_full_path}/#{i}_thumbnail.png"
+      thumbnail_cmd = `sh app/encoding/thumbnail.sh #{temp_file_full_path} #{ss} #{thumbnail_full_path}`
+      Rails.logger.debug "thumbnail_cmd : #{thumbnail_cmd}"
+      Rails.logger.debug "thumbnail full path : #{thumbnail_full_path}"
+      self.thumbnails.attach(io: File.open(thumbnail_full_path), filename: "#{self.id}_#{i}_thumbnail.png", content_type: "image/png")
+    end
   end
 end
