@@ -77,7 +77,10 @@ class Encode < ApplicationRecord
       Rails.logger.debug "thumbnail full path : #{thumbnail_full_path}"
       self.thumbnails.attach(io: File.open(thumbnail_full_path), filename: "#{self.id}_#{i}_thumbnail.png", content_type: "image/png")
     end
+    thumbnail_urls
+  end
 
+  def thumbnail_urls
     thumbnail_urls = []
     self.thumbnails.each { |t|
       thumbnail_url = Rails.application.routes.url_helpers.url_for(t)
