@@ -8,6 +8,5 @@ Rails.application.routes.draw do
   authenticate :user do
     mount Sidekiq::Web => '/sidekiq'
   end
-  default_url_options :host => "localhost:3000"
 end
 
