@@ -10,7 +10,7 @@ class EncodesController < ApplicationController
   def index
     page = params[:page].presence || 1
     per = params[:per].presence || Pagination.per
-    @encodes = Encode.published.by_date.page(page).per(per)
+    @encodes = Encode.with_attached_file.with_attached_thumbnails.published.by_date.page(page).per(per)
   end
 
   # GET /encodes/1
