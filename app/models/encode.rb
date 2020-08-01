@@ -83,7 +83,7 @@ class Encode < ApplicationRecord
   def thumbnail_urls
     thumbnail_urls = []
     self.thumbnails.each { |t|
-      thumbnail_url = Rails.application.routes.url_helpers.url_for(t)
+      thumbnail_url = Rails.application.routes.url_helpers.rails_blob_path(t, disposition: "attachment", only_path: true)
       thumbnail_urls.push(thumbnail_url)
       puts "thumbnail active storage path : #{thumbnail_url}"
     }
