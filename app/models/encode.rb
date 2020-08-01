@@ -23,9 +23,9 @@ class Encode < ApplicationRecord
     "hls/#{yyyy}/#{mm}/#{dd}/#{id}"
   end
 
-  def send_message message, log, percentage = "0%"
+  def send_message message, log, percentage = "0%", thumbnail_urls = nil
     log << message.to_s+"\n"
-    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename
+    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename, thumbnail_urls:thumbnail_urls
     Rails.logger.debug "percentage: #{percentage}"
   end
 
@@ -77,5 +77,16 @@ class Encode < ApplicationRecord
       Rails.logger.debug "thumbnail full path : #{thumbnail_full_path}"
       self.thumbnails.attach(io: File.open(thumbnail_full_path), filename: "#{self.id}_#{i}_thumbnail.png", content_type: "image/png")
     end
+    thumbnail_urls
+  end
+
+  def thumbnail_urls
+    thumbnail_urls = []
+    self.thumbnails.each { |t|
+      thumbnail_url = Rails.application.routes.url_helpers.url_for(t)
+      thumbnail_urls.push(thumbnail_url)
+      puts "thumbnail active storage path : #{thumbnail_url}"
+    }
+    thumbnail_urls
   end
 end

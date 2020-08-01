@@ -103,7 +103,24 @@
     </div>
   </div>
 </div>
-<% @encode.thumbnails.each { |t| %>
-<%= image_tag url_for(t) %>
-<% } %>
+
+<div class="columns">
+  <div class="column is-fullwidth">
+    <div class="card events-card">
+      <header class="card-header">
+        <p class="card-header-title">
+          Thumbnail
+        </p>
+      </header>
+      <div class="card-table">
+        <div class="content" id="thumbnail-container">
+          <% @encode.thumbnails.each { |t| %>
+            <%= image_tag url_for(t) %>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 

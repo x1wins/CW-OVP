@@ -10,7 +10,7 @@
     <th>Url</th>
     <th>Created at</th>
     <th>Completed</th>
-    <th>Delete</th>
+    <th>Thumbnail</th>
   </tr>
   </thead>
   <tbody>
@@ -23,7 +23,13 @@
       <td><%= encode.url %></td>
       <td><%= encode.created_at %></td>
       <td id="status_<%= encode.id %>"><%= encode.completed %></td>
-      <td><%= link_to 'Destroy', encode, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <td>
+        <% if encode.thumbnails.first %>
+        <figure class="image is-32x32">
+          <%= image_tag url_for(encode.thumbnails.first) %>
+        </figure>
+        <% end %>
+      </td>
     </tr>
   <% end %>
   </tbody>
