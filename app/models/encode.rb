@@ -64,7 +64,7 @@ class Encode < ApplicationRecord
     end
     end_second = convert_to_second total_time
     prng = Random.new
-    seconds = prng.rand(0..end_second.floor)
+    seconds = prng.rand(0...end_second.floor)
     Time.at(seconds).utc.strftime("%H:%M:%S.%L")
   end
 
