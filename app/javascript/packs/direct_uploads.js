@@ -23,7 +23,7 @@ addEventListener("direct-upload:error", event => {
     event.preventDefault()
     const { id, error } = event.detail
     const element = document.getElementById(`direct-upload-error`)
-    element.classList.add("notification is-danger")
+    element.classList.add("notification", "is-danger")
     element.innerText = error;
 })
 
