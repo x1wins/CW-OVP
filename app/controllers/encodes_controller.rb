@@ -29,8 +29,8 @@ class EncodesController < ApplicationController
     @encode = Encode.new(encode_params)
     respond_to do |format|
       if @encode.save
-        EncodeWorker.perform_async(@encode.id, request.base_url)
         ThumbnailWorker.perform_async(@encode.id)
+        EncodeWorker.perform_async(@encode.id, request.base_url)
         Rails.logger.debug "saved file path : #{rails_blob_path(@encode.file)}"
         format.html { redirect_to @encode, notice: 'Encode was successfully created.' }
         format.json { render :show, status: :created, location: @encode }
