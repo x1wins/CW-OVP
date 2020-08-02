@@ -91,11 +91,12 @@ consumer.subscriptions.create("EncodeChannel", {
       var runtime = document.getElementById("runtime");
       runtime.innerHTML = encode.runtime;
       var progress = document.getElementById("progress");
-      var progress_value = data.percentage.replace('%', '');
-      progress.setAttribute("value", progress_value);
-      var percentage = document.getElementById("percentage");
-      percentage.innerHTML = data.percentage;
-
+      if(data.percentage){
+        var progress_value = data.percentage.replace('%', '');
+        progress.setAttribute("value", progress_value);
+        var percentage = document.getElementById("percentage");
+        percentage.innerHTML = data.percentage;
+      }
       var content = data.content;
       var row = logs_table.insertRow(logs_table.size);
       var log_cell = row.insertCell(0);
