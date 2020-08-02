@@ -44,7 +44,7 @@ class EncodeWorker
         encode.send_message "Extract Thumbnail Start", log, "100%"
         for i in 1..Encode::THUMBNAIL_COUNT
           thumbnail_url = encode.extract_thumbnail duration_output_cmd, temp_file_full_path, file_full_path, i
-          encode.send_message "Extract #{i}th Thumbnail", log, "100%", thumbnail_url
+          encode.send_message "Extracted #{i}th Thumbnail", log, "100%", thumbnail_url
         end
       end
     end
