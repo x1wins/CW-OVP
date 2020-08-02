@@ -7,7 +7,6 @@ class EncodeWorker
     if encode.file.attached?
       encode.file.open do |f|
         uploaded_file_path = f.path
-        file_path = encode.file_path
         save_folder_path = encode.save_folder_path
 
         duration_output_cmd = `sh app/encoding/duration.sh #{uploaded_file_path}`
