@@ -55,25 +55,27 @@ consumer.subscriptions.create("EncodeChannel", {
 
       var status = document.getElementById("status_"+data.encode_id);
       if(status){
-        status.innerHTML = data.percentage
-        if(data.percentage == '100%'){
-          var encode = data.encode;
-          var filename = data.filename;
-          var tr = document.querySelectorAll("[id='encode_id']");
-          var found_index = 0;
-          console.log("tr.length : " + tr.length)
-          for(var i = 0; i < tr.length; i++){
-            var data_encode_id = tr[i].getAttribute("data-encode-id")
-            if(data_encode_id == encode.id){
-              found_index = i;
-            }
+        var encode = data.encode;
+        var tr = document.querySelectorAll("[id='encode_id']");
+        var found_index = 0;
+        for(var i = 0; i < tr.length; i++){
+          var data_encode_id = tr[i].getAttribute("data-encode-id")
+          if(data_encode_id == encode.id){
+            found_index = i;
           }
-          var tds = tr[found_index].getElementsByTagName("td")
-          console.log("encode "+ encode)
+        }
+        var tds = tr[found_index].getElementsByTagName("td")
+        if(data.percentage){
+          status.innerHTML = data.percentage
+        }
+        if(data.percentage == '100%'){
+          var filename = data.filename;
           tds[1].innerHTML = filename;
           tds[2].innerHTML = encode.runtime;
           tds[3].innerHTML = encode.url;
           tds[5].innerHTML = encode.completed;
+        }
+        if(data.thumbnail_url){
           addThumbnailInIndex(tds[6], data.thumbnail_url)
         }
       }
