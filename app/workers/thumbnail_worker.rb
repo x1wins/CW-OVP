@@ -9,6 +9,7 @@ class ThumbnailWorker
         uploaded_file_path = f.path
         save_folder_path = encode.save_folder_path
         duration_output_cmd = `sh app/encoding/duration.sh #{uploaded_file_path}`
+        mkdir_cmd = `sh app/encoding/mkdir.sh #{save_folder_path}`
         log = ""
         encode.send_message "Extracting Thumbnail Start", log, "100%"
         for i in 1..Encode::THUMBNAIL_COUNT

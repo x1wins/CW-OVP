@@ -9,6 +9,7 @@ class EncodeWorker
         uploaded_file_path = f.path
         save_folder_path = encode.save_folder_path
         duration_output_cmd = `sh app/encoding/duration.sh #{uploaded_file_path}`
+        mkdir_cmd = `sh app/encoding/mkdir.sh #{save_folder_path}`
         encoding_cmd = "sh app/encoding/hls_h264.sh #{save_folder_path} #{uploaded_file_path}"
         log = ""
         encode.update(runtime: duration_output_cmd)
