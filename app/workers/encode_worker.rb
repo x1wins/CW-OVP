@@ -8,7 +8,7 @@ class EncodeWorker
       encode.file.open do |f|
         uploaded_file_path = f.path
         file_path = encode.file_path
-        save_folder_path = "public/#{file_path}"
+        save_folder_path = encode.save_folder_path
 
         duration_output_cmd = `sh app/encoding/duration.sh #{uploaded_file_path}`
         encoding_cmd = "sh app/encoding/hls_h264.sh #{save_folder_path} #{uploaded_file_path}"
@@ -31,15 +31,15 @@ class EncodeWorker
         end
 
         playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{save_folder_path}/`
-        url = "#{base_url}/#{file_path}/playlist.m3u8"
-        encode.update(log: log, ended_at: Time.now, completed: true, url: url)
+        playlist_m3u8_url = encode.playlist_m3u8_url base_url
+        encode.update(log: log, ended_at: Time.now, completed: true, url: playlist_m3u8_url)
         encode.send_message "Transcoding Completed", log, "100%"
 
         Sidekiq.logger.debug "uploaded file path : #{uploaded_file_path}"
         Sidekiq.logger.debug "ffmpeg parameter : #{save_folder_path} #{uploaded_file_path}"
         Sidekiq.logger.debug "output : #{duration_output_cmd}"
         Sidekiq.logger.debug "log : #{log}"
-        Sidekiq.logger.debug "full url : #{url}"
+        Sidekiq.logger.debug "playlist_m3u8_url : #{playlist_m3u8_url}"
 
         encode.send_message "Extracting Thumbnail Start", log, "100%"
         for i in 1..Encode::THUMBNAIL_COUNT

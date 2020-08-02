@@ -24,6 +24,14 @@ class Encode < ApplicationRecord
     "hls/#{yyyy}/#{mm}/#{dd}/#{id}"
   end
 
+  def save_folder_path
+    "public/#{self.file_path}"
+  end
+
+  def playlist_m3u8_url base_url
+    "#{base_url}/#{self.file_path}/playlist.m3u8"
+  end
+
   def send_message message, log, percentage = "0%", thumbnail_url = nil
     log << message.to_s+"\n"
     ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename, thumbnail_url: thumbnail_url
