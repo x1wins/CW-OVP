@@ -8,6 +8,7 @@ class Encode < ApplicationRecord
   scope :by_date, -> { order('id DESC') }
   before_create :default_values
   VALIDATED_FILE_EXTENSIONS = %w( .ts .mp4 .mov .avi .mkv )
+  THUMBNAIL_COUNT = 10
 
   def default_values
     self.started_at ||= Time.now
@@ -23,9 +24,9 @@ class Encode < ApplicationRecord
     "hls/#{yyyy}/#{mm}/#{dd}/#{id}"
   end
 
-  def send_message message, log, percentage = "0%", thumbnail_urls = nil
+  def send_message message, log, percentage = "0%", thumbnail_url = nil
     log << message.to_s+"\n"
-    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename, thumbnail_urls:thumbnail_urls
+    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename, thumbnail_url: thumbnail_url
     Rails.logger.debug "percentage: #{percentage}"
   end
 
@@ -68,25 +69,15 @@ class Encode < ApplicationRecord
     Time.at(seconds).utc.strftime("%H:%M:%S.%L")
   end
 
-  def extract_thumbnail runtime, temp_file_full_path, file_full_path, count = 1
-    for i in 1..count
-      ss = self.rand_second(runtime)
-      thumbnail_full_path = "#{file_full_path}/#{i}_thumbnail.png"
-      thumbnail_cmd = `sh app/encoding/thumbnail.sh #{temp_file_full_path} #{ss} #{thumbnail_full_path}`
-      Rails.logger.debug "thumbnail_cmd : #{thumbnail_cmd}"
-      Rails.logger.debug "thumbnail full path : #{thumbnail_full_path}"
-      self.thumbnails.attach(io: File.open(thumbnail_full_path), filename: "#{self.id}_#{i}_thumbnail.png", content_type: "image/png")
-    end
-    thumbnail_urls
+  def extract_thumbnail runtime, temp_file_full_path, file_full_path, i
+    ss = self.rand_second(runtime)
+    thumbnail_full_path = "#{file_full_path}/#{i}_thumbnail.png"
+    thumbnail_cmd = `sh app/encoding/thumbnail.sh #{temp_file_full_path} #{ss} #{thumbnail_full_path}`
+    Rails.logger.debug "thumbnail_cmd : #{thumbnail_cmd}"
+    Rails.logger.debug "thumbnail full path : #{thumbnail_full_path}"
+    self.thumbnails.attach(io: File.open(thumbnail_full_path), filename: "#{self.id}_#{i}_thumbnail.png", content_type: "image/png")
+    thumbnail_url = Rails.application.routes.url_helpers.rails_blob_path(self.thumbnails.last, disposition: "attachment", only_path: true)
+    thumbnail_url
   end
 
-  def thumbnail_urls
-    thumbnail_urls = []
-    self.thumbnails.each { |t|
-      thumbnail_url = Rails.application.routes.url_helpers.rails_blob_path(t, disposition: "attachment", only_path: true)
-      thumbnail_urls.push(thumbnail_url)
-      puts "thumbnail active storage path : #{thumbnail_url}"
-    }
-    thumbnail_urls
-  end
 end
