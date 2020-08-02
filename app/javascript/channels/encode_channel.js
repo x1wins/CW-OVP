@@ -14,7 +14,7 @@ consumer.subscriptions.create("EncodeChannel", {
   received(data) {
     // Called when there's incoming data on the websocket for this channel
     console.log("Recieving:")
-    console.log("encode_id: "+data.encode_id + " content:" + data.content + " percentage:" + data.percentage + "thumbnail_urls:"+ data.thumbnail_urls)
+    console.log("encode_id: "+data.encode_id + " content:" + data.content + " percentage:" + data.percentage + "thumbnail_url:"+ data.thumbnail_url)
     var encodes_table = document.getElementById("encodes");
     if(encodes_table){
       console.log("encodes_table exist")
@@ -74,7 +74,7 @@ consumer.subscriptions.create("EncodeChannel", {
           tds[2].innerHTML = encode.runtime;
           tds[3].innerHTML = encode.url;
           tds[5].innerHTML = encode.completed;
-          addThumbnailInIndex(tds[6], data.thumbnail_urls)
+          addThumbnailInIndex(tds[6], data.thumbnail_url)
         }
       }
       return
@@ -84,7 +84,7 @@ consumer.subscriptions.create("EncodeChannel", {
     var encode_id = document.getElementById("encode_id");
     var received_encode_id = data.encode_id;
     if(logs_table && encode_id && (encode_id.value == received_encode_id)){
-      addThumbnailInShow(data.thumbnail_urls)
+      addThumbnailInShow(data.thumbnail_url)
       encode = data.encode;
       var runtime = document.getElementById("runtime");
       runtime.innerHTML = encode.runtime;
@@ -121,25 +121,21 @@ function scrollingLogContainerToBottom(){
   }
 }
 
-function addThumbnailInShow(data_thumbnail_urls){
-  if(data_thumbnail_urls){
-    var thumbnail_urls = data_thumbnail_urls.toString().split(',');
+function addThumbnailInShow(thumbnail_url){
+  if(thumbnail_url){
     var thumbnailContainer = document.getElementById("thumbnail-container")
-    for(var i = 0; i < thumbnail_urls.length; i++){
-      console.log("thumbnail_urls[i]" + thumbnail_urls[i])
-      var img = document.createElement("img")
-      img.src = thumbnail_urls[i]
-      thumbnailContainer.appendChild(img);
-    }
+    console.log("thumbnail_url" + thumbnail_url)
+    var img = document.createElement("img")
+    img.src = thumbnail_url
+    thumbnailContainer.appendChild(img)
   }
 }
 
-function addThumbnailInIndex(td, data_thumbnail_urls){
-  if(data_thumbnail_urls){
-    var thumbnail_urls = data_thumbnail_urls.toString().split(',');
-    if(thumbnail_urls.length > 0){
+function addThumbnailInIndex(td, thumbnail_url){
+  if(thumbnail_url){
+    if(!td.hasChildNodes()){
       var img = document.createElement("img")
-      img.src = thumbnail_urls[0]
+      img.src = thumbnail_url
       var figure = document.createElement("figure")
       figure.setAttribute("class","image is-32x32");
       figure.appendChild(img);
