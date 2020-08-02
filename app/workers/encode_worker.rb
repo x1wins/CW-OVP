@@ -41,10 +41,13 @@ class EncodeWorker
         Sidekiq.logger.debug "log : #{log}"
         Sidekiq.logger.debug "full url : #{url}"
 
-        encode.send_message "Extract Thumbnail Start", log, "100%"
+        encode.send_message "Extracting Thumbnail Start", log, "100%"
         for i in 1..Encode::THUMBNAIL_COUNT
           thumbnail_url = encode.extract_thumbnail duration_output_cmd, temp_file_full_path, file_full_path, i
           encode.send_message "Extracted #{i}th Thumbnail", log, "100%", thumbnail_url
+          if i == Encode::THUMBNAIL_COUNT
+            encode.send_message "Extracting Thumbnail Completed", log, "100%"
+          end
         end
       end
     end
