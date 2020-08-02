@@ -77,7 +77,6 @@ class Encode < ApplicationRecord
     Rails.logger.debug "thumbnail full path : #{thumbnail_full_path}"
     self.thumbnails.attach(io: File.open(thumbnail_full_path), filename: "#{self.id}_#{i}_thumbnail.png", content_type: "image/png")
     thumbnail_url = Rails.application.routes.url_helpers.rails_blob_path(self.thumbnails.last, disposition: "attachment", only_path: true)
-    thumbnail_url
   end
 
 end
