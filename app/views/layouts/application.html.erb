@@ -18,12 +18,18 @@
           <main class="column">
             <div class="columns is-multiline">
               <div class="column is-fullwidth">
+                <% if notice.present? %>
+                <p class="notification">
+                  <button class="delete"></button>
+                  <%= notice %>
+                </p>
+                <% end %>
                 <%= yield %>
               </div>
             </div>
           </main>
         </div>
       </div>
-
+      <%= javascript_pack_tag 'bulma' %>
   </body>
 </html>
