@@ -24,6 +24,14 @@ class Encode < ApplicationRecord
     "hls/#{yyyy}/#{mm}/#{dd}/#{id}"
   end
 
+  def save_folder_path
+    "public/#{self.file_path}"
+  end
+
+  def playlist_m3u8_url base_url
+    "#{base_url}/#{self.file_path}/playlist.m3u8"
+  end
+
   def send_message message, log, percentage = "0%", thumbnail_url = nil
     log << message.to_s+"\n"
     ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename, thumbnail_url: thumbnail_url
@@ -69,13 +77,14 @@ class Encode < ApplicationRecord
     Time.at(seconds).utc.strftime("%H:%M:%S.%L")
   end
 
-  def extract_thumbnail runtime, temp_file_full_path, file_full_path, i
+  def extract_thumbnail runtime, uploaded_file_path, save_folder_path, i
     ss = self.rand_second(runtime)
-    thumbnail_full_path = "#{file_full_path}/#{i}_thumbnail.png"
-    thumbnail_cmd = `sh app/encoding/thumbnail.sh #{temp_file_full_path} #{ss} #{thumbnail_full_path}`
+    thumbnail_filename = "#{self.id}_#{i}_thumbnail.png"
+    thumbnail_full_path = "#{save_folder_path}/#{thumbnail_filename}"
+    thumbnail_cmd = `sh app/encoding/thumbnail.sh #{uploaded_file_path} #{ss} #{thumbnail_full_path}`
     Rails.logger.debug "thumbnail_cmd : #{thumbnail_cmd}"
     Rails.logger.debug "thumbnail full path : #{thumbnail_full_path}"
-    self.thumbnails.attach(io: File.open(thumbnail_full_path), filename: "#{self.id}_#{i}_thumbnail.png", content_type: "image/png")
+    self.thumbnails.attach(io: File.open(thumbnail_full_path), filename: thumbnail_filename, content_type: "image/png")
     thumbnail_url = Rails.application.routes.url_helpers.rails_blob_path(self.thumbnails.last, disposition: "attachment", only_path: true)
   end
 

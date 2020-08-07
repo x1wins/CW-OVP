@@ -6,12 +6,11 @@ class EncodeWorker
     encode = Encode.find(encode_id)
     if encode.file.attached?
       encode.file.open do |f|
-        temp_file_full_path = f.path
-        file_path = encode.file_path
-        file_full_path = "public/#{file_path}"
-
-        duration_output_cmd = `sh app/encoding/duration.sh #{temp_file_full_path}`
-        encoding_cmd = "sh app/encoding/hls_h264.sh #{file_full_path} #{temp_file_full_path}"
+        uploaded_file_path = f.path
+        save_folder_path = encode.save_folder_path
+        duration_output_cmd = `sh app/encoding/duration.sh #{uploaded_file_path}`
+        mkdir_cmd = `sh app/encoding/mkdir.sh #{save_folder_path}`
+        encoding_cmd = "sh app/encoding/hls_h264.sh #{save_folder_path} #{uploaded_file_path}"
         log = ""
         encode.update(runtime: duration_output_cmd)
         Open3.popen3(encoding_cmd) do |stdin, stdout, stderr, wait_thr|
@@ -29,26 +28,15 @@ class EncodeWorker
             end
           end
         end
-
-        playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{file_full_path}/`
-        url = "#{base_url}/#{file_path}/playlist.m3u8"
-        encode.update(log: log, ended_at: Time.now, completed: true, url: url)
+        playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{save_folder_path}/`
+        playlist_m3u8_url = encode.playlist_m3u8_url base_url
+        encode.update(log: log, ended_at: Time.now, completed: true, url: playlist_m3u8_url)
         encode.send_message "Transcoding Completed", log, "100%"
-
-        Sidekiq.logger.debug "temp file path : #{temp_file_full_path}"
-        Sidekiq.logger.debug "ffmpeg parameter : #{file_full_path} #{temp_file_full_path}"
+        Sidekiq.logger.debug "uploaded file path : #{uploaded_file_path}"
+        Sidekiq.logger.debug "ffmpeg parameter : #{save_folder_path} #{uploaded_file_path}"
         Sidekiq.logger.debug "output : #{duration_output_cmd}"
         Sidekiq.logger.debug "log : #{log}"
-        Sidekiq.logger.debug "full url : #{url}"
-
-        encode.send_message "Extracting Thumbnail Start", log, "100%"
-        for i in 1..Encode::THUMBNAIL_COUNT
-          thumbnail_url = encode.extract_thumbnail duration_output_cmd, temp_file_full_path, file_full_path, i
-          encode.send_message "Extracted #{i}th Thumbnail", log, "100%", thumbnail_url
-          if i == Encode::THUMBNAIL_COUNT
-            encode.send_message "Extracting Thumbnail Completed", log, "100%"
-          end
-        end
+        Sidekiq.logger.debug "playlist_m3u8_url : #{playlist_m3u8_url}"
       end
     end
   end
