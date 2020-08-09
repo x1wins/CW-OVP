@@ -8,7 +8,7 @@ class EncodeWorker
       encode.file.open do |f|
         uploaded_file_path = f.path
         save_folder_path = encode.save_folder_path_hls
-        runtime = `sh app/encoding/duration.sh #{uploaded_file_path}`
+        runtime = `sh app/encoding/runtime.sh #{uploaded_file_path}`
         mkdir_cmd = `sh app/encoding/mkdir.sh #{save_folder_path}`
         encoding_cmd = "sh app/encoding/hls_h264.sh #{save_folder_path} #{uploaded_file_path}"
         log = ""

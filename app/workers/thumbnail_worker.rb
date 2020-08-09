@@ -8,7 +8,7 @@ class ThumbnailWorker
       encode.file.open do |f|
         uploaded_file_path = f.path
         save_folder_path = encode.save_folder_path_thumbnail
-        runtime = `sh app/encoding/duration.sh #{uploaded_file_path}`
+        runtime = `sh app/encoding/runtime.sh #{uploaded_file_path}`
         mkdir_cmd = `sh app/encoding/mkdir.sh #{save_folder_path}`
         log = ""
         encode.send_message "Extracting Thumbnail Start", log, nil
