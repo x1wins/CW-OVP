@@ -1,4 +1,10 @@
 #!/bin/bash
+
+mkdir -p $1/360
+mkdir -p $1/480
+mkdir -p $1/720
+mkdir -p $1/1080
+
 echo "encoding start " $1 $2
 ffmpeg -hide_banner -loglevel debug -i $2 \
   -vf scale=w=-2:h=360 -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -hls_time 4 -hls_playlist_type vod  -b:v 800k -maxrate 856k -bufsize 1200k -b:a 96k -hls_segment_filename $1/360/360p_%03d.ts $1/360/playlist.m3u8 \

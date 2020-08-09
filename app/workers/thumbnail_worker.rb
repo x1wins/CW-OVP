@@ -7,7 +7,7 @@ class ThumbnailWorker
     if encode.file.attached?
       encode.file.open do |f|
         uploaded_file_path = f.path
-        save_folder_path = encode.save_folder_path
+        save_folder_path = encode.save_folder_path_thumbnail
         duration_output_cmd = `sh app/encoding/duration.sh #{uploaded_file_path}`
         mkdir_cmd = `sh app/encoding/mkdir.sh #{save_folder_path}`
         log = ""

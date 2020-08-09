@@ -16,20 +16,36 @@ class Encode < ApplicationRecord
     self.completed ||= false
   end
 
-  def file_path
+  def default_file_path
     yyyy = self.created_at.strftime("%Y")
     mm = self.created_at.strftime("%m")
     dd = self.created_at.strftime("%d")
     id = self.id
-    "encode/#{yyyy}/#{mm}/#{dd}/#{id}/hls"
+    "encode/#{yyyy}/#{mm}/#{dd}/#{id}"
   end
 
-  def save_folder_path
-    "public/#{self.file_path}"
+  def file_path_hls
+    "#{self.default_file_path}/hls"
+  end
+
+  def file_path_thumbnail
+    "#{self.default_file_path}/thumbnail"
+  end
+
+  def save_folder_path_hls
+    "public/#{self.file_path_hls}"
+  end
+  
+  def save_folder_path_thumbnail
+    "public/#{self.file_path_thumbnail}"
   end
 
   def playlist_m3u8_url base_url
-    "#{base_url}/#{self.file_path}/playlist.m3u8"
+    "#{base_url}/#{self.file_path_hls}/playlist.m3u8"
+  end
+
+  def thumbnail_url base_url
+    "#{base_url}/#{self.file_path_thumbnail}/playlist.m3u8"
   end
 
   def send_message message, log, percentage = "0%", thumbnail_url = nil
