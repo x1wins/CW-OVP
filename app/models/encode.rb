@@ -93,8 +93,7 @@ class Encode < ApplicationRecord
     Time.at(seconds).utc.strftime("%H:%M:%S.%L")
   end
 
-  def extract_thumbnail runtime, uploaded_file_path, save_folder_path, i
-    ss = self.rand_second(runtime)
+  def extract_thumbnail ss, uploaded_file_path, save_folder_path, i
     thumbnail_filename = "#{i}_#{ss.gsub(':', '_').gsub('.', '_')}.png"
     thumbnail_full_path = "#{save_folder_path}/#{thumbnail_filename}"
     thumbnail_cmd = `sh app/encoding/thumbnail.sh #{uploaded_file_path} #{ss} #{thumbnail_full_path}`
@@ -102,6 +101,14 @@ class Encode < ApplicationRecord
     Rails.logger.debug "thumbnail full path : #{thumbnail_full_path}"
     self.thumbnails.attach(io: File.open(thumbnail_full_path), filename: thumbnail_filename, content_type: "image/png")
     thumbnail_url = Rails.application.routes.url_helpers.rails_blob_path(self.thumbnails.last, disposition: "attachment", only_path: true)
+  end
+
+  def thumbnail_seconds runtime
+    ss_lists = []
+    for i in 1..Encode::THUMBNAIL_COUNT
+      ss_lists << self.rand_second(runtime)
+    end
+    ss_lists.sort_by(&:to_s)
   end
 
 end
