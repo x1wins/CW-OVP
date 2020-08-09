@@ -21,7 +21,7 @@ class Encode < ApplicationRecord
     mm = self.created_at.strftime("%m")
     dd = self.created_at.strftime("%d")
     id = self.id
-    "hls/#{yyyy}/#{mm}/#{dd}/#{id}"
+    "#{yyyy}/#{mm}/#{dd}/#{id}/hls"
   end
 
   def save_folder_path
