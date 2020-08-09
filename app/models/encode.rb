@@ -95,7 +95,7 @@ class Encode < ApplicationRecord
 
   def extract_thumbnail runtime, uploaded_file_path, save_folder_path, i
     ss = self.rand_second(runtime)
-    thumbnail_filename = "#{self.id}_#{i}_thumbnail.png"
+    thumbnail_filename = "#{i}_#{ss.gsub(':', '_').gsub('.', '_')}.png"
     thumbnail_full_path = "#{save_folder_path}/#{thumbnail_filename}"
     thumbnail_cmd = `sh app/encoding/thumbnail.sh #{uploaded_file_path} #{ss} #{thumbnail_full_path}`
     Rails.logger.debug "thumbnail_cmd : #{thumbnail_cmd}"
