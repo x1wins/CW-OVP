@@ -8,11 +8,11 @@ class EncodeWorker
       encode.file.open do |f|
         uploaded_file_path = f.path
         save_folder_path = encode.save_folder_path_hls
-        duration_output_cmd = `sh app/encoding/duration.sh #{uploaded_file_path}`
+        runtime = `sh app/encoding/duration.sh #{uploaded_file_path}`
         mkdir_cmd = `sh app/encoding/mkdir.sh #{save_folder_path}`
         encoding_cmd = "sh app/encoding/hls_h264.sh #{save_folder_path} #{uploaded_file_path}"
         log = ""
-        encode.update(runtime: duration_output_cmd)
+        encode.update(runtime: runtime)
         Open3.popen3(encoding_cmd) do |stdin, stdout, stderr, wait_thr|
           stdout.each do |line|
             Sidekiq.logger.debug "stdout: #{line}"
@@ -21,7 +21,7 @@ class EncodeWorker
               unless matched_time.kind_of?(Array)
                 status = matched_time[0]
                 now_time = matched_time[1]
-                percentage = encode.percentage(now_time.to_s, duration_output_cmd.to_s)
+                percentage = encode.percentage(now_time.to_s, runtime.to_s)
                 encode.send_message status, log, percentage
                 Sidekiq.logger.info status + " now_time:" + now_time
               end
@@ -34,7 +34,7 @@ class EncodeWorker
         encode.send_message "Transcoding Completed", log, "100%"
         Sidekiq.logger.debug "uploaded file path : #{uploaded_file_path}"
         Sidekiq.logger.debug "ffmpeg parameter : #{save_folder_path} #{uploaded_file_path}"
-        Sidekiq.logger.debug "output : #{duration_output_cmd}"
+        Sidekiq.logger.debug "output : #{runtime}"
         Sidekiq.logger.debug "log : #{log}"
         Sidekiq.logger.debug "playlist_m3u8_url : #{playlist_m3u8_url}"
       end
