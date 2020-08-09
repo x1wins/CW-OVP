@@ -23,7 +23,7 @@
 !/storage/.keep
 
 /public/assets
-/public/[0-9]{4,}
+/public/encode
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.
