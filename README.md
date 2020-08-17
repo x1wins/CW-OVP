@@ -153,7 +153,7 @@ OVP(online video platform)란<br/>
     4. ```docker-compose run --no-deps web bundle exec rake db:migrate RAILS_ENV=test```
     5. ```docker-compose run --no-deps web bundle exec rspec --format documentation```
 3. Restart for updated code
-    1. ```git pull origin develop```
+    1. ```git fetch origin develop```
     2. ```git reset --hard origin/develop```
     3. ```docker-compose restart web```
              
