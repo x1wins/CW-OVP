@@ -33,11 +33,11 @@ class Encode < ApplicationRecord
   end
 
   def save_folder_path_hls
-    "public/#{self.file_path_hls}"
+    "/storage/#{self.file_path_hls}"
   end
   
   def save_folder_path_thumbnail
-    "public/#{self.file_path_thumbnail}"
+    "/storage/#{self.file_path_thumbnail}"
   end
 
   def playlist_m3u8_url base_url
