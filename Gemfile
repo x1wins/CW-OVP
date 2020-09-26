@@ -63,3 +63,5 @@ group :test do
   gem 'factory_bot_rails'
   gem 'faker'
 end
+
+gem "aws-sdk-s3", require: false
