@@ -95,15 +95,17 @@ OVP(online video platform)란<br/>
         - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/Upload-file-to-S3-with-AWS-CLI-d12442012c
     4. how to made cloud front with AWS_CLOUDFRONT_DOMAIN 
         - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/using-cloud-front-with-s3-51d2eb17bb
-    5. open ```.env.dev.s3```. update below of code                                                              
-        ```
-            BACKUP_INTERVAL=2m
-            AWS_ACCESS_KEY_ID=change_id
-            AWS_SECRET_ACCESS_KEY=change_key
-            REGION=change_region (us-west-1 or us-west-2 or us-east-1...)
-            BUCKET=change_bucket
-            AWS_CLOUDFRONT_DOMAIN=https://sample.cloudfront.net
-        ```    
+    5. Make ```.env.dev.s3``` file in project
+        1. ```$ vim .env.dev.s3```
+        2. add below of code and update each value                                                              
+            ```
+                BACKUP_INTERVAL=2m
+                AWS_ACCESS_KEY_ID=change_id
+                AWS_SECRET_ACCESS_KEY=change_key
+                REGION=change_region (us-west-1 or us-west-2 or us-east-1...)
+                BUCKET=change_bucket
+                AWS_CLOUDFRONT_DOMAIN=https://sample.cloudfront.net
+            ```    
 
 ### How To Run Development mode
 1. Download source
