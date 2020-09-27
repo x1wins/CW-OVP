@@ -51,7 +51,7 @@ services:
       - cw_ovp_network
   s3vol:
     image: elementar/s3-volume
-    command: /data s3://vod-hls
+    command: "/data s3://${BUCKET}"
     env_file: .env.dev.s3
     volumes:
       - s3data:/data
