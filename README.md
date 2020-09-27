@@ -8,6 +8,7 @@
 * [Preview](#Preview)
 * [Roadmap](#Roadmap)
 * [Getting started](#Getting-started)
+    * [Storage config](#Storage-config)
     * [How To Run Development mode](#How-To-Run-Development-mode)
     * [How To Run Development mode with Docker-compose](#How-To-Run-Development-mode-with-Docker-compose)
 
@@ -67,6 +68,43 @@ OVP(online video platform)란<br/>
 * member
 
 ## Getting started
+### Storage config
+1. local stroage
+    1. open ```development.rb``` update below of code
+        ```
+            config.active_storage.service = :local
+        ```
+    2. path config. open ```encode.rb```
+        ```
+            def storage_path
+                "public"
+            end
+        ```        
+2. AWS S3 Storage
+    1. open ```development.rb``` update below of code
+        ```
+            config.active_storage.service = :amazon
+        ```
+    2. path config. open ```encode.rb```
+        ```
+           def storage_path
+               "/storage"
+           end
+        ```        
+    3. how to make s3 bucket and AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+        - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/Upload-file-to-S3-with-AWS-CLI-d12442012c
+    4. how to made cloud front with AWS_CLOUDFRONT_DOMAIN 
+        - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/using-cloud-front-with-s3-51d2eb17bb
+    5. open ```.env.dev.s3```. update below of code                                                              
+        ```
+            BACKUP_INTERVAL=2m
+            AWS_ACCESS_KEY_ID=change_id
+            AWS_SECRET_ACCESS_KEY=change_key
+            REGION=change_region (us-west-1 or us-west-2 or us-east-1...)
+            BUCKET=change_bucket
+            AWS_CLOUDFRONT_DOMAIN=https://sample.cloudfront.net
+        ```    
+
 ### How To Run Development mode
 1. Download source
     1. ```git clone https://github.com/x1wins/CW-OVP.git```
@@ -78,6 +116,7 @@ OVP(online video platform)란<br/>
             mkdir $HOME/docker/volumes/cw_ovp_development
             docker run --rm --name cw_ovp_development \
                   --env-file .env.dev.procfile \
+                  --env-file .env.dev.s3 \
                   -v $HOME/docker/volumes/cw_ovp_development:/var/lib/postgresql/data \
                   -p 5432:5432 -d postgres            
             rake db:migrate
