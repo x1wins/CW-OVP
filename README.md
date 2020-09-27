@@ -106,6 +106,10 @@ OVP(online video platform)란<br/>
                 BUCKET=change_bucket
                 AWS_CLOUDFRONT_DOMAIN=https://sample.cloudfront.net
             ```    
+        3. Check config
+            ```docker-compose --env-file .env.dev.s3 config```
+    6. Run              
+        ```docker-compose --env-file .env.dev.s3 up```   
 
 ### How To Run Development mode
 1. Download source
@@ -118,7 +122,6 @@ OVP(online video platform)란<br/>
             mkdir $HOME/docker/volumes/cw_ovp_development
             docker run --rm --name cw_ovp_development \
                   --env-file .env.dev.procfile \
-                  --env-file .env.dev.s3 \
                   -v $HOME/docker/volumes/cw_ovp_development:/var/lib/postgresql/data \
                   -p 5432:5432 -d postgres            
             rake db:migrate
@@ -136,7 +139,7 @@ OVP(online video platform)란<br/>
         > http://railscasts.com/episodes/281-foreman
         ```bash
             yarn install --check-files
-            bundle exec foreman start -e .env.dev.procfile    
+            bundle exec foreman start --env .env.dev.procfile,.env.dev.s3
         ```
 4. open your web browser and connect ```http://localhost:3000```       
 5. Testing
@@ -187,7 +190,7 @@ OVP(online video platform)란<br/>
     1. ```git clone https://github.com/x1wins/CW-OVP.git```
     2. ```cd ./CW-OVP```
 2. Start docker-compose    
-    1. ```docker-compose up --build -d```
+    1. ```docker-compose --env-file .env.dev.s3 up --build -d```
     2. ```docker-compose run --no-deps web bundle exec rails webpacker:install```
     3. ```docker-compose run --no-deps web bundle exec rake db:migrate```
     4. ```docker-compose run --no-deps web bundle exec rake db:create RAILS_ENV=test```
