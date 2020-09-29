@@ -8,6 +8,7 @@
 * [Preview](#Preview)
 * [Roadmap](#Roadmap)
 * [Getting started](#Getting-started)
+    * [Storage config](#Storage-config)
     * [How To Run Development mode](#How-To-Run-Development-mode)
     * [How To Run Development mode with Docker-compose](#How-To-Run-Development-mode-with-Docker-compose)
 
@@ -67,6 +68,50 @@ OVP(online video platform)란<br/>
 * member
 
 ## Getting started
+### Storage config
+1. local stroage
+    1. open ```development.rb``` update below of code
+        ```
+            config.active_storage.service = :local
+        ```
+    2. path config. open ```encode.rb```
+        ```
+            def storage_path
+                "public"
+            end
+        ```        
+2. AWS S3 Storage
+    1. open ```development.rb``` update below of code
+        ```
+            config.active_storage.service = :amazon
+        ```
+    2. path config. open ```encode.rb```
+        ```
+           def storage_path
+               "/storage"
+           end
+        ```        
+    3. how to make s3 bucket and AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+        - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/Upload-file-to-S3-with-AWS-CLI-d12442012c
+    4. how to made cloud front with AWS_CLOUDFRONT_DOMAIN 
+        - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/using-cloud-front-with-s3-51d2eb17bb
+    5. Update ```.env.dev.s3``` file for s3, cloudfront
+        1. open ```.env.dev.s3```
+        2. add below of code and update each value                                                              
+            ```
+                BACKUP_INTERVAL=2m
+                AWS_ACCESS_KEY_ID=[Change key id]
+                AWS_SECRET_ACCESS_KEY=[Change access key]
+                REGION=[Change region (us-west-1 or us-west-2 or us-east-1...)]  
+                BUCKET=[Change bucket]
+                CDN_BUCKET=[Change cdn bucket]
+                AWS_CLOUDFRONT_DOMAIN=[Change cdn domain]
+            ```    
+        3. Check config
+            ```docker-compose --env-file .env.dev.s3 config```
+    6. Run              
+        ```docker-compose --env-file .env.dev.s3 up```   
+
 ### How To Run Development mode
 1. Download source
     1. ```git clone https://github.com/x1wins/CW-OVP.git```
@@ -95,7 +140,7 @@ OVP(online video platform)란<br/>
         > http://railscasts.com/episodes/281-foreman
         ```bash
             yarn install --check-files
-            bundle exec foreman start -e .env.dev.procfile    
+            bundle exec foreman start --env .env.dev.procfile,.env.dev.s3
         ```
 4. open your web browser and connect ```http://localhost:3000```       
 5. Testing
@@ -146,7 +191,7 @@ OVP(online video platform)란<br/>
     1. ```git clone https://github.com/x1wins/CW-OVP.git```
     2. ```cd ./CW-OVP```
 2. Start docker-compose    
-    1. ```docker-compose up --build -d```
+    1. ```docker-compose --env-file .env.dev.s3 up --build -d```
     2. ```docker-compose run --no-deps web bundle exec rails webpacker:install```
     3. ```docker-compose run --no-deps web bundle exec rake db:migrate```
     4. ```docker-compose run --no-deps web bundle exec rake db:create RAILS_ENV=test```

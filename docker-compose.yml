@@ -23,7 +23,9 @@ services:
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
-    env_file: .env.dev.docker.compose
+    env_file:
+      - .env.dev.docker.compose
+      - .env.dev.s3
     volumes:
       - .:/myapp
       - ~/storage:/storage
@@ -37,14 +39,25 @@ services:
   sidekiq:
     build: .
     command: bundle exec sidekiq
-    env_file: .env.dev.docker.compose
+    env_file:
+      - .env.dev.docker.compose
+      - .env.dev.s3
     volumes:
       - .:/myapp
-      - ~/storage:/storage
+      - s3data:/storage
     depends_on:
       - redis
     networks:
       - cw_ovp_network
+  s3vol:
+    image: elementar/s3-volume
+    command: "/data s3://${CDN_BUCKET}"
+    env_file: .env.dev.s3
+    volumes:
+      - s3data:/data
 networks:
   cw_ovp_network:
     driver: bridge
+volumes:
+  s3data:
+    driver: local
