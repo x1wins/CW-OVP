@@ -6,6 +6,7 @@ services:
 before_install:
   - docker -v
   - docker-compose -v
+  - docker-compose --env-file .env.dev.s3 config
 
 install:
   - docker-compose --env-file .env.dev.s3 build
