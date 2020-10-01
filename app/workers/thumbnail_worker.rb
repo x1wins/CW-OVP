@@ -2,7 +2,7 @@ class ThumbnailWorker
   include Sidekiq::Worker
   sidekiq_options retry: false # job will be discarded if it fails
 
-  def perform(encode_id)
+  def perform(encode_id, base_url)
     encode = Encode.find(encode_id)
     if encode.file.attached?
       encode.file.open do |f|
@@ -15,8 +15,14 @@ class ThumbnailWorker
         thumbnail_seconds = encode.thumbnail_seconds runtime
         for i in 1..Encode::THUMBNAIL_COUNT
           ss = thumbnail_seconds[i-1]
-          thumbnail_url = encode.extract_thumbnail ss, uploaded_file_path, save_folder_path, i
-          encode.send_message "Extracted #{i}th Thumbnail", log, nil, thumbnail_url
+          thumbnail_filename = encode.thumbnail_filename ss, i
+          thumbnail_full_path = "#{save_folder_path}/#{thumbnail_filename}"
+          thumbnail_cmd = `sh app/encoding/thumbnail.sh #{uploaded_file_path} #{ss} #{thumbnail_full_path}`
+          thumbnail_url = encode.thumbnail_url base_url, thumbnail_filename
+          encode.assets.create(format: 'image', url: thumbnail_url)
+          encode.thumbnails.attach(io: File.open(thumbnail_full_path), filename: thumbnail_filename, content_type: "image/png")
+          thumbnail_rails_url = Rails.application.routes.url_helpers.rails_blob_path(encode.thumbnails.last, disposition: "attachment", only_path: true)
+          encode.send_message "Extracted #{i}th Thumbnail", log, nil, thumbnail_rails_url
           if i == Encode::THUMBNAIL_COUNT
             encode.send_message "Extracting Thumbnail Completed", log, nil
           end

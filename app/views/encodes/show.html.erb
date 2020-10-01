@@ -40,6 +40,12 @@
               <td>Url</td>
               <td id="url"><%= @encode.url %></td>
             </tr>
+            <% @encode.assets.each { |t| %>
+              <tr>
+                <td><%= t.format %></td>
+                <td id="url"><%= t.url %></td>
+              </tr>
+            <% } %>
             <tr>
               <td>Completed</td>
               <td id="completed"><%= @encode.completed %></td>

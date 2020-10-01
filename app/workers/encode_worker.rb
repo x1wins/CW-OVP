@@ -29,14 +29,15 @@ class EncodeWorker
           end
         end
         playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{save_folder_path}/`
-        playlist_m3u8_url = encode.playlist_m3u8_url base_url
-        encode.update(log: log, ended_at: Time.now, completed: true, url: playlist_m3u8_url)
+        video_url = encode.video_url base_url
+        encode.update(log: log, ended_at: Time.now, completed: true, url: video_url)
+        encode.assets.create(format: 'video', url: video_url)
         encode.send_message "Transcoding Completed", log, "100%"
         Sidekiq.logger.debug "uploaded file path : #{uploaded_file_path}"
         Sidekiq.logger.debug "ffmpeg parameter : #{save_folder_path} #{uploaded_file_path}"
         Sidekiq.logger.debug "output : #{runtime}"
         Sidekiq.logger.debug "log : #{log}"
-        Sidekiq.logger.debug "playlist_m3u8_url : #{playlist_m3u8_url}"
+        Sidekiq.logger.debug "video_url : #{video_url}"
       end
     end
   end
