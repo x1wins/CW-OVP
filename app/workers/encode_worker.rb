@@ -33,7 +33,17 @@ class EncodeWorker
         encode.update(log: log, ended_at: Time.now, completed: true, url: video_url)
         encode.assets.create(format: 'video', url: video_url)
         encode.send_message "Transcoding Completed", log, "100%"
-        Sidekiq.logger.debug "uploaded file path : #{uploaded_file_path}"
+
+        save_folder_path_thumbnail = encode.save_folder_path_thumbnail
+        save_folder_path_hls = encode.save_folder_path_hls
+        file_path_thumbnail = encode.file_path_thumbnail
+        file_path_hls = encode.file_path_hls
+        cdn_bucket = ENV['CDN_BUCKET']
+        cp_hls_to_cdn_cmd = `sh app/encoding/cp.sh #{cdn_bucket} #{file_path_hls} #{save_folder_path_hls}`
+        cp_thumbnail_to_cdn_cmd = `sh app/encoding/cp.sh #{cdn_bucket} #{file_path_thumbnail} #{save_folder_path_thumbnail}`
+
+        Sidekiq.logger.debug "cp_hls_to_cdn_cmd : #{cp_hls_to_cdn_cmd}"
+        Sidekiq.logger.debug "cp_thumbnail_to_cdn_cmd : #{cp_thumbnail_to_cdn_cmd}"
         Sidekiq.logger.debug "ffmpeg parameter : #{save_folder_path} #{uploaded_file_path}"
         Sidekiq.logger.debug "output : #{runtime}"
         Sidekiq.logger.debug "log : #{log}"
