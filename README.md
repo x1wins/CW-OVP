@@ -202,3 +202,8 @@ OVP(online video platform)란<br/>
     2. ```git reset --hard origin/develop```
     3. ```docker-compose restart web```
              
+
+RUN pip install awscli
+RUN --mount=type=secret,id=aws,target=/root/.aws/credentials aws s3 cp s3://... ...
+https://stackoverflow.com/questions/36354423/which-is-the-best-way-to-pass-aws-credentials-to-docker-container
+https://stackoverflow.com/questions/61918972/how-to-install-aws-cli-on-alpine
