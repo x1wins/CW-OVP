@@ -32,8 +32,7 @@ class ThumbnailWorker
       cdn_bucket = ENV['CDN_BUCKET']
       thumbnail_relative_path = encode.thumbnail_relative_path
       thumbnail_local_full_path = encode.thumbnail_local_full_path
-      encode_dir_full_path = encode.encode_dir_full_path
-      move_thumbnail_to_cdn_cmd = `sh app/encoding/mv.sh #{cdn_bucket} #{thumbnail_relative_path} #{thumbnail_local_full_path} #{encode_dir_full_path}`
+      move_thumbnail_to_cdn_cmd = `sh app/encoding/mv.sh #{cdn_bucket} #{thumbnail_relative_path} #{thumbnail_local_full_path}`
       Sidekiq.logger.debug "move_thumbnail_to_cdn_cmd : #{move_thumbnail_to_cdn_cmd}"
       message = ""
       for asset in encode.assets

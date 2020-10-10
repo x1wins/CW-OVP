@@ -37,8 +37,7 @@ class EncodeWorker
         cdn_bucket = ENV['CDN_BUCKET']
         hls_relative_path = encode.hls_relative_path
         hls_local_full_path = encode.hls_local_full_path
-        encode_dir_full_path = encode.encode_dir_full_path
-        move_hls_to_cdn_cmd = `sh app/encoding/mv.sh #{cdn_bucket} #{hls_relative_path} #{hls_local_full_path} #{encode_dir_full_path}`
+        move_hls_to_cdn_cmd = `sh app/encoding/mv.sh #{cdn_bucket} #{hls_relative_path} #{hls_local_full_path}`
         encode.send_message "Copy HLS path to AWS S3", log, "100%", nil
 
         Sidekiq.logger.debug "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
