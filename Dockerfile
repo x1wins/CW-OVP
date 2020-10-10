@@ -5,6 +5,16 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get update && \
     apt-get install -qq -y build-essential nodejs yarn vim \
     libpq-dev postgresql-client ffmpeg
+RUN apt-get update && \
+    apt-get install -y \
+        python3 \
+        python3-pip \
+        python3-setuptools \
+        groff \
+        less \
+    && pip3 install --upgrade pip \
+    && apt-get clean
+RUN pip3 --no-cache-dir install --upgrade awscli
 RUN mkdir /myapp
 RUN mkdir /storage
 WORKDIR /myapp

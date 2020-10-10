@@ -44,20 +44,11 @@ services:
       - .env.dev.s3
     volumes:
       - .:/myapp
-      - s3data:/storage
+      - ~/storage:/storage
     depends_on:
       - redis
     networks:
       - cw_ovp_network
-  s3vol:
-    image: elementar/s3-volume
-    command: "/data s3://${CDN_BUCKET}"
-    env_file: .env.dev.s3
-    volumes:
-      - s3data:/data
 networks:
   cw_ovp_network:
     driver: bridge
-volumes:
-  s3data:
-    driver: local

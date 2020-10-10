@@ -2,6 +2,7 @@ class Encode < ApplicationRecord
   belongs_to :user
   has_one_attached :file
   has_many_attached :thumbnails
+  has_many :assets
   validates :title, presence: true
   validate :file_format
   scope :published, -> { where(published: true) }
@@ -45,13 +46,17 @@ class Encode < ApplicationRecord
     # "public"
   end
 
-  def playlist_m3u8_url base_url
+  def video_url base_url
     "#{base_url}/#{self.file_path_hls}/playlist.m3u8"
   end
 
-  def send_message message, log, percentage = "0%", thumbnail_url = nil
+  def thumbnail_url base_url, filename
+    "#{base_url}/#{self.file_path_thumbnail}/#{filename}"
+  end
+
+  def send_message message, log, percentage = "0%", thumbnail_url = nil, type = nil
     log << message.to_s+"\n"
-    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename, thumbnail_url: thumbnail_url
+    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename, thumbnail_url: thumbnail_url, type: type
     Rails.logger.debug "percentage: #{percentage}"
   end
 
@@ -94,14 +99,8 @@ class Encode < ApplicationRecord
     Time.at(seconds).utc.strftime("%H:%M:%S.%L")
   end
 
-  def extract_thumbnail ss, uploaded_file_path, save_folder_path, i
-    thumbnail_filename = "#{i}_#{ss.gsub(':', '_').gsub('.', '_')}.png"
-    thumbnail_full_path = "#{save_folder_path}/#{thumbnail_filename}"
-    thumbnail_cmd = `sh app/encoding/thumbnail.sh #{uploaded_file_path} #{ss} #{thumbnail_full_path}`
-    Rails.logger.debug "thumbnail_cmd : #{thumbnail_cmd}"
-    Rails.logger.debug "thumbnail full path : #{thumbnail_full_path}"
-    self.thumbnails.attach(io: File.open(thumbnail_full_path), filename: thumbnail_filename, content_type: "image/png")
-    thumbnail_url = Rails.application.routes.url_helpers.rails_blob_path(self.thumbnails.last, disposition: "attachment", only_path: true)
+  def thumbnail_filename ss, i
+    "#{i}_#{ss.gsub(':', '_').gsub('.', '_')}.png"
   end
 
   def thumbnail_seconds runtime

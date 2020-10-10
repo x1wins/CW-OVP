@@ -29,14 +29,22 @@ class EncodeWorker
           end
         end
         playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{save_folder_path}/`
-        playlist_m3u8_url = encode.playlist_m3u8_url base_url
-        encode.update(log: log, ended_at: Time.now, completed: true, url: playlist_m3u8_url)
+        video_url = encode.video_url base_url
+        encode.update(log: log, ended_at: Time.now, completed: true, url: video_url)
+        encode.assets.create(format: 'video', url: video_url)
         encode.send_message "Transcoding Completed", log, "100%"
-        Sidekiq.logger.debug "uploaded file path : #{uploaded_file_path}"
+
+        save_folder_path_hls = encode.save_folder_path_hls
+        file_path_hls = encode.file_path_hls
+        cdn_bucket = ENV['CDN_BUCKET']
+        cp_hls_to_cdn_cmd = `sh app/encoding/cp.sh #{cdn_bucket} #{file_path_hls} #{save_folder_path_hls}`
+        encode.send_message "Copy HLS path to AWS S3", log, "100%", nil
+
+        Sidekiq.logger.debug "cp_hls_to_cdn_cmd : #{cp_hls_to_cdn_cmd}"
         Sidekiq.logger.debug "ffmpeg parameter : #{save_folder_path} #{uploaded_file_path}"
         Sidekiq.logger.debug "output : #{runtime}"
         Sidekiq.logger.debug "log : #{log}"
-        Sidekiq.logger.debug "playlist_m3u8_url : #{playlist_m3u8_url}"
+        Sidekiq.logger.debug "video_url : #{video_url}"
       end
     end
   end

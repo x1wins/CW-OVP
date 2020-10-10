@@ -86,7 +86,14 @@ consumer.subscriptions.create("EncodeChannel", {
     var encode_id = document.getElementById("encode_id");
     var received_encode_id = data.encode_id;
     if(logs_table && encode_id && (encode_id.value == received_encode_id)){
-      addThumbnailInShow(data.thumbnail_url)
+      console.log("data.type:"+data.type);
+      if(data.type == 'cp_thumbnail'){
+        console.log("asset.url " + data.content);
+        var thumbnail = document.getElementById("thumbnail");
+        thumbnail.innerHTML = data.content;
+        return
+      }
+      addThumbnailInShow(data.thumbnail_url);
       encode = data.encode;
       var runtime = document.getElementById("runtime");
       runtime.innerHTML = encode.runtime;

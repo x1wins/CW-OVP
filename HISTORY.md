@@ -126,3 +126,11 @@ Open3.popen3("yes | head -10") do |_,out,_,_|
   end
 end
 ```
+
+```bash
+rails g model asset format:string url:string encode:references 
+
+docker-compose run --no-deps web bundle exec rails g model asset format:string url:string encode:references
+docker-compose run --no-deps web bundle exec rake db:migrate
+
+```
