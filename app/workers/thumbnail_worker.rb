@@ -28,6 +28,11 @@ class ThumbnailWorker
           end
         end
       end
+      save_folder_path_thumbnail = encode.save_folder_path_thumbnail
+      file_path_thumbnail = encode.file_path_thumbnail
+      cdn_bucket = ENV['CDN_BUCKET']
+      cp_thumbnail_to_cdn_cmd = `sh app/encoding/cp.sh #{cdn_bucket} #{file_path_thumbnail} #{save_folder_path_thumbnail}`
+      Sidekiq.logger.debug "cp_thumbnail_to_cdn_cmd : #{cp_thumbnail_to_cdn_cmd}"
     end
   end
 end
