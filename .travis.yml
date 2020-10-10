@@ -1,18 +1,29 @@
 language: ruby
 
+env:
+  global:
+    - BACKUP_INTERVAL=2m
+    - AWS_ACCESS_KEY_ID=Change
+    - AWS_SECRET_ACCESS_KEY=Change
+    - REGION=Change
+    - BUCKET=Change
+    - CDN_BUCKET=Change
+    - AWS_CLOUDFRONT_DOMAIN=Change
+
 services:
   - docker
 
 before_install:
   - docker -v
   - docker-compose -v
+  - docker-compose config
 
 install:
-  - docker-compose --env-file .env.dev.s3 build
+  - docker-compose build
 
 before_script:
   - docker-compose run --rm --no-deps web echo 'Gems now pre-installed.'
-  - docker-compose --env-file .env.dev.s3 up -d
+  - docker-compose up -d
   - docker ps
   - docker-compose run --no-deps web bundle exec rake db:migrate
   - docker-compose run --no-deps web bundle exec rake db:create RAILS_ENV=test

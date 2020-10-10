@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/x1wins/CW-OVP.svg?branch=develop)](https://travis-ci.com/x1wins/CW-OVP)
+[![Build Status](https://travis-ci.com/x1wins/CW-OVP.svg?branch=master)](https://travis-ci.com/x1wins/CW-OVP)
 
 # CW-OVP
 * [Introduction](#Introduction)
