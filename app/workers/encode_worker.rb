@@ -37,10 +37,10 @@ class EncodeWorker
         save_folder_path_hls = encode.save_folder_path_hls
         file_path_hls = encode.file_path_hls
         cdn_bucket = ENV['CDN_BUCKET']
-        cp_hls_to_cdn_cmd = `sh app/encoding/cp.sh #{cdn_bucket} #{file_path_hls} #{save_folder_path_hls}`
+        move_hls_to_cdn_cmd = `sh app/encoding/mv.sh #{cdn_bucket} #{file_path_hls} #{save_folder_path_hls}`
         encode.send_message "Copy HLS path to AWS S3", log, "100%", nil
 
-        Sidekiq.logger.debug "cp_hls_to_cdn_cmd : #{cp_hls_to_cdn_cmd}"
+        Sidekiq.logger.debug "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
         Sidekiq.logger.debug "ffmpeg parameter : #{save_folder_path} #{uploaded_file_path}"
         Sidekiq.logger.debug "output : #{runtime}"
         Sidekiq.logger.debug "log : #{log}"
