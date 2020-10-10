@@ -7,20 +7,20 @@ class ThumbnailWorker
     if encode.file.attached?
       encode.file.open do |f|
         uploaded_file_path = f.path
-        save_folder_path = encode.save_folder_path_thumbnail
+        thumbnail_local_full_path = encode.thumbnail_local_full_path
         runtime = `sh app/encoding/runtime.sh #{uploaded_file_path}`
-        mkdir_cmd = `sh app/encoding/mkdir.sh #{save_folder_path}`
+        mkdir_cmd = `sh app/encoding/mkdir.sh #{thumbnail_local_full_path}`
         log = ""
         encode.send_message "Extracting Thumbnail Start", log, nil
         thumbnail_seconds = encode.thumbnail_seconds runtime
         for i in 1..Encode::THUMBNAIL_COUNT
           ss = thumbnail_seconds[i-1]
           thumbnail_filename = encode.thumbnail_filename ss, i
-          thumbnail_full_path = "#{save_folder_path}/#{thumbnail_filename}"
-          thumbnail_cmd = `sh app/encoding/thumbnail.sh #{uploaded_file_path} #{ss} #{thumbnail_full_path}`
+          thumbnail_file_full_path = "#{thumbnail_local_full_path}/#{thumbnail_filename}"
+          thumbnail_cmd = `sh app/encoding/thumbnail.sh #{uploaded_file_path} #{ss} #{thumbnail_file_full_path}`
           thumbnail_url = encode.thumbnail_url base_url, thumbnail_filename
           encode.assets.create(format: 'image', url: thumbnail_url)
-          encode.thumbnails.attach(io: File.open(thumbnail_full_path), filename: thumbnail_filename, content_type: "image/png")
+          encode.thumbnails.attach(io: File.open(thumbnail_file_full_path), filename: thumbnail_filename, content_type: "image/png")
           thumbnail_rails_url = Rails.application.routes.url_helpers.rails_blob_path(encode.thumbnails.last, disposition: "attachment", only_path: true)
           encode.send_message "Extracted #{i}th Thumbnail", log, nil, thumbnail_rails_url
           if i == Encode::THUMBNAIL_COUNT
@@ -28,10 +28,12 @@ class ThumbnailWorker
           end
         end
       end
-      save_folder_path_thumbnail = encode.save_folder_path_thumbnail
-      file_path_thumbnail = encode.file_path_thumbnail
+
       cdn_bucket = ENV['CDN_BUCKET']
-      move_thumbnail_to_cdn_cmd = `sh app/encoding/mv.sh #{cdn_bucket} #{file_path_thumbnail} #{save_folder_path_thumbnail}`
+      thumbnail_relative_path = encode.thumbnail_relative_path
+      thumbnail_local_full_path = encode.thumbnail_local_full_path
+      encode_dir_full_path = encode.encode_dir_full_path
+      move_thumbnail_to_cdn_cmd = `sh app/encoding/mv.sh #{cdn_bucket} #{thumbnail_relative_path} #{thumbnail_local_full_path} #{encode_dir_full_path}`
       Sidekiq.logger.debug "move_thumbnail_to_cdn_cmd : #{move_thumbnail_to_cdn_cmd}"
       message = ""
       for asset in encode.assets

@@ -7,10 +7,10 @@ class EncodeWorker
     if encode.file.attached?
       encode.file.open do |f|
         uploaded_file_path = f.path
-        save_folder_path = encode.save_folder_path_hls
+        hls_local_full_path = encode.hls_local_full_path
         runtime = `sh app/encoding/runtime.sh #{uploaded_file_path}`
-        mkdir_cmd = `sh app/encoding/mkdir.sh #{save_folder_path}`
-        encoding_cmd = "sh app/encoding/hls_h264.sh #{save_folder_path} #{uploaded_file_path}"
+        mkdir_cmd = `sh app/encoding/mkdir.sh #{hls_local_full_path}`
+        encoding_cmd = "sh app/encoding/hls_h264.sh #{hls_local_full_path} #{uploaded_file_path}"
         log = ""
         encode.update(runtime: runtime)
         Open3.popen3(encoding_cmd) do |stdin, stdout, stderr, wait_thr|
@@ -28,20 +28,21 @@ class EncodeWorker
             end
           end
         end
-        playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{save_folder_path}/`
+        playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{hls_local_full_path}/`
         video_url = encode.video_url base_url
         encode.update(log: log, ended_at: Time.now, completed: true, url: video_url)
         encode.assets.create(format: 'video', url: video_url)
         encode.send_message "Transcoding Completed", log, "100%"
 
-        save_folder_path_hls = encode.save_folder_path_hls
-        file_path_hls = encode.file_path_hls
         cdn_bucket = ENV['CDN_BUCKET']
-        move_hls_to_cdn_cmd = `sh app/encoding/mv.sh #{cdn_bucket} #{file_path_hls} #{save_folder_path_hls}`
+        hls_relative_path = encode.hls_relative_path
+        hls_local_full_path = encode.hls_local_full_path
+        encode_dir_full_path = encode.encode_dir_full_path
+        move_hls_to_cdn_cmd = `sh app/encoding/mv.sh #{cdn_bucket} #{hls_relative_path} #{hls_local_full_path} #{encode_dir_full_path}`
         encode.send_message "Copy HLS path to AWS S3", log, "100%", nil
 
         Sidekiq.logger.debug "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
-        Sidekiq.logger.debug "ffmpeg parameter : #{save_folder_path} #{uploaded_file_path}"
+        Sidekiq.logger.debug "ffmpeg parameter : #{hls_local_full_path} #{uploaded_file_path}"
         Sidekiq.logger.debug "output : #{runtime}"
         Sidekiq.logger.debug "log : #{log}"
         Sidekiq.logger.debug "video_url : #{video_url}"
