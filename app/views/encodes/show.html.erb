@@ -37,15 +37,21 @@
               <td id="ended_at"><%= @encode.ended_at %></td>
             </tr>
             <tr>
-              <td>Url</td>
+              <td>Video</td>
               <td id="url"><%= @encode.url %></td>
             </tr>
-            <% @encode.assets.each { |t| %>
-              <tr>
-                <td><%= t.format %></td>
-                <td id="url"><%= t.url %></td>
-              </tr>
-            <% } %>
+
+            <tr>
+              <td>Thumbnail</td>
+              <td id="thumbnail">
+                <% @encode.assets.each { |t| %>
+                  <% if t.format == 'image' %>
+                    <%= t.url %><br/>
+                  <% end %>
+                <% } %>
+                </td>
+            </tr>
+
             <tr>
               <td>Completed</td>
               <td id="completed"><%= @encode.completed %></td>

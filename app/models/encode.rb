@@ -54,9 +54,9 @@ class Encode < ApplicationRecord
     "#{base_url}/#{self.file_path_thumbnail}/#{filename}"
   end
 
-  def send_message message, log, percentage = "0%", thumbnail_url = nil
+  def send_message message, log, percentage = "0%", thumbnail_url = nil, type = nil
     log << message.to_s+"\n"
-    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename, thumbnail_url: thumbnail_url
+    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename, thumbnail_url: thumbnail_url, type: type
     Rails.logger.debug "percentage: #{percentage}"
   end
 
