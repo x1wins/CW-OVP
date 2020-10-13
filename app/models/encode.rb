@@ -17,28 +17,36 @@ class Encode < ApplicationRecord
     self.completed ||= false
   end
 
-  def default_file_path
+  def yyyy_mm_dd_id_dir
     yyyy = self.created_at.strftime("%Y")
     mm = self.created_at.strftime("%m")
     dd = self.created_at.strftime("%d")
     id = self.id
-    "encode/#{yyyy}/#{mm}/#{dd}/#{id}"
+    "#{yyyy}/#{mm}/#{dd}/#{id}"
   end
 
-  def file_path_hls
-    "#{self.default_file_path}/hls"
+  def hls_relative_path
+    "#{self.encode_dir}/#{self.yyyy_mm_dd_id_dir}/hls"
   end
 
-  def file_path_thumbnail
-    "#{self.default_file_path}/thumbnail"
+  def thumbnail_relative_path
+    "#{self.encode_dir}/#{self.yyyy_mm_dd_id_dir}/thumbnail"
   end
 
-  def save_folder_path_hls
-    "#{self.storage_path}/#{self.file_path_hls}"
+  def hls_local_full_path
+    "#{self.storage_path}/#{self.hls_relative_path}"
   end
   
-  def save_folder_path_thumbnail
-    "#{self.storage_path}/#{self.file_path_thumbnail}"
+  def thumbnail_local_full_path
+    "#{self.storage_path}/#{self.thumbnail_relative_path}"
+  end
+
+  def encode_dir_full_path
+    "#{self.storage_path}/#{self.encode_dir}"
+  end
+
+  def encode_dir
+    "encode"
   end
 
   def storage_path
@@ -47,11 +55,11 @@ class Encode < ApplicationRecord
   end
 
   def video_url base_url
-    "#{base_url}/#{self.file_path_hls}/playlist.m3u8"
+    "#{base_url}/#{self.hls_relative_path}/playlist.m3u8"
   end
 
   def thumbnail_url base_url, filename
-    "#{base_url}/#{self.file_path_thumbnail}/#{filename}"
+    "#{base_url}/#{self.thumbnail_relative_path}/#{filename}"
   end
 
   def send_message message, log, percentage = "0%", thumbnail_url = nil, type = nil
