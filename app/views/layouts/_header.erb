@@ -1,7 +1,10 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="<%= root_path %>">
-      <img src="<%= image_url('CW_OVP_LOGO_200x200.png') %>" height="28">
+      <%
+        web_logo_url = ENV['WEB_LOGO_URL'].blank? ? image_url('CW_OVP_LOGO_200x200.png') : ENV['WEB_LOGO_URL']
+      %>
+      <img src="<%= web_logo_url %>" height="28">
     </a>
     <a class="navbar-item" href="<%= root_path %>">
       <%= ENV['WEB_TITLE'] %>
@@ -29,7 +32,5 @@
         </div>
       </div>
     </div>
-
-
   </div>
 </nav>
