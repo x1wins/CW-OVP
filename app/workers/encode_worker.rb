@@ -37,7 +37,25 @@ class EncodeWorker
         cdn_bucket = ENV['CDN_BUCKET']
         hls_relative_path = encode.hls_relative_path
         hls_local_full_path = encode.hls_local_full_path
-        move_hls_to_cdn_cmd = `sh app/encoding/mv.sh #{cdn_bucket} #{hls_relative_path} #{hls_local_full_path}`
+        move_hls_to_cdn_cmd = "sh app/encoding/mv.sh #{cdn_bucket} #{hls_relative_path} #{hls_local_full_path}"
+        Sidekiq.logger.info "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
+        Open3.popen3(move_hls_to_cdn_cmd) do |stdin, stdout, stderr, wait_thr|
+          stdout.each do |line|
+            Sidekiq.logger.info "aws mv: #{line}"
+            matched_time = line.to_s.match(/Completed \d+.\d+ \w+\/\d+.\d+ \w+ \(\d+.\d+ \w+\/s\) with (\d+) file\(s\) remaining/)
+            unless matched_time.nil?
+              unless matched_time.kind_of?(Array)
+                status = matched_time[0]
+                file_number = matched_time[1]
+                encode.send_message status, log, nil
+                if file_number.to_i == 1
+                  encode.send_message "Completed Move Local File To AWS S3", log, nil
+                end
+              end
+            end
+          end
+        end
+
         encode.send_message "Copy HLS path to AWS S3", log, "100%", nil
 
         Sidekiq.logger.debug "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
