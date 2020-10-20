@@ -42,14 +42,14 @@ class EncodeWorker
         Open3.popen3(move_hls_to_cdn_cmd) do |stdin, stdout, stderr, wait_thr|
           stdout.each do |line|
             Sidekiq.logger.info "aws mv: #{line}"
-            matched_time = line.to_s.match(/Completed .+ with (\d+) file.+ remaining/)
+            matched_time = line.to_s.match(/Completed \d+.\d+ \w+\/\d+.\d+ \w+ \(\d+.\d+ \w+\/s\) with (\d+) file\(s\) remaining/)
             unless matched_time.nil?
               unless matched_time.kind_of?(Array)
                 status = matched_time[0]
                 file_number = matched_time[1]
                 encode.send_message status, log, nil
                 if file_number.to_i == 1
-                  encode.send_message "Move file To AWS S3  Completed", log, nil
+                  encode.send_message "Completed Move Local File To AWS S3", log, nil
                 end
               end
             end
