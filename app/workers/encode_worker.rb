@@ -44,7 +44,7 @@ class EncodeWorker
             unless matched_time.nil?
               unless matched_time.kind_of?(Array)
                 status = matched_time[0]
-                file_number = matched_time[1].to_i
+                file_number = matched_time[1].to_i - 1
                 if index == 0
                   total_file_count = file_number
                 end
