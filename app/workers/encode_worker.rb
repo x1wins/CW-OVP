@@ -49,10 +49,10 @@ class EncodeWorker
                   total_file_count = file_number
                 end
                 percentage = 50 + encode.cdn_cp_half_percentage(total_file_count, file_number)
-                encode.send_message status, log, encode.percentage_to_s(percentage)
-                if file_number.to_i == 1
-                  encode.send_message "Completed Move Local File To AWS S3", log, encode.percentage_to_s(percentage)
+                if file_number.to_i == 0
+                  status = "Completed Move Local File To AWS S3"
                 end
+                encode.send_message status, log, encode.percentage_to_s(percentage)
               end
             end
           end
