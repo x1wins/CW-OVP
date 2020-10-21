@@ -200,7 +200,11 @@ OVP(online video platform)란<br/>
 3. Restart for updated code
     1. ```git fetch origin develop```
     2. ```git reset --hard origin/develop```
-    3. ```docker-compose restart web```
+    3. Restart web, sidekiq
+        ```
+        docker-compose --env-file .env.dev.s3 restart web
+        docker-compose --env-file .env.dev.s3 restart sidekiq
+        ```
              
 
 RUN pip install awscli
