@@ -49,9 +49,6 @@ class EncodeWorker
                   total_file_count = file_number
                 end
                 percentage = 50 + encode.cdn_cp_half_percentage(total_file_count, file_number)
-                if file_number.to_i == 0
-                  status = "Completed Move Local File To AWS S3"
-                end
                 encode.send_message status, log, encode.percentage_to_s(percentage)
               end
             end
@@ -61,6 +58,7 @@ class EncodeWorker
         video_url = encode.video_url base_url
         encode.update(log: log, ended_at: Time.now, completed: true, url: video_url)
         encode.assets.create(format: 'video', url: video_url)
+        encode.send_message "Completed Move Local File To AWS S3", log, "100%"
 
         Sidekiq.logger.debug "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
         Sidekiq.logger.debug "ffmpeg parameter : #{hls_local_full_path} #{uploaded_file_path}"
