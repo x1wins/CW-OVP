@@ -56,8 +56,6 @@ class EncodeWorker
           end
         end
 
-        encode.send_message "Copy HLS path to AWS S3", log, "100%", nil
-
         Sidekiq.logger.debug "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
         Sidekiq.logger.debug "ffmpeg parameter : #{hls_local_full_path} #{uploaded_file_path}"
         Sidekiq.logger.debug "output : #{runtime}"
