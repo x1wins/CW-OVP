@@ -21,8 +21,8 @@ class EncodeWorker
               unless matched_time.kind_of?(Array)
                 status = matched_time[0]
                 now_time = matched_time[1]
-                percentage = encode.encode_percentage_to_s(now_time.to_s, runtime.to_s)
-                encode.send_message status, log, percentage
+                percentage = encode.encode_half_percentage(now_time.to_s, runtime.to_s)
+                encode.send_message status, log, encode.percentage_to_s(percentage)
                 Sidekiq.logger.info status + " now_time:" + now_time
               end
             end
