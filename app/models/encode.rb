@@ -69,30 +69,33 @@ class Encode < ApplicationRecord
   end
 
   def cdn_cp_percentage total_file_count, file_number
-    percentage = ((total_file_count - file_number).to_f / total_file_count.to_f * 100).truncate(2)
-    percentage
+    ((total_file_count - file_number).to_f / total_file_count.to_f * 100)
   end
 
   def encode_percentage now_time = nil, total_time = nil
     if now_time.nil? or total_time.nil?
       percentage = 0
     else
-      percentage = (self.convert_to_second(now_time) / self.convert_to_second(total_time) * 100).truncate(2)
+      percentage = (self.convert_to_second(now_time) / self.convert_to_second(total_time) * 100)
       percentage = 100 if percentage > 100
     end
     percentage
   end
 
   def cdn_cp_half_percentage total_file_count, file_number
-    (cdn_cp_percentage(total_file_count, file_number)/2)
+    self.cdn_cp_percentage(total_file_count, file_number)/2
   end
 
   def encode_half_percentage now_time = nil, total_time = nil
-    (encode_percentage(now_time, total_time)/2)
+    self.encode_percentage(now_time, total_time)/2
   end
 
   def percentage_to_s percentage
-    percentage.to_s + "%"
+    self.rount_off_two_decial_place(percentage).to_s + "%"
+  end
+
+  def rount_off_two_decial_place percentage
+    '%.2f' % percentage
   end
 
   def convert_to_second time
