@@ -83,12 +83,16 @@ class Encode < ApplicationRecord
     percentage
   end
 
-  def cdn_cp_percentage_to_s total_file_count, file_number
-    cdn_cp_percentage(total_file_count, file_number).to_s + "%"
+  def cdn_cp_half_percentage total_file_count, file_number
+    (cdn_cp_percentage(total_file_count, file_number)/2)
   end
 
-  def encode_percentage_to_s now_time = nil, total_time = nil
-    encode_percentage(now_time, total_time).to_s + "%"
+  def encode_half_percentage now_time = nil, total_time = nil
+    (encode_percentage(now_time, total_time)/2)
+  end
+
+  def percentage_to_s percentage
+    percentage.to_s + "%"
   end
 
   def convert_to_second time
