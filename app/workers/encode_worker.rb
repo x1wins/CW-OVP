@@ -21,40 +21,46 @@ class EncodeWorker
               unless matched_time.kind_of?(Array)
                 status = matched_time[0]
                 now_time = matched_time[1]
-                percentage = encode.percentage(now_time.to_s, runtime.to_s)
+                percentage = encode.encode_percentage_to_s(now_time.to_s, runtime.to_s)
                 encode.send_message status, log, percentage
                 Sidekiq.logger.info status + " now_time:" + now_time
               end
             end
           end
         end
+
         playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{hls_local_full_path}/`
-        video_url = encode.video_url base_url
-        encode.update(log: log, ended_at: Time.now, completed: true, url: video_url)
-        encode.assets.create(format: 'video', url: video_url)
-        encode.send_message "Transcoding Completed", log, "100%"
 
         cdn_bucket = ENV['CDN_BUCKET']
         hls_relative_path = encode.hls_relative_path
         hls_local_full_path = encode.hls_local_full_path
         move_hls_to_cdn_cmd = "sh app/encoding/mv.sh #{cdn_bucket} #{hls_relative_path} #{hls_local_full_path}"
         Sidekiq.logger.info "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
+        total_file_count = 0
         Open3.popen3(move_hls_to_cdn_cmd) do |stdin, stdout, stderr, wait_thr|
-          stdout.each do |line|
+          stdout.each_with_index do |line, index|
             Sidekiq.logger.info "aws mv: #{line}"
             matched_time = line.to_s.match(/Completed \d+.\d+ \w+\/\d+.\d+ \w+ \(\d+.\d+ \w+\/s\) with (\d+) file\(s\) remaining/)
             unless matched_time.nil?
               unless matched_time.kind_of?(Array)
                 status = matched_time[0]
-                file_number = matched_time[1]
-                encode.send_message status, log, nil
+                file_number = matched_time[1].to_i
+                if index == 0
+                  total_file_count = file_number
+                end
+                percentage = encode.cdn_cp_percentage_to_s(total_file_count, file_number)
+                encode.send_message status, log, percentage
                 if file_number.to_i == 1
-                  encode.send_message "Completed Move Local File To AWS S3", log, nil
+                  encode.send_message "Completed Move Local File To AWS S3", log, percentage
                 end
               end
             end
           end
         end
+
+        video_url = encode.video_url base_url
+        encode.update(log: log, ended_at: Time.now, completed: true, url: video_url)
+        encode.assets.create(format: 'video', url: video_url)
 
         Sidekiq.logger.debug "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
         Sidekiq.logger.debug "ffmpeg parameter : #{hls_local_full_path} #{uploaded_file_path}"

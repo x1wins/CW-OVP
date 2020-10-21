@@ -68,14 +68,27 @@ class Encode < ApplicationRecord
     Rails.logger.debug "percentage: #{percentage}"
   end
 
-  def percentage now_time = nil, total_time = nil
+  def cdn_cp_percentage total_file_count, file_number
+    percentage = ((total_file_count - file_number).to_f / total_file_count.to_f * 100).truncate(2)
+    percentage
+  end
+
+  def encode_percentage now_time = nil, total_time = nil
     if now_time.nil? or total_time.nil?
-      percentage = "0%"
+      percentage = 0
     else
       percentage = (self.convert_to_second(now_time) / self.convert_to_second(total_time) * 100).truncate(2)
       percentage = 100 if percentage > 100
-      percentage.to_s + "%"
     end
+    percentage
+  end
+
+  def cdn_cp_percentage_to_s total_file_count, file_number
+    cdn_cp_percentage(total_file_count, file_number).to_s + "%"
+  end
+
+  def encode_percentage_to_s now_time = nil, total_time = nil
+    encode_percentage(now_time, total_time).to_s + "%"
   end
 
   def convert_to_second time
