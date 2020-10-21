@@ -26,30 +26,30 @@ class Encode < ApplicationRecord
   end
 
   def hls_relative_path
-    "#{self.encode_dir}/#{self.yyyy_mm_dd_id_dir}/hls"
+    "#{self.yyyy_mm_dd_id_dir}/#{self.hls_dir}"
   end
 
   def thumbnail_relative_path
-    "#{self.encode_dir}/#{self.yyyy_mm_dd_id_dir}/thumbnail"
+    "#{self.yyyy_mm_dd_id_dir}/#{self.thumbnail_dir}"
   end
 
   def hls_local_full_path
-    "#{self.storage_path}/#{self.hls_relative_path}"
+    "#{self.storage_dir}/#{self.id}_#{self.hls_dir}"
   end
-  
+
   def thumbnail_local_full_path
-    "#{self.storage_path}/#{self.thumbnail_relative_path}"
+    "#{self.storage_dir}/#{self.id}_#{self.thumbnail_dir}"
   end
 
-  def encode_dir_full_path
-    "#{self.storage_path}/#{self.encode_dir}"
+  def hls_dir
+    "hls"
   end
 
-  def encode_dir
-    "encode"
+  def thumbnail_dir
+    "thumbnail"
   end
 
-  def storage_path
+  def storage_dir
     "/storage"
     # "public"
   end
