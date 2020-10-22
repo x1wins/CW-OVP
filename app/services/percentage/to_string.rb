@@ -9,12 +9,13 @@ module Percentage
     end
 
     private
-      def percentage_to_s percentage
-        rount_off_two_decial_place(percentage).to_s + "%"
-      end
 
-      def rount_off_two_decial_place percentage
-        '%.2f' % percentage
-      end
+    def percentage_to_s percentage
+      rount_off_two_decial_place(percentage).to_s + "%"
+    end
+
+    def rount_off_two_decial_place percentage
+      '%.2f' % percentage
+    end
   end
 end

@@ -9,8 +9,9 @@ module Percentage
     end
 
     private
-      def convert_to_second time
-        (Time.parse(time).to_i - Date.today.to_time.to_i).to_f
-      end
+
+    def convert_to_second time
+      (Time.parse(time).to_i - Date.today.to_time.to_i).to_f
+    end
   end
 end
