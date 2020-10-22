@@ -27,28 +27,30 @@ module Storage
     end
 
     module Full
-      class Video < ApplicationService
-        attr_reader :base_url
+      class Hls < ApplicationService
+        attr_reader :encode, :base_url
 
-        def initialize(base_url)
+        def initialize(encode, base_url)
+          @encode = encode
           @base_url = base_url
         end
 
         def call
-          "#{@base_url}/#{Path.hls_relative_path}/playlist.m3u8"
+          "#{@base_url}/#{Storage::Url::Relative::Hls.call(@encode)}/playlist.m3u8"
         end
       end
 
       class Thumbnail < ApplicationService
-        attr_reader :base_url, :filename
+        attr_reader :encode, :base_url, :filename
 
-        def initialize(base_url, filename)
+        def initialize(encode, base_url, filename)
+          @encode = encode
           @base_url = base_url
           @filename = filename
         end
 
         def call
-          "#{@base_url}/#{Path.thumbnail_relative_path}/#{@filename}"
+          "#{@base_url}/#{Storage::Url::Relative::Thumbnail.call(@encode)}/#{@filename}"
         end
       end
     end
