@@ -2,8 +2,6 @@ module Storage
   module Url
     module Relative
       class Hls < ApplicationService
-        attr_reader :encode
-
         def initialize(encode)
           @encode = encode
         end
@@ -14,8 +12,6 @@ module Storage
       end
 
       class Thumbnail < ApplicationService
-        attr_reader :encode
-
         def initialize(encode)
           @encode = encode
         end
@@ -28,8 +24,6 @@ module Storage
 
     module Full
       class Hls < ApplicationService
-        attr_reader :encode, :base_url
-
         def initialize(encode, base_url)
           @encode = encode
           @base_url = base_url
@@ -41,8 +35,6 @@ module Storage
       end
 
       class Thumbnail < ApplicationService
-        attr_reader :encode, :base_url, :filename
-
         def initialize(encode, base_url, filename)
           @encode = encode
           @base_url = base_url

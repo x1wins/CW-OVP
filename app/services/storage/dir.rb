@@ -6,8 +6,6 @@ module Storage
         ROOT = "/storage"
     ]
     class YyyyMmDdId < ApplicationService
-      attr_reader :encode
-
       def initialize(encode)
         @encode = encode
       end

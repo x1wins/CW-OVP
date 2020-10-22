@@ -1,7 +1,5 @@
 module Percentage
   class ToString < ApplicationService
-    attr_reader :percentage
-
     def initialize(percentage)
       @percentage = percentage
     end

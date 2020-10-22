@@ -1,7 +1,5 @@
 module Percentage
   class Cdn < ApplicationService
-    attr_reader :total_file_count, :file_number
-
     def initialize(total_file_count, file_number)
       @total_file_count = total_file_count
       @file_number = file_number

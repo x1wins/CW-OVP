@@ -1,6 +1,5 @@
 module Percentage
   class Encode < ApplicationService
-    attr_reader :now_time, :total_time
 
     def initialize(now_time, total_time)
       @now_time = now_time

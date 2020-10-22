@@ -1,7 +1,5 @@
 module Percentage
   class ConvertToSecond < ApplicationService
-    attr_reader :time
-
     def initialize(time)
       @time = time
     end

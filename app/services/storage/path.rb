@@ -2,8 +2,6 @@ module Storage
   module Path
     module Local
       class Hls < ApplicationService
-        attr_reader :encode
-
         def initialize(encode)
           @encode = encode
         end
@@ -14,8 +12,6 @@ module Storage
       end
 
       class Thumbnail < ApplicationService
-        attr_reader :encode
-
         def initialize(encode)
           @encode = encode
         end
