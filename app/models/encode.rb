@@ -17,51 +17,6 @@ class Encode < ApplicationRecord
     self.completed ||= false
   end
 
-  def yyyy_mm_dd_id_dir
-    yyyy = self.created_at.strftime("%Y")
-    mm = self.created_at.strftime("%m")
-    dd = self.created_at.strftime("%d")
-    id = self.id
-    "#{yyyy}/#{mm}/#{dd}/#{id}"
-  end
-
-  def hls_relative_path
-    "#{self.yyyy_mm_dd_id_dir}/#{self.hls_dir}"
-  end
-
-  def thumbnail_relative_path
-    "#{self.yyyy_mm_dd_id_dir}/#{self.thumbnail_dir}"
-  end
-
-  def hls_local_full_path
-    "#{self.storage_dir}/#{self.id}_#{self.hls_dir}"
-  end
-
-  def thumbnail_local_full_path
-    "#{self.storage_dir}/#{self.id}_#{self.thumbnail_dir}"
-  end
-
-  def hls_dir
-    "hls"
-  end
-
-  def thumbnail_dir
-    "thumbnail"
-  end
-
-  def storage_dir
-    "/storage"
-    # "public"
-  end
-
-  def video_url base_url
-    "#{base_url}/#{self.hls_relative_path}/playlist.m3u8"
-  end
-
-  def thumbnail_url base_url, filename
-    "#{base_url}/#{self.thumbnail_relative_path}/#{filename}"
-  end
-
   def send_message message, log, percentage = "0%", thumbnail_url = nil, type = nil
     log << message.to_s+"\n"
     ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename, thumbnail_url: thumbnail_url, type: type
