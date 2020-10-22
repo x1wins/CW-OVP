@@ -16,6 +16,12 @@ class EncodesController < ApplicationController
   # GET /encodes/1
   # GET /encodes/1.json
   def show
+    yyyymmddid = Storage::Dir::YyyyMmDdId.call(@encode)
+    puts "yyyymmddid #{yyyymmddid}"
+    hls_relative_path = Storage::Url::Relative::Hls.call(@encode)
+    hls_local_full_path = Storage::Path::Local::Hls.call(@encode)
+    puts "hls_relative_path #{hls_relative_path}"
+    puts "hls_local_full_path #{hls_local_full_path}"
   end
 
   # GET /encodes/new

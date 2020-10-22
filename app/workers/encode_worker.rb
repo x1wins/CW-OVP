@@ -7,7 +7,7 @@ class EncodeWorker
     if encode.file.attached?
       encode.file.open do |f|
         uploaded_file_path = f.path
-        hls_local_full_path = encode.hls_local_full_path
+        hls_local_full_path = Storage::Path.hls
         runtime = `sh app/encoding/runtime.sh #{uploaded_file_path}`
         mkdir_cmd = `sh app/encoding/mkdir.sh #{hls_local_full_path}`
         encoding_cmd = "sh app/encoding/hls_h264.sh #{hls_local_full_path} #{uploaded_file_path}"
@@ -32,8 +32,8 @@ class EncodeWorker
         playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{hls_local_full_path}/`
 
         cdn_bucket = ENV['CDN_BUCKET']
-        hls_relative_path = encode.hls_relative_path
-        hls_local_full_path = encode.hls_local_full_path
+        hls_relative_path = Storage::Path::HlsRelativePath.call(encode)
+        hls_local_full_path = Storage::Path::HlsLocalFullPath.call(encode)
         move_hls_to_cdn_cmd = "sh app/encoding/mv.sh #{cdn_bucket} #{hls_relative_path} #{hls_local_full_path}"
         Sidekiq.logger.info "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
         total_file_count = 0
