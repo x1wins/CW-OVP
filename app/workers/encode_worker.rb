@@ -21,8 +21,8 @@ class EncodeWorker
               unless matched_time.kind_of?(Array)
                 status = matched_time[0]
                 now_time = matched_time[1]
-                percentage = encode.encode_half_percentage(now_time.to_s, runtime.to_s)
-                encode.send_message status, log, encode.percentage_to_s(percentage)
+                percentage = Percentage::Encode.call(now_time.to_s, runtime.to_s)
+                encode.send_message status, log, Percentage::ToString.call(percentage)
                 Sidekiq.logger.info status + " now_time:" + now_time
               end
             end
@@ -48,8 +48,8 @@ class EncodeWorker
                 if index == 0
                   total_file_count = file_number
                 end
-                percentage = 50 + encode.cdn_cp_half_percentage(total_file_count, file_number)
-                encode.send_message status, log, encode.percentage_to_s(percentage)
+                percentage = 50 + Percentage::Cdn.call(total_file_count, file_number)
+                encode.send_message status, log, Percentage::ToString.call(percentage)
               end
             end
           end

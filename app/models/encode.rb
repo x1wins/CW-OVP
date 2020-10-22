@@ -42,7 +42,7 @@ class Encode < ApplicationRecord
     if total_time.nil?
       return "00:00:00.000"
     end
-    end_second = convert_to_second total_time
+    end_second = Percentage::ConvertToSecond.call(total_time)
     prng = Random.new
     seconds = prng.rand(0...end_second.floor)
     Time.at(seconds).utc.strftime("%H:%M:%S.%L")
