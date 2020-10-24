@@ -2,8 +2,9 @@ class ThumbnailWorker
   include Sidekiq::Worker
   sidekiq_options retry: false # job will be discarded if it fails
 
-  def perform(encode_id, base_url)
+  def perform(encode_id)
     encode = Encode.find(encode_id)
+    base_url = ENV['AWS_CLOUDFRONT_DOMAIN']
     if encode.file.attached?
       encode.file.open do |f|
         uploaded_file_path = f.path
