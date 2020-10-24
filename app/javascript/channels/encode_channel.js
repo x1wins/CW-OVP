@@ -13,7 +13,7 @@ consumer.subscriptions.create("EncodeChannel", {
 
   received(data) {
     // Called when there's incoming data on the websocket for this channel
-    console.log("data: "+JSON.stringify(data))
+    // console.log("data: "+JSON.stringify(data))
     var controller_name = document.getElementById("controller_name").value;
     var action_name = document.getElementById("action_name").value;
     if(controller_name == "encodes"){
@@ -32,10 +32,8 @@ function onEncodeIndex(data){
   var encode = data.body.encode
   var encodes_table = document.getElementById("encodes");
   if(encodes_table){
-    console.log("encodes_table exist")
     var tr = document.querySelectorAll("[id='encode_id']");
     var count = 0;
-    console.log("tr.length : " + tr.length)
     for(var i = 0; i < tr.length; i++){
       var data_encode_id = tr[i].getAttribute("data-encode-id")
       if(data_encode_id == encode.id){
@@ -84,7 +82,6 @@ function addThumbnailInIndex(td, thumbnail_url){
       figure.setAttribute("class","image is-32x32");
       figure.appendChild(img);
       td.appendChild(figure);
-      console.log("img.src " + img.src);
     }
   }
 }
@@ -152,7 +149,6 @@ function eventThumbnailRailsUrlOnEncodeIndex(data){
 
 
 function eventCompletedOnEncodeShow(data){
-  console.log("eventCompletedOnEncodeShow");
   var encode = data.body.encode
   var ended_at = document.getElementById("ended_at");
   ended_at.innerHTML = encode.ended_at;
@@ -189,7 +185,6 @@ function eventHlsProcessingOnEncodeShow(data){
 function eventThunbnailProcessingOnEncodeShow(data){
   var thumbnail_url = data.body.thumbnail_url
   var thumbnailContainer = document.getElementById("thumbnail-container")
-  console.log("thumbnail_url" + thumbnail_url)
   var img = document.createElement("img")
   img.src = thumbnail_url
   thumbnailContainer.appendChild(img)
