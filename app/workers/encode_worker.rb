@@ -23,7 +23,7 @@ class EncodeWorker
                 message = matched_time[0]
                 now_time = matched_time[1]
                 percentage = Percentage::Encode.call(now_time.to_s, runtime.to_s)
-                Message::Send.call(Message::Event::PROCESSING, Message::Body.new(encode, Percentage::ToString.call(percentage), message, nil, nil))
+                Message::Send.call(Message::Event::HLS_PROCESSING, Message::Body.new(encode, Percentage::ToString.call(percentage), message, nil, nil))
                 log += message
                 Sidekiq.logger.info message + " now_time:" + now_time
               end
@@ -51,7 +51,7 @@ class EncodeWorker
                   total_file_count = file_number
                 end
                 percentage = 50 + Percentage::Cdn.call(total_file_count, file_number)
-                Message::Send.call(Message::Event::PROCESSING, Message::Body.new(encode, Percentage::ToString.call(percentage), message, nil, nil))
+                Message::Send.call(Message::Event::HLS_PROCESSING, Message::Body.new(encode, Percentage::ToString.call(percentage), message, nil, nil))
                 log += message
                 Sidekiq.logger.info message
               end
