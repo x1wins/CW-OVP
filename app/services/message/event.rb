@@ -1,11 +1,12 @@
 module Message
   module Event
     RETURNS = [
+        CREATED = "CREATED",
+        COMPLETED = "COMPLETED",
+        HLS_PROCESSING = "HLS_PROCESSING",
+        THUNBNAIL_PROCESSING = "THUNBNAIL_PROCESSING",
         HLS_CDN_URL = "HLS_CDN_URL",
         THUMBNAIL_CDN_URL = "THUMBNAIL_CDN_URL",
-        COMPLETED = "COMPLETED",
-        PROGRESS = "PROGRESS 11",
-        LOG = "LOG",
         THUMBNAIL_RAILS_URL = "THUMBNAIL_RAILS_URL",
     ]
   end
