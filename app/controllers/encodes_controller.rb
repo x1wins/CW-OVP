@@ -29,10 +29,9 @@ class EncodesController < ApplicationController
     @encode = Encode.new(encode_params)
     respond_to do |format|
       if @encode.save
-        base_url = ENV['AWS_CLOUDFRONT_DOMAIN']
-        ThumbnailWorker.perform_async(@encode.id, base_url)
-        EncodeWorker.perform_async(@encode.id, base_url)
-        Rails.logger.debug "saved file path : #{rails_blob_path(@encode.file)}"
+        Message::Send.call(Message::Event::CREATED, Message::Body.new(@encode, nil, nil, @encode.file.filename, nil))
+        ThumbnailWorker.perform_async(@encode.id)
+        EncodeWorker.perform_async(@encode.id)
         format.html { redirect_to @encode, notice: 'Encode was successfully created.' }
         format.json { render :show, status: :created, location: @encode }
       else
