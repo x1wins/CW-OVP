@@ -3,8 +3,7 @@ module Message
     RETURNS = [
         CREATED = "CREATED",
         COMPLETED = "COMPLETED",
-        PERCENTAGE = "PERCENTAGE",
-        LOG = "LOG",
+        PROCESSING = "PROCESSING",
         HLS_CDN_URL = "HLS_CDN_URL",
         THUMBNAIL_CDN_URL = "THUMBNAIL_CDN_URL",
         THUMBNAIL_RAILS_URL = "THUMBNAIL_RAILS_URL",
