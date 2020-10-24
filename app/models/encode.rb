@@ -17,12 +17,6 @@ class Encode < ApplicationRecord
     self.completed ||= false
   end
 
-  def send_message message, log, percentage = "0%", thumbnail_url = nil, type = nil
-    log << message.to_s+"\n"
-    ActionCable.server.broadcast "encode_channel", encode_id: self.id, content: message.to_s+"\n", percentage: percentage, encode: self, filename: self.file.filename, thumbnail_url: thumbnail_url, type: type
-    Rails.logger.debug "percentage: #{percentage}"
-  end
-
   def file_format
     if !file.attached?
       errors[:file] << " must not blank"
