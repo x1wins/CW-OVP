@@ -11,8 +11,6 @@ class ThumbnailWorker
         thumbnail_local_full_path = Storage::Path::Local::Thumbnail.call(encode)
         runtime = `sh app/encoding/runtime.sh #{uploaded_file_path}`
         mkdir_cmd = `sh app/encoding/mkdir.sh #{thumbnail_local_full_path}`
-        log = ""
-        encode.send_message "Extracting Thumbnail Start", log, nil
         thumbnail_seconds = encode.thumbnail_seconds runtime
         for i in 1..Encode::THUMBNAIL_COUNT
           ss = thumbnail_seconds[i-1]
@@ -23,9 +21,11 @@ class ThumbnailWorker
           encode.assets.create(format: 'image', url: thumbnail_url)
           encode.thumbnails.attach(io: File.open(thumbnail_file_full_path), filename: thumbnail_filename, content_type: "image/png")
           thumbnail_rails_url = Rails.application.routes.url_helpers.rails_blob_path(encode.thumbnails.last, disposition: "attachment", only_path: true)
-          encode.send_message "Extracted #{i}th Thumbnail", log, nil, thumbnail_rails_url
+          message = "Extracted #{i}th Thumbnail"
+          Message::Send.call(Message::Event::THUNBNAIL_PROCESSING, Message::Body.new(encode, nil, message, nil, thumbnail_rails_url))
           if i == Encode::THUMBNAIL_COUNT
-            encode.send_message "Extracting Thumbnail Completed", log, nil
+            message = "Completed Extracting Thumbnail"
+            Message::Send.call(Message::Event::THUMBNAIL_RAILS_URL, Message::Body.new(encode, nil, message, nil, thumbnail_rails_url))
           end
         end
       end
@@ -35,11 +35,12 @@ class ThumbnailWorker
       thumbnail_local_full_path = Storage::Path::Local::Thumbnail.call(encode)
       move_thumbnail_to_cdn_cmd = `sh app/encoding/mv.sh #{cdn_bucket} #{thumbnail_relative_path} #{thumbnail_local_full_path}`
       Sidekiq.logger.debug "move_thumbnail_to_cdn_cmd : #{move_thumbnail_to_cdn_cmd}"
-      message = ""
+      thumbnail_cdn_url = ""
       for asset in encode.assets
-        message += (asset.url+"<br/>") if asset.format == 'image'
+        thumbnail_cdn_url += (asset.url+"<br/>") if asset.format == 'image'
       end
-      encode.send_message message, "", "100%", nil, "cp_thumbnail"
+      message = "Completed COPY Thumbnail To CDN"
+      Message::Send.call(Message::Event::THUMBNAIL_CDN_URL, Message::Body.new(encode, nil, message, nil, thumbnail_cdn_url))
     end
   end
 end
