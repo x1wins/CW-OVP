@@ -63,11 +63,6 @@ class EncodeWorker
         encode.update(log: log, ended_at: Time.now, completed: true, url: hls_url)
         encode.assets.create(format: 'video', url: hls_url)
         Message::Send.call(Message::Event::COMPLETED, Message::Body.new(encode, Percentage::ToString.call(100), "Completed Move Local File To AWS S3", nil, nil))
-        Sidekiq.logger.debug "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
-        Sidekiq.logger.debug "ffmpeg parameter : #{hls_local_full_path} #{uploaded_file_path}"
-        Sidekiq.logger.debug "output : #{runtime}"
-        Sidekiq.logger.debug "log : #{log}"
-        Sidekiq.logger.debug "video_url : #{hls_url}"
       end
     end
   end
