@@ -55,60 +55,23 @@ function onEncodeIndex(data){
 }
 
 function onEncodeShow(data){
-  var logs_table = document.getElementById("logs");
-  var encode_id = document.getElementById("encode_id");
-  var received_encode_id = data.encode_id;
-  if(logs_table && encode_id && (encode_id.value == received_encode_id)){
-    console.log("data.type:"+data.type);
-    if(data.type == 'cp_thumbnail'){
-      console.log("asset.url " + data.content);
-      var thumbnail = document.getElementById("thumbnail");
-      thumbnail.innerHTML = data.content;
-      return
-    }
-    addThumbnailInShow(data.thumbnail_url);
-    var encode = data.encode;
-    var runtime = document.getElementById("runtime");
-    runtime.innerHTML = encode.runtime;
-    var progress = document.getElementById("progress");
-    if(data.percentage){
-      var progress_value = data.percentage.replace('%', '');
-      progress.setAttribute("value", progress_value);
-      var percentage = document.getElementById("percentage");
-      percentage.innerHTML = data.percentage;
-    }
-    var content = data.content;
-    var row = logs_table.insertRow(logs_table.size);
-    var log_cell = row.insertCell(0);
-    log_cell.innerHTML = content;
-
-    if(encode.completed == true){
-      console.log("completed");
-      var ended_at = document.getElementById("ended_at");
-      ended_at.innerHTML = encode.ended_at;
-      var url = document.getElementById("url");
-      url.innerHTML = encode.url;
-      var completed = document.getElementById("completed");
-      completed.innerHTML = encode.completed;
-    }
-    scrollingLogContainerToBottom();
-    return
+  var event = data.event
+  if(event == 'COMPLETED'){
+    eventCompletedOnEncodeShow(data)
+  }else if(event == 'HLS_PROCESSING') {
+    eventHlsProcessingOnEncodeShow(data)
+  }else if(event == 'THUNBNAIL_PROCESSING'){
+    eventThunbnailProcessingOnEncodeShow(data)
+  }else if(event == 'THUMBNAIL_CDN_URL'){
+    eventThumbnailCdnUrlOnEncodeShow(data)
   }
+  scrollingLogContainerToBottom();
 }
+
 function scrollingLogContainerToBottom(){
   var log_container = document.getElementById("log_container");
   if(log_container){
     log_container.scrollTop = log_container.scrollHeight;
-  }
-}
-
-function addThumbnailInShow(thumbnail_url){
-  if(thumbnail_url){
-    var thumbnailContainer = document.getElementById("thumbnail-container")
-    console.log("thumbnail_url" + thumbnail_url)
-    var img = document.createElement("img")
-    img.src = thumbnail_url
-    thumbnailContainer.appendChild(img)
   }
 }
 
@@ -185,6 +148,57 @@ function eventThumbnailRailsUrlOnEncodeIndex(data){
   var thumbnail_url = data.body.thumbnail_url
   var tds = findTdsEncode(encode)
   addThumbnailInIndex(tds[6], thumbnail_url)
+}
+
+
+function eventCompletedOnEncodeShow(data){
+  console.log("eventCompletedOnEncodeShow");
+  var encode = data.body.encode
+  var ended_at = document.getElementById("ended_at");
+  ended_at.innerHTML = encode.ended_at;
+  var url = document.getElementById("url");
+  url.innerHTML = encode.url;
+  var completed = document.getElementById("completed");
+  completed.innerHTML = encode.completed;
+}
+
+function eventHlsProcessingOnEncodeShow(data){
+  var encode = data.body.encode
+  var percentage = data.body.percentage
+  var log = data.body.log
+  var logs_table = document.getElementById("logs");
+  var current_encode_id = document.getElementById("encode_id");
+  var received_encode_id = encode.id;
+  if(logs_table && current_encode_id && (current_encode_id.value == received_encode_id)) {
+    var runtime = document.getElementById("runtime");
+    runtime.innerHTML = encode.runtime;
+    var progress = document.getElementById("progress");
+    if (percentage) {
+      var progress_value = percentage.replace('%', '');
+      progress.setAttribute("value", progress_value);
+      var percentage_element = document.getElementById("percentage");
+      percentage_element.innerHTML = percentage;
+    }
+    var row = logs_table.insertRow(logs_table.size);
+    var log_cell = row.insertCell(0);
+    log_cell.innerHTML = log;
+  }
+
+}
+
+function eventThunbnailProcessingOnEncodeShow(data){
+  var thumbnail_url = data.body.thumbnail_url
+  var thumbnailContainer = document.getElementById("thumbnail-container")
+  console.log("thumbnail_url" + thumbnail_url)
+  var img = document.createElement("img")
+  img.src = thumbnail_url
+  thumbnailContainer.appendChild(img)
+}
+
+function eventThumbnailCdnUrlOnEncodeShow(data){
+  var thumbnail_url = data.body.thumbnail_url
+  var thumbnail = document.getElementById("thumbnail");
+  thumbnail.innerHTML = thumbnail_url;
 }
 
 document.addEventListener("turbolinks:load", function() {
