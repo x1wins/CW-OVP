@@ -2,8 +2,9 @@ class EncodeWorker
   include Sidekiq::Worker
   sidekiq_options retry: false # job will be discarded if it fails
 
-  def perform(encode_id, base_url)
+  def perform(encode_id)
     encode = Encode.find(encode_id)
+    base_url = ENV['AWS_CLOUDFRONT_DOMAIN']
     if encode.file.attached?
       encode.file.open do |f|
         uploaded_file_path = f.path
@@ -19,11 +20,12 @@ class EncodeWorker
             matched_time = line.to_s.match(/^frame=.+time=(\d{2,}:\d{2,}:\d{2,}.\d{2,}).+speed=\w+.\w+ /)
             unless matched_time.nil?
               unless matched_time.kind_of?(Array)
-                status = matched_time[0]
+                message = matched_time[0]
                 now_time = matched_time[1]
                 percentage = Percentage::Encode.call(now_time.to_s, runtime.to_s)
-                encode.send_message status, log, Percentage::ToString.call(percentage)
-                Sidekiq.logger.info status + " now_time:" + now_time
+                Message::Send.call(Message::Event::PROCESSING, Message::Body.new(encode, Percentage::ToString.call(percentage), message, nil, nil))
+                log += message
+                Sidekiq.logger.info message + " now_time:" + now_time
               end
             end
           end
@@ -43,13 +45,15 @@ class EncodeWorker
             matched_time = line.to_s.match(/Completed \d+.\d+ \w+\/\d+.\d+ \w+ \(\d+.\d+ \w+\/s\) with (\d+) file\(s\) remaining/)
             unless matched_time.nil?
               unless matched_time.kind_of?(Array)
-                status = matched_time[0]
+                message = matched_time[0]
                 file_number = matched_time[1].to_i - 1
                 if index == 0
                   total_file_count = file_number
                 end
                 percentage = 50 + Percentage::Cdn.call(total_file_count, file_number)
-                encode.send_message status, log, Percentage::ToString.call(percentage)
+                Message::Send.call(Message::Event::PROCESSING, Message::Body.new(encode, Percentage::ToString.call(percentage), message, nil, nil))
+                log += message
+                Sidekiq.logger.info message
               end
             end
           end
@@ -58,8 +62,7 @@ class EncodeWorker
         hls_url = Storage::Url::Full::Hls.call(encode, base_url)
         encode.update(log: log, ended_at: Time.now, completed: true, url: hls_url)
         encode.assets.create(format: 'video', url: hls_url)
-        encode.send_message "Completed Move Local File To AWS S3", log, "100%"
-
+        Message::Send.call(Message::Event::COMPLETED, Message::Body.new(encode, Percentage::ToString.call(100), "Completed Move Local File To AWS S3", nil, nil))
         Sidekiq.logger.debug "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
         Sidekiq.logger.debug "ffmpeg parameter : #{hls_local_full_path} #{uploaded_file_path}"
         Sidekiq.logger.debug "output : #{runtime}"
