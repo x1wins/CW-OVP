@@ -141,6 +141,13 @@ rails generate migration add_callback_id_to_encode callback_id:integer
 rake db:migrate
 ```
 
+Service layer
+```
+https://www.toptal.com/ruby-on-rails/rails-service-objects-tutorial
+https://blog.appsignal.com/2020/06/17/using-service-objects-in-ruby-on-rails.html
+https://blog.engineyard.com/keeping-your-rails-controllers-dry-with-services
+```
+
 ```
 Completed 11.1 MiB/662.3 MiB (2.0 MiB/s) with 660 file(s) remaining
 Completed 15.0 MiB/662.3 MiB (1.7 MiB/s) with 659 file(s) remaining
