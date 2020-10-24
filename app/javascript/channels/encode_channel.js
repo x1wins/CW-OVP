@@ -26,7 +26,6 @@ consumer.subscriptions.create("EncodeChannel", {
   }
 });
 
-
 function onEncodeIndex(data){
   var event = data.event
   var encode = data.body.encode
@@ -147,7 +146,6 @@ function eventThumbnailRailsUrlOnEncodeIndex(data){
   addThumbnailInIndex(tds[6], thumbnail_url)
 }
 
-
 function eventCompletedOnEncodeShow(data){
   var encode = data.body.encode
   var ended_at = document.getElementById("ended_at");
@@ -179,7 +177,6 @@ function eventHlsProcessingOnEncodeShow(data){
     var log_cell = row.insertCell(0);
     log_cell.innerHTML = log;
   }
-
 }
 
 function eventThunbnailProcessingOnEncodeShow(data){
