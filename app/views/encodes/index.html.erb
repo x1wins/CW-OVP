@@ -15,7 +15,7 @@
   <tbody>
   <% @encodes.each do |encode| %>
     <tr id="encode_id" data-encode-id="<%= encode.id %>">
-      <th><%= encode.id %></th>
+      <th><%= link_to encode.id, encode, class: "button is-success" %></th>
       <td><%= link_to encode.title, encode %></td>
       <td><%= encode.file.filename if encode.file.attached? %></td>
       <td><%= encode.runtime %></td>
