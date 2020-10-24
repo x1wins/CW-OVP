@@ -114,7 +114,12 @@ function eventCreatedOnEncodeIndex(data, encodes_table){
   var completed_cell = row.insertCell(6);
   completed_cell.setAttribute("id","status_"+encode.id);
   var del_cell = row.insertCell(7);
-  id_cell.innerHTML = encode.id;
+
+  var link_id = document.createElement("a")
+  link_id.innerHTML = encode.id;
+  link_id.className = "button is-success";
+  link_id.setAttribute('href', "/encodes/"+encode.id);
+  id_cell.appendChild(link_id);
   title_cell.innerHTML = encode.title;
   filename_cell.innerHTML = filename;
   runtime_cell.innerHTML = encode.runtime;
