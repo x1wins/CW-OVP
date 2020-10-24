@@ -13,9 +13,13 @@ consumer.subscriptions.create("EncodeChannel", {
 
   received(data) {
     // Called when there's incoming data on the websocket for this channel
-    console.log("Recieving:")
-    console.log("encode_id: "+data.encode_id + " content:" + data.content + " percentage:" + data.percentage + "thumbnail_url:"+ data.thumbnail_url)
-
+    var event = data.event
+    var encode = data.body.encode
+    var log = data.body.log
+    console.log("data: "+JSON.stringify(data))
+    console.log("data.body: "+JSON.stringify(data.body))
+    console.log("data.body.object.encode: "+JSON.stringify(encode))
+    console.log("data.body.log: "+data.body.log)
     var controller_name = document.getElementById("controller_name").value;
     var action_name = document.getElementById("action_name").value;
     if(controller_name == "encodes"){
@@ -59,7 +63,93 @@ function addThumbnailInIndex(td, thumbnail_url){
   }
 }
 
+function findTdsEncode(encode){
+  var tr = document.querySelectorAll("[id='encode_id']");
+  var found_index = 0;
+  for(var i = 0; i < tr.length; i++){
+    var data_encode_id = tr[i].getAttribute("data-encode-id")
+    if(data_encode_id == encode.id){
+      found_index = i;
+    }
+  }
+  var tds = tr[found_index].getElementsByTagName("td")
+  return tds;
+}
+
+function eventCreatedOnEncodeIndex(data, encodes_table){
+  var encode = data.body.encode
+  var percentage = data.body.percentage
+  var log = data.body.log
+  var filename = data.body.filename
+  var thumbnail_url = data.body.thumbnail_url
+  console.log("data: "+JSON.stringify(data))
+  console.log("data.body: "+JSON.stringify(data.body))
+  console.log("data.body.encode: "+JSON.stringify(encode))
+  console.log("data.body.log: "+data.body.log)
+
+  var row = encodes_table.insertRow(1);
+  row.setAttribute("id","encode_id");
+  row.setAttribute("data-encode-id",encode.id);
+  var id_cell = document.createElement('th');
+  row.appendChild(id_cell);
+  var title_cell = row.insertCell(1);
+  var filename_cell = row.insertCell(2);
+  var runtime_cell = row.insertCell(3);
+  var url_cell = row.insertCell(4);
+  var craeted_at_cell = row.insertCell(5);
+  var completed_cell = row.insertCell(6);
+  completed_cell.setAttribute("id","status_"+encode.id);
+  var del_cell = row.insertCell(7);
+  id_cell.innerHTML = encode.id;
+  title_cell.innerHTML = encode.title;
+  filename_cell.innerHTML = filename;
+  runtime_cell.innerHTML = encode.runtime;
+  url_cell.innerHTML = encode.url;
+  craeted_at_cell.innerHTML = encode.created_at;
+  completed_cell.innerHTML = encode.completed;
+  del_cell.innerHTML = "";
+}
+
+function eventCompletedOnEncodeIndex(data){
+  var encode = data.body.encode
+  var tds = findTdsEncode(encode)
+  tds[2].innerHTML = encode.runtime;
+  tds[3].innerHTML = encode.url;
+  tds[5].innerHTML = encode.completed;
+}
+
+function eventProcessingOnEncodeIndex(data){
+  var encode = data.body.encode
+  var percentage = data.body.percentage
+  var log = data.body.log
+  var filename = data.body.filename
+  var thumbnail_url = data.body.thumbnail_url
+  console.log("data: "+JSON.stringify(data))
+  console.log("data.body: "+JSON.stringify(data.body))
+  console.log("data.body.encode: "+JSON.stringify(encode))
+  console.log("data.body.log: "+data.body.log)
+  var status = document.getElementById("status_"+encode.id);
+  status.innerHTML = percentage
+}
+
+function eventThumbnailRailsUrlOnEncodeIndex(data){
+  var encode = data.body.encode
+  var tds = findTdsEncode(encode)
+  addThumbnailInIndex(tds[6], data.thumbnail_url)
+}
+
 function onEncodeIndex(data){
+  var event = data.event
+  var encode = data.body.encode
+  var percentage = data.body.percentage
+  var log = data.body.log
+  var filename = data.body.filename
+  var thumbnail_url = data.body.thumbnail_url
+  console.log("data: "+JSON.stringify(data))
+  console.log("data.body: "+JSON.stringify(data.body))
+  console.log("data.body.encode: "+JSON.stringify(encode))
+  console.log("data.body.log: "+data.body.log)
+
   var encodes_table = document.getElementById("encodes");
   if(encodes_table){
     console.log("encodes_table exist")
@@ -68,63 +158,19 @@ function onEncodeIndex(data){
     console.log("tr.length : " + tr.length)
     for(var i = 0; i < tr.length; i++){
       var data_encode_id = tr[i].getAttribute("data-encode-id")
-      if(data_encode_id == data.encode_id){
+      if(data_encode_id == encode.id){
         count ++;
       }
     }
-    if(count == 0){
-      var encode = data.encode;
-      var filename = data.filename;
-      var row = encodes_table.insertRow(1);
-      row.setAttribute("id","encode_id");
-      row.setAttribute("data-encode-id",encode.id);
-      var id_cell = document.createElement('th');
-      row.appendChild(id_cell);
-      var title_cell = row.insertCell(1);
-      var filename_cell = row.insertCell(2);
-      var runtime_cell = row.insertCell(3);
-      var url_cell = row.insertCell(4);
-      var craeted_at_cell = row.insertCell(5);
-      var completed_cell = row.insertCell(6);
-      completed_cell.setAttribute("id","status_"+encode.id);
-      var del_cell = row.insertCell(7);
-      id_cell.innerHTML = encode.id;
-      title_cell.innerHTML = encode.title;
-      filename_cell.innerHTML = filename;
-      runtime_cell.innerHTML = encode.runtime;
-      url_cell.innerHTML = encode.url;
-      craeted_at_cell.innerHTML = encode.created_at;
-      completed_cell.innerHTML = encode.completed;
-      del_cell.innerHTML = "";
+    if(count == 0 && event == 'CREATED'){
+      eventCreatedOnEncodeIndex(data, encodes_table)
+    }else if(event == 'COMPLETED'){
+      eventCompletedOnEncodeIndex(data)
+    }else if(event == 'PROCESSING') {
+      eventProcessingOnEncodeIndex(data)
+    }else if(event == 'THUMBNAIL_RAILS_URL'){
+      eventThumbnailRailsUrlOnEncodeIndex(data)
     }
-
-    var status = document.getElementById("status_"+data.encode_id);
-    if(status){
-      var encode = data.encode;
-      var tr = document.querySelectorAll("[id='encode_id']");
-      var found_index = 0;
-      for(var i = 0; i < tr.length; i++){
-        var data_encode_id = tr[i].getAttribute("data-encode-id")
-        if(data_encode_id == encode.id){
-          found_index = i;
-        }
-      }
-      var tds = tr[found_index].getElementsByTagName("td")
-      if(data.percentage){
-        status.innerHTML = data.percentage
-      }
-      if(data.percentage == '100%'){
-        var filename = data.filename;
-        tds[1].innerHTML = filename;
-        tds[2].innerHTML = encode.runtime;
-        tds[3].innerHTML = encode.url;
-        tds[5].innerHTML = encode.completed;
-      }
-      if(data.thumbnail_url){
-        addThumbnailInIndex(tds[6], data.thumbnail_url)
-      }
-    }
-    return
   }
 }
 
