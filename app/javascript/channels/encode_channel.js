@@ -13,13 +13,7 @@ consumer.subscriptions.create("EncodeChannel", {
 
   received(data) {
     // Called when there's incoming data on the websocket for this channel
-    var event = data.event
-    var encode = data.body.encode
-    var log = data.body.log
     console.log("data: "+JSON.stringify(data))
-    console.log("data.body: "+JSON.stringify(data.body))
-    console.log("data.body.object.encode: "+JSON.stringify(encode))
-    console.log("data.body.log: "+data.body.log)
     var controller_name = document.getElementById("controller_name").value;
     var action_name = document.getElementById("action_name").value;
     if(controller_name == "encodes"){
@@ -32,124 +26,10 @@ consumer.subscriptions.create("EncodeChannel", {
   }
 });
 
-function scrollingLogContainerToBottom(){
-  var log_container = document.getElementById("log_container");
-  if(log_container){
-    log_container.scrollTop = log_container.scrollHeight;
-  }
-}
-
-function addThumbnailInShow(thumbnail_url){
-  if(thumbnail_url){
-    var thumbnailContainer = document.getElementById("thumbnail-container")
-    console.log("thumbnail_url" + thumbnail_url)
-    var img = document.createElement("img")
-    img.src = thumbnail_url
-    thumbnailContainer.appendChild(img)
-  }
-}
-
-function addThumbnailInIndex(td, thumbnail_url){
-  if(thumbnail_url){
-    if(!td.hasChildNodes()){
-      var img = document.createElement("img")
-      img.src = thumbnail_url
-      var figure = document.createElement("figure")
-      figure.setAttribute("class","image is-32x32");
-      figure.appendChild(img);
-      td.appendChild(figure);
-      console.log("img.src " + img.src);
-    }
-  }
-}
-
-function findTdsEncode(encode){
-  var tr = document.querySelectorAll("[id='encode_id']");
-  var found_index = 0;
-  for(var i = 0; i < tr.length; i++){
-    var data_encode_id = tr[i].getAttribute("data-encode-id")
-    if(data_encode_id == encode.id){
-      found_index = i;
-    }
-  }
-  var tds = tr[found_index].getElementsByTagName("td")
-  return tds;
-}
-
-function eventCreatedOnEncodeIndex(data, encodes_table){
-  var encode = data.body.encode
-  var percentage = data.body.percentage
-  var log = data.body.log
-  var filename = data.body.filename
-  var thumbnail_url = data.body.thumbnail_url
-  console.log("data: "+JSON.stringify(data))
-  console.log("data.body: "+JSON.stringify(data.body))
-  console.log("data.body.encode: "+JSON.stringify(encode))
-  console.log("data.body.log: "+data.body.log)
-
-  var row = encodes_table.insertRow(1);
-  row.setAttribute("id","encode_id");
-  row.setAttribute("data-encode-id",encode.id);
-  var id_cell = document.createElement('th');
-  row.appendChild(id_cell);
-  var title_cell = row.insertCell(1);
-  var filename_cell = row.insertCell(2);
-  var runtime_cell = row.insertCell(3);
-  var url_cell = row.insertCell(4);
-  var craeted_at_cell = row.insertCell(5);
-  var completed_cell = row.insertCell(6);
-  completed_cell.setAttribute("id","status_"+encode.id);
-  var del_cell = row.insertCell(7);
-  id_cell.innerHTML = encode.id;
-  title_cell.innerHTML = encode.title;
-  filename_cell.innerHTML = filename;
-  runtime_cell.innerHTML = encode.runtime;
-  url_cell.innerHTML = encode.url;
-  craeted_at_cell.innerHTML = encode.created_at;
-  completed_cell.innerHTML = encode.completed;
-  del_cell.innerHTML = "";
-}
-
-function eventCompletedOnEncodeIndex(data){
-  var encode = data.body.encode
-  var tds = findTdsEncode(encode)
-  tds[2].innerHTML = encode.runtime;
-  tds[3].innerHTML = encode.url;
-  tds[5].innerHTML = encode.completed;
-}
-
-function eventProcessingOnEncodeIndex(data){
-  var encode = data.body.encode
-  var percentage = data.body.percentage
-  var log = data.body.log
-  var filename = data.body.filename
-  var thumbnail_url = data.body.thumbnail_url
-  console.log("data: "+JSON.stringify(data))
-  console.log("data.body: "+JSON.stringify(data.body))
-  console.log("data.body.encode: "+JSON.stringify(encode))
-  console.log("data.body.log: "+data.body.log)
-  var status = document.getElementById("status_"+encode.id);
-  status.innerHTML = percentage
-}
-
-function eventThumbnailRailsUrlOnEncodeIndex(data){
-  var encode = data.body.encode
-  var tds = findTdsEncode(encode)
-  addThumbnailInIndex(tds[6], data.thumbnail_url)
-}
 
 function onEncodeIndex(data){
   var event = data.event
   var encode = data.body.encode
-  var percentage = data.body.percentage
-  var log = data.body.log
-  var filename = data.body.filename
-  var thumbnail_url = data.body.thumbnail_url
-  console.log("data: "+JSON.stringify(data))
-  console.log("data.body: "+JSON.stringify(data.body))
-  console.log("data.body.encode: "+JSON.stringify(encode))
-  console.log("data.body.log: "+data.body.log)
-
   var encodes_table = document.getElementById("encodes");
   if(encodes_table){
     console.log("encodes_table exist")
@@ -166,8 +46,8 @@ function onEncodeIndex(data){
       eventCreatedOnEncodeIndex(data, encodes_table)
     }else if(event == 'COMPLETED'){
       eventCompletedOnEncodeIndex(data)
-    }else if(event == 'PROCESSING') {
-      eventProcessingOnEncodeIndex(data)
+    }else if(event == 'HLS_PROCESSING') {
+      eventHlsProcessingOnEncodeIndex(data)
     }else if(event == 'THUMBNAIL_RAILS_URL'){
       eventThumbnailRailsUrlOnEncodeIndex(data)
     }
@@ -215,7 +95,97 @@ function onEncodeShow(data){
     return
   }
 }
+function scrollingLogContainerToBottom(){
+  var log_container = document.getElementById("log_container");
+  if(log_container){
+    log_container.scrollTop = log_container.scrollHeight;
+  }
+}
 
+function addThumbnailInShow(thumbnail_url){
+  if(thumbnail_url){
+    var thumbnailContainer = document.getElementById("thumbnail-container")
+    console.log("thumbnail_url" + thumbnail_url)
+    var img = document.createElement("img")
+    img.src = thumbnail_url
+    thumbnailContainer.appendChild(img)
+  }
+}
+
+function addThumbnailInIndex(td, thumbnail_url){
+  if(thumbnail_url){
+    if(!td.hasChildNodes()){
+      var img = document.createElement("img")
+      img.src = thumbnail_url
+      var figure = document.createElement("figure")
+      figure.setAttribute("class","image is-32x32");
+      figure.appendChild(img);
+      td.appendChild(figure);
+      console.log("img.src " + img.src);
+    }
+  }
+}
+
+function findTdsEncode(encode){
+  var tr = document.querySelectorAll("[id='encode_id']");
+  var found_index = 0;
+  for(var i = 0; i < tr.length; i++){
+    var data_encode_id = tr[i].getAttribute("data-encode-id")
+    if(data_encode_id == encode.id){
+      found_index = i;
+    }
+  }
+  var tds = tr[found_index].getElementsByTagName("td")
+  return tds;
+}
+
+function eventCreatedOnEncodeIndex(data, encodes_table){
+  var encode = data.body.encode
+  var filename = data.body.filename
+  var row = encodes_table.insertRow(1);
+  row.setAttribute("id","encode_id");
+  row.setAttribute("data-encode-id",encode.id);
+  var id_cell = document.createElement('th');
+  row.appendChild(id_cell);
+  var title_cell = row.insertCell(1);
+  var filename_cell = row.insertCell(2);
+  var runtime_cell = row.insertCell(3);
+  var url_cell = row.insertCell(4);
+  var craeted_at_cell = row.insertCell(5);
+  var completed_cell = row.insertCell(6);
+  completed_cell.setAttribute("id","status_"+encode.id);
+  var del_cell = row.insertCell(7);
+  id_cell.innerHTML = encode.id;
+  title_cell.innerHTML = encode.title;
+  filename_cell.innerHTML = filename;
+  runtime_cell.innerHTML = encode.runtime;
+  url_cell.innerHTML = encode.url;
+  craeted_at_cell.innerHTML = encode.created_at;
+  completed_cell.innerHTML = encode.completed;
+  del_cell.innerHTML = "";
+}
+
+function eventCompletedOnEncodeIndex(data){
+  var encode = data.body.encode
+  var tds = findTdsEncode(encode)
+  tds[2].innerHTML = encode.runtime;
+  tds[3].innerHTML = encode.url;
+  tds[5].innerHTML = encode.completed;
+}
+
+function eventHlsProcessingOnEncodeIndex(data){
+  var encode = data.body.encode
+  var percentage = data.body.percentage
+  var status = document.getElementById("status_"+encode.id);
+  status.innerHTML = percentage
+}
+
+function eventThumbnailRailsUrlOnEncodeIndex(data){
+  var encode = data.body.encode
+  var thumbnail_url = data.body.thumbnail_url
+  var tds = findTdsEncode(encode)
+  addThumbnailInIndex(tds[6], thumbnail_url)
+}
 
 document.addEventListener("turbolinks:load", function() {
   scrollingLogContainerToBottom();
