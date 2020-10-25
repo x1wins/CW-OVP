@@ -52,17 +52,22 @@ function onEncodeIndex(data){
 }
 
 function onEncodeShow(data){
-  var event = data.event
-  if(event == 'COMPLETED'){
-    eventCompletedOnEncodeShow(data)
-  }else if(event == 'HLS_PROCESSING') {
-    eventHlsProcessingOnEncodeShow(data)
-  }else if(event == 'THUNBNAIL_PROCESSING'){
-    eventThunbnailProcessingOnEncodeShow(data)
-  }else if(event == 'THUMBNAIL_CDN_URL'){
-    eventThumbnailCdnUrlOnEncodeShow(data)
+  var encode = data.body.encode
+  var received_encode_id = encode.id;
+  var current_encode_id = document.getElementById("encode_id");
+  if(current_encode_id && (current_encode_id.value == received_encode_id)){
+    var event = data.event
+    if(event == 'COMPLETED'){
+      eventCompletedOnEncodeShow(data)
+    }else if(event == 'HLS_PROCESSING') {
+      eventHlsProcessingOnEncodeShow(data)
+    }else if(event == 'THUNBNAIL_PROCESSING'){
+      eventThunbnailProcessingOnEncodeShow(data)
+    }else if(event == 'THUMBNAIL_CDN_URL'){
+      eventThumbnailCdnUrlOnEncodeShow(data)
+    }
+    scrollingLogContainerToBottom();
   }
-  scrollingLogContainerToBottom();
 }
 
 function scrollingLogContainerToBottom(){
@@ -166,9 +171,7 @@ function eventHlsProcessingOnEncodeShow(data){
   var percentage = data.body.percentage
   var log = data.body.log
   var logs_table = document.getElementById("logs");
-  var current_encode_id = document.getElementById("encode_id");
-  var received_encode_id = encode.id;
-  if(logs_table && current_encode_id && (current_encode_id.value == received_encode_id)) {
+  if(logs_table) {
     var runtime = document.getElementById("runtime");
     runtime.innerHTML = encode.runtime;
     var progress = document.getElementById("progress");
