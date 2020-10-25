@@ -38,7 +38,7 @@ services:
       - cw_ovp_network
   sidekiq:
     build: .
-    command: bundle exec sidekiq
+    command: bundle exec sidekiq -c 10
     env_file:
       - .env.dev.docker.compose
       - .env.dev.s3
