@@ -9,14 +9,14 @@ class ThumbnailWorker
       encode.file.open do |f|
         uploaded_file_path = f.path
         thumbnail_local_full_path = Storage::Path::Local::Thumbnail.call(encode)
-        runtime = `sh app/encoding/runtime.sh #{uploaded_file_path}`
-        mkdir_cmd = `sh app/encoding/mkdir.sh #{thumbnail_local_full_path}`
+        runtime = Bash::Runtime.call(uploaded_file_path)
+        mkdir_cmd = Bash::Mkdir.call(thumbnail_local_full_path)
         thumbnail_seconds = encode.thumbnail_seconds runtime
         for i in 1..Encode::THUMBNAIL_COUNT
           ss = thumbnail_seconds[i-1]
           thumbnail_filename = encode.thumbnail_filename ss, i
           thumbnail_file_full_path = "#{thumbnail_local_full_path}/#{thumbnail_filename}"
-          thumbnail_cmd = `sh app/encoding/thumbnail.sh #{uploaded_file_path} #{ss} #{thumbnail_file_full_path}`
+          thumbnail_cmd = Bash::Thumbnail.call(uploaded_file_path, ss, thumbnail_file_full_path)
           thumbnail_url = Storage::Url::Full::Thumbnail.call(encode, base_url, thumbnail_filename)
           encode.assets.create(format: 'image', url: thumbnail_url)
           encode.thumbnails.attach(io: File.open(thumbnail_file_full_path), filename: thumbnail_filename, content_type: "image/png")
