@@ -11,6 +11,7 @@
     * [Storage config](#Storage-config)
     * [How To Run Development mode](#How-To-Run-Development-mode)
     * [How To Run Development mode with Docker-compose](#How-To-Run-Development-mode-with-Docker-compose)
+* [Sample video file download](#Sample-video-file-download)    
 
 ## Introduction
 ### EN
@@ -197,6 +198,7 @@ OVP(online video platform)란<br/>
     4. ```docker-compose run --no-deps web bundle exec rake db:create RAILS_ENV=test```
     4. ```docker-compose run --no-deps web bundle exec rake db:migrate RAILS_ENV=test```
     5. ```docker-compose run --no-deps web bundle exec rspec --format documentation```
+    6. ```docker-compose run --no-deps web bundle exec rails console```
 3. Restart for updated code
     1. ```git fetch origin develop```
     2. ```git reset --hard origin/develop```
@@ -205,7 +207,13 @@ OVP(online video platform)란<br/>
         docker-compose --env-file .env.dev.s3 restart web
         docker-compose --env-file .env.dev.s3 restart sidekiq
         ```
-             
+## Sample video file download
+- http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4              
+- https://filesamples.com/samples/video/avi/sample_1920x1080.avi
+- https://filesamples.com/samples/video/ts/sample_1920x1080.ts
+- https://filesamples.com/samples/video/mp4/sample_1920x1080.mp4
+- https://filesamples.com/samples/video/mkv/sample_1920x1080.mkv
+- https://filesamples.com/samples/video/mov/sample_1920x1080.mov
 
 RUN pip install awscli
 RUN --mount=type=secret,id=aws,target=/root/.aws/credentials aws s3 cp s3://... ...
