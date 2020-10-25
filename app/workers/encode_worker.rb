@@ -9,9 +9,9 @@ class EncodeWorker
       encode.file.open do |f|
         uploaded_file_path = f.path
         hls_local_full_path = Storage::Path::Local::Hls.call(encode)
-        runtime = `sh app/encoding/runtime.sh #{uploaded_file_path}`
-        mkdir_cmd = `sh app/encoding/mkdir.sh #{hls_local_full_path}`
-        encoding_cmd = "sh app/encoding/hls_h264.sh #{hls_local_full_path} #{uploaded_file_path}"
+        runtime = Bash::Runtime.call(uploaded_file_path)
+        mkdir_cmd = Bash::Mkdir.call(hls_local_full_path)
+        encoding_cmd = Bash::Hls.call(hls_local_full_path, uploaded_file_path)
         log = ""
         encode.update(runtime: runtime)
         Open3.popen3(encoding_cmd) do |stdin, stdout, stderr, wait_thr|
@@ -31,12 +31,12 @@ class EncodeWorker
           end
         end
 
-        playlist_cp_cmd = `cp app/encoding/playlist.m3u8 #{hls_local_full_path}/`
+        playlist_cp_cmd = Bash::CopyPlaylist.call(hls_local_full_path)
 
         cdn_bucket = ENV['CDN_BUCKET']
         hls_relative_path = Storage::Url::Relative::Hls.call(encode)
         hls_local_full_path = Storage::Path::Local::Hls.call(encode)
-        move_hls_to_cdn_cmd = "sh app/encoding/mv.sh #{cdn_bucket} #{hls_relative_path} #{hls_local_full_path}"
+        move_hls_to_cdn_cmd = Bash::MoveToCdn.call(cdn_bucket, hls_relative_path, hls_local_full_path)
         Sidekiq.logger.info "move_hls_to_cdn_cmd : #{move_hls_to_cdn_cmd}"
         total_file_count = 0
         Open3.popen3(move_hls_to_cdn_cmd) do |stdin, stdout, stderr, wait_thr|
