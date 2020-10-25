@@ -25,7 +25,8 @@ class ThumbnailWorker
           Message::Send.call(Message::Event::THUNBNAIL_PROCESSING, Message::Body.new(encode, nil, message, nil, thumbnail_rails_url))
           if i == Encode::THUMBNAIL_COUNT
             message = "Completed Extracting Thumbnail"
-            Message::Send.call(Message::Event::THUMBNAIL_RAILS_URL, Message::Body.new(encode, nil, message, nil, thumbnail_rails_url))
+            first_thumbnail_rails_url = Rails.application.routes.url_helpers.rails_blob_path(encode.thumbnails.first, disposition: "attachment", only_path: true)
+            Message::Send.call(Message::Event::THUMBNAIL_RAILS_URL, Message::Body.new(encode, nil, message, nil, first_thumbnail_rails_url))
           end
         end
       end
