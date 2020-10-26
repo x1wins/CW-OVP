@@ -47,10 +47,13 @@ class EncodeWorker
               unless matched_time.kind_of?(Array)
                 message = matched_time[0]
                 file_number = matched_time[1].to_i - 1
-                if index == 0
+                Sidekiq.logger.info "index: #{index} total_file_count: #{total_file_count} file_number: #{file_number}"
+                if total_file_count == 0 or total_file_count < file_number
                   total_file_count = file_number
+                  Sidekiq.logger.info "input total_file_count: #{total_file_count} file_number: #{file_number}"
                 end
                 percentage = 50 + Percentage::Cdn.call(total_file_count, file_number)
+                Sidekiq.logger.info "percentage: #{percentage}"
                 Message::Send.call(Message::Event::HLS_PROCESSING, Message::Body.new(encode, Percentage::ToString.call(percentage), message, nil, nil))
                 log += message
                 Sidekiq.logger.info message
