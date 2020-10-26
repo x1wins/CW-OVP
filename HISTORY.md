@@ -810,3 +810,22 @@ Completed 661.8 MiB/662.3 MiB (1.2 MiB/s) with 3 file(s) remaining
 Completed 662.1 MiB/662.3 MiB (1.2 MiB/s) with 2 file(s) remaining
 Completed 662.1 MiB/662.3 MiB (1.2 MiB/s) with 1 file(s) remaining
 ```
+
+Completed 256.0 KiB/~162.5 MiB (314.6 KiB/s) with ~75 file(s) remaining (calculating...)
+Completed 11.4 MiB/~530.5 MiB (1.5 MiB/s) with ~490 file(s) remaining (calculating...)
+Completed 12.9 MiB/709.0 MiB (1.5 MiB/s) with 640 file(s) remaining
+
+Completed \d+.\d+ \w+\/\~*\d+.\d+ \w+ \(\d+.\d+ \w+\/s\) with \~*(\d+) file\(s\) remaining
+Completed \d+.\d+ \w+\/\d+.\d+ \w+ \(\d+.\d+ \w+\/s\) with \~*(\d+) file\(s\) remaining
+Completed 261.6 MiB/709.0 MiB (1.2 MiB/s) with 530 file(s) remaining
+
+web_1      | [ActionCable] [1] EncodeChannel transmitting {"event"=>"HLS_PROCESSING", "body"=>{"percentage"=>"50.00%", "log"=>"frame=19038 fps= 12 q=-1.0 Lq=-1.0 q=-1.0 q=-1.0 size=N/A time=00:10:34.53 bitrate=N/A dup=8 drop=0 speed=0.398x \n", "filename"=>nil, "thumbnail_url"=>nil, "encode"=>{"id"=>251, "runtime"=>"00:10:34.53\n", "user_id"=>1, "title"... (via streamed from encode_channel)
+2020-10-26T08:08:56.863Z pid=1 tid=gplc58fpt class=EncodeWorker jid=a04821ee0b33f25515197773 INFO: move_hls_to_cdn_cmd : sh app/encoding/mv.sh vod-hls 2020/10/26/251/hls /storage/251_hls
+move: ../storage/251_hls/1080/1080p_000.ts to s3://vod-hls/2020/10/26/251/hls/1080/1080p_000.tsFO: aws mv: Completed 256.0 KiB/~162.5 MiB (314.6 KiB/s) with ~75 file(s) remaining (calculating...)
+sidekiq_1  | 
+move: ../storage/251_hls/1080/1080p_001.ts to s3://vod-hls/2020/10/26/251/hls/1080/1080p_001.tsFO: aws mv: Completed 11.4 MiB/~530.5 MiB (1.5 MiB/s) with ~490 file(s) remaining (calculating...)
+sidekiq_1  | 
+sidekiq_1  | 2020-10-26T08:09:10.634Z pid=1 tid=gplc58fpt class=EncodeWorker jid=a04821ee0b33f25515197773 INFO: Completed 12.9 MiB/709.0 MiB (1.5 MiB/s) with 640 file(s) remaining
+sidekiq_1  | 
+web_1      | [ActionCable] [1] EncodeChannel transmitting {"event"=>"HLS_PROCESSING", "body"=>{"percentage"=>"-Inf%", "log"=>"Completed 12.9 MiB/709.0 MiB (1.5 MiB/s) with 640 file(s) remaining\n", "filename"=>nil, "thumbnail_url"=>nil, "encode"=>{"id"=>251, "runtime"=>"00:10:34.53\n", "user_id"=>1, "title"=>"bbb sunflower 1080p 30fps", "log"=>nil, "sta... (via streamed from encode_channel)
+web_1      | [ActionCable] [1] EncodeChannel transmitting {"event"=>"HLS_PROCESSING", "body"=>{"percentage"=>"-Inf%", "log"=>"Completed 12.9 MiB/709.0 MiB (1.5 MiB/s) with 640 file(s) remaining\n", "filename"=>nil, "thumbnail_url"=>nil, "encode"=>{"id"=>251, "runtime"=>"00:10:34.53\n", "user_id"=>1, "title"=>"bbb sunflower 1080p 30fps", "log"=>nil, "sta... (via streamed from encode_channel)
