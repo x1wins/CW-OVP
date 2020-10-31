@@ -86,4 +86,3 @@ services:
         constraints: [node.role == manager]
 networks:
   cw_ovp_network:
-    driver: bridge
