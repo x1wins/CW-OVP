@@ -1,0 +1,89 @@
+version: '3'
+services:
+  db:
+    image: postgres:10.10
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file: .env.dev.docker.compose
+    networks:
+      - cw_ovp_network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == manager]
+  redis:
+    image: redis:latest
+    volumes:
+      - ./tmp/redis:/data
+    entrypoint: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    networks:
+      - cw_ovp_network
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == manager]
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    env_file:
+      - .env.dev.docker.compose
+      - .env.dev.s3
+    volumes:
+      - .:/myapp
+      - ~/storage:/storage
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+      - db
+    networks:
+      - cw_ovp_network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == manager]
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq -c 10
+    env_file:
+      - .env.dev.docker.compose
+      - .env.dev.s3
+    volumes:
+      - .:/myapp
+      - ~/storage:/storage
+    depends_on:
+      - redis
+    networks:
+      - cw_ovp_network
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == worker]
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    stop_grace_period: 1m30s
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+networks:
+  cw_ovp_network:
+    driver: bridge
