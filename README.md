@@ -11,7 +11,7 @@
     * [Storage config](#Storage-config)
     * [How To Run Development mode](#How-To-Run-Development-mode)
     * [How To Run Development mode with Docker-compose](#How-To-Run-Development-mode-with-Docker-compose)
-* [How To Run Docker swarm mode with docker-stack.yml](#How-To-Run-Docker-swarm-mode-with-docker-stack.yml)    
+* [How To Run Docker swarm mode with docker-stack.yml](/DOCKER-SWARM.md)    
 * [Sample video file download](#Sample-video-file-download)    
 
 ## Introduction
@@ -197,64 +197,9 @@ OVP(online video platform)란<br/>
         docker-compose --env-file .env.dev.s3 restart web
         docker-compose --env-file .env.dev.s3 restart sidekiq
         ```
-
 ### How To Run Docker swarm mode with docker-stack.yml
-- https://github.com/dockersamples/example-voting-app/blob/master/docker-stack.yml
-- https://github.com/docker/machine
-```
-brew install virtualbox
-brew install docker-machine
-docker-machine create -d virtualbox master
-docker-machine create -d virtualbox worker1
-docker-machine create -d virtualbox worker2
-docker-machine ls
-```
-
-if you don't have virtualbox. you got blow of message.
-```
-VBoxManage not found. Make sure VirtualBox is installed and VBoxManage is in the path
-```
-
-```
-docker-machine ssh master
-docker@master:~$ docker swarm init --advertise-addr 192.168.99.100                                                                                                                                        
-
-Swarm initialized: current node (4l396ni602807sb2hk1ujlvm5) is now a manager.
-
-To add a worker to this swarm, run the following command:
-
-    docker swarm join --token SWMTKN-1-5jcphjyj4ykejxphj2o15yh7bz4syyxo5qg8bt25ldkhd4poez-1l2skxj2931mtjolwd43139jy 192.168.99.100:2377
-
-To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
-```
-
-```
-docker-machine ssh worker1
-   ( '>')
-  /) TC (\   Core is distributed with ABSOLUTELY NO WARRANTY.
- (/-_--_-\)           www.tinycorelinux.net
-
-docker@worker1:~$ docker swarm join --token SWMTKN-1-5jcphjyj4ykejxphj2o15yh7bz4syyxo5qg8bt25ldkhd4poez-1l2skxj2931mtjolwd43139jy 192.168.99.100:2377
-This node joined a swarm as a worker.
-```
-
-```
-docker-machine ssh worker2
-   ( '>')
-  /) TC (\   Core is distributed with ABSOLUTELY NO WARRANTY.
- (/-_--_-\)           www.tinycorelinux.net
-
-docker@worker2:~$ docker swarm join --token SWMTKN-1-5jcphjyj4ykejxphj2o15yh7bz4syyxo5qg8bt25ldkhd4poez-1l2skxj2931mtjolwd43139jy 192.168.99.100:2377
-This node joined a swarm as a worker.
-```
-
-- https://github.com/dockersamples/example-voting-app#linux-containers
-```
-git clone https://github.com/x1wins/CW-OVP.git
-cd ./CW-OVP
-docker stack deploy --compose-file docker-stack.yml ovp
-```
-
+[DOCKER-SWARM.md](/DOCKER-SWARM.md)
+       
 ### Sample video file download
 - http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4              
 - https://filesamples.com/samples/video/avi/sample_1920x1080.avi
