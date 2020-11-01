@@ -1,6 +1,27 @@
 ### How To Run Docker swarm mode with docker-stack.yml
+* [Introduction](#Introduction)
+* [Docker-machine setup](#Docker-machine setup)
+    * [virtualbox](#Docker-machine setup)
+* [Private registry](#Private-registry)
+* [Initial source](#Initial-source)
+* [update-source](#update-source)
+* [update s3](#update-s3)
+* [build image](#build-image)
+    * [build image and change tag with localhost:5000](#build-image-and-change-tag-with-localhost:5000)
+    * [build image with localhost:5000 for private repository](#build-image-with-localhost:5000-for-private-repository)
+* [Push image to Pirvate regitory](#Push-image-to-Pirvate-regitory)
+* [Run stack](#Run-stack)
+* [Stop stack](#Stop-stack)
+* [Trouble shooting](#Trouble-shooting)
 
-#### docker-machine setup
+## Introduction
+CW-OVP can have many background job for video packaging and encoding with ffmpeg. 
+You must do scale out in production environment due to you require HA and saving time.
+If you want get ```scale in```, you can get it but you know ```scale in``` cost is expensive more than ```scale out```.
+I provide scale out of solution with docker swarm.
+I recommend 16 core for each server of ```worker node``` but mininum spec is ```4 or 8 or more core```.
+
+#### Docker-machine setup
 - https://github.com/dockersamples/example-voting-app/blob/master/docker-stack.yml
 - https://github.com/docker/machine
 ```
