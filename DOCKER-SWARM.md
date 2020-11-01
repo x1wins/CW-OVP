@@ -94,7 +94,7 @@ vi .env.dev.s3
 
 #### Push image to Pirvate regitory
 ```
-docker push localhost:5000/cw-ovp
+docker push 127.0.0.1:5000/cw-ovp
 ```
 
 #### Run stack
