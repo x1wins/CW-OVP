@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:10.10
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     env_file: .env.dev.docker.compose
@@ -18,7 +18,7 @@ services:
   redis:
     image: redis:latest
     volumes:
-      - ./tmp/redis:/data
+      - redis-data:/data
     entrypoint: redis-server --appendonly yes
     ports:
       - "6379:6379"
@@ -88,3 +88,6 @@ services:
         constraints: [node.role == manager]
 networks:
   backend:
+volumes:
+  db-data:
+  redis-data:
