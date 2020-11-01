@@ -8,7 +8,7 @@ services:
       - "5432:5432"
     env_file: .env.dev.docker.compose
     networks:
-      - cw_ovp_network
+      - backend
     deploy:
       replicas: 1
       restart_policy:
@@ -23,7 +23,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - cw_ovp_network
+      - backend
     deploy:
       replicas: 1
       update_config:
@@ -48,7 +48,7 @@ services:
       - redis
       - db
     networks:
-      - cw_ovp_network
+      - backend
     deploy:
       replicas: 1
       restart_policy:
@@ -67,7 +67,7 @@ services:
     depends_on:
       - redis
     networks:
-      - cw_ovp_network
+      - backend
     deploy:
       replicas: 2
       restart_policy:
@@ -85,4 +85,4 @@ services:
       placement:
         constraints: [node.role == manager]
 networks:
-  cw_ovp_network:
+  backend:
