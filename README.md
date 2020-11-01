@@ -199,6 +199,9 @@ OVP(online video platform)란<br/>
         ```
 ### How To Run Docker swarm mode with docker-stack.yml
 [DOCKER-SWARM.md](/DOCKER-SWARM.md)
+
+![visualizer_screenshot](/visualizer_screenshot.png)
+
        
 ### Sample video file download
 - http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4              
