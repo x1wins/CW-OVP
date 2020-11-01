@@ -71,7 +71,7 @@ git checkout feature/docker-stack
 ```
 cd CW-OVP/
 git pull
-git reset --hard feature/docker-stack
+git reset --hard origin/feature/docker-stack
 ```
 
 #### update s3 
@@ -85,10 +85,11 @@ vi .env.dev.s3
     ```
     docker build -t cw-ovp:latest .
     docker tag cw-ovp:latest localhost:5000/cw-ovp
+    docker tag localhost:5000/cw-ovp:latest 127.0.0.1:5000/cw-ovp
     ```
 - build image with localhost:5000 for private repository
     ```
-    docker build -t localhost:5000/cw-ovp . 
+    docker build -t 127.0.0.1:5000/cw-ovp . 
     ```
 
 #### Push image to Pirvate regitory
@@ -115,7 +116,7 @@ docker stack rm CW-OVP
 - https://stackoverflow.com/a/45373282/1399891
 ```
 docker service ps --no-trunc {serviceName}
-docker service ps --no-trunc mbbutj2bbida
+docker service ps --no-trunc t9zabkgynr8c
 docker service ps --no-trunc kged4le7e3jn
 mkdir /home/docker/CW-OVP/tmp/redis                                                                                                                                               
 mkdir /home/docker/CW-OVP/tmp/db
