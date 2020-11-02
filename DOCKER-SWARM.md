@@ -196,8 +196,8 @@ docker service create \
 - https://github.com/portainer/portainer
 - you can connect http://192.168.99.100:9000 with web browser
 ```
-$ curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-agent-stack.yml
-$ docker stack deploy --compose-file=portainer-agent-stack.yml portainer
+curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-agent-stack.yml
+docker stack deploy --compose-file=portainer-agent-stack.yml portainer
 ```
 ![docker_swarm_visualizer](/docker_swarm_visualizer.png)
 ![docker_swarm_portainer](/docker_swarm_portainer_screenshot.png)
