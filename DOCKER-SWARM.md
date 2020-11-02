@@ -13,6 +13,8 @@
 * [Push Image to Pirvate registry](#Push-Image-to-Pirvate-registry)
 * [Run stack](#Run-stack)
 * [Stop stack](#Stop-stack)
+* [Changing Scale](#Changing-Scale)
+* [Update latest image](#Update-latest-image)
 * [Trouble shooting](#Trouble-shooting)
 
 ## Introduction Scale Out with Docker Swarm
@@ -23,8 +25,8 @@ I provide scale out of solution with docker swarm.
 I recommend 16 core for each server of ```worker node``` but mininum spec is ```4 or 8 or more core```.
 
 ## Docker-machine
-> If you want run on local PC or docker-machine driver with aws or digital ocean or another cloud service that support docker-machine, Do use docker-machine.
-> But if you don't wanna docker-machine, bypass this section go to next section of [Private registry](#Private-registry)
+If you want run on local PC or docker-machine driver with aws or digital ocean or another cloud service that support docker-machine, Do use docker-machine.
+But if you don't wanna docker-machine, bypass this section go to next section of [Private registry](#Private-registry)
     
 - Reference
     - sample docker-stack.yml https://github.com/dockersamples/example-voting-app/blob/master/docker-stack.yml
@@ -85,6 +87,8 @@ This node joined a swarm as a worker.
 - Reference
     - https://docs.docker.com/engine/swarm/stack-deploy/
 ```
+docker-machine ssh master
+
 docker service create --name registry --publish published=5000,target=5000 registry:2
 curl http://localhost:5000/v2/
 ```
@@ -105,7 +109,7 @@ git pull
 git reset --hard origin/master # or origin/feature/docker-stack
 ```
 
-## Update s3 
+## Update s3
 ```
 vi .env.dev.s3
 ```
@@ -141,6 +145,30 @@ docker exec -it 1f7193e6042e bundle exec rake db:migrate
 ## Stop stack
 ```
 docker stack rm CW-OVP
+```
+
+## Changing Scale
+```
+docker@master:~/CW-OVP$ docker service scale CW-OVP_web=1                                                                                                                                                 
+CW-OVP_web scaled to 1
+overall progress: 1 out of 1 tasks 
+1/1: running   [==================================================>] 
+verify: Service converged 
+docker@master:~/CW-OVP$ docker service ls                                                                                                                                                                 
+ID                  NAME                MODE                REPLICAS            IMAGE                             PORTS
+jc1sqff4pyni        CW-OVP_db           replicated          1/1                 postgres:10.10                    *:5432->5432/tcp
+i5mpujb9hqh5        CW-OVP_redis        replicated          1/1                 redis:latest                      *:6379->6379/tcp
+7olizwz0kn9g        CW-OVP_sidekiq      replicated          2/2                 127.0.0.1:5000/cw-ovp:latest      
+tyu6zey671ky        CW-OVP_visualizer   replicated          1/1                 dockersamples/visualizer:stable   *:8080->8080/tcp
+mgwbtswxctjk        CW-OVP_web          replicated          1/1                 127.0.0.1:5000/cw-ovp:latest      *:3000->3000/tcp
+kchi30notd2m        registry            replicated          1/1                 registry:2                        *:5000->5000/tcp
+```
+
+## Update latest image
+- https://stackoverflow.com/a/61822322/1399891
+```
+docker service update --image 127.0.0.1:5000/cw-ovp CW-OVP_web
+# docker service update --image <username>/<repo> <servicename>    
 ```
 
 ## Trouble shooting
