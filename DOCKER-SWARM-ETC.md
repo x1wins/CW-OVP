@@ -1,0 +1,2 @@
+https://info.crunchydata.com/blog/an-easy-recipe-for-creating-a-postgresql-cluster-with-docker-swarm
+https://github.com/CrunchyData/crunchy-containers/blob/master/examples/docker/swarm-service/docker-compose.yml
