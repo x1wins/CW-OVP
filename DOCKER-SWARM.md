@@ -1,5 +1,5 @@
-### How To Run Docker swarm mode with docker-stack.yml
-* [Introduction](#Introduction)
+# How To Run Docker swarm mode with docker-stack.yml
+* [Introduction Scale Out with Docker Swarm](#Introduction-Scale-Out-with-Docker-Swarm)
 * [Docker-machine](#Docker-machine)
     * [Docker-machine Setup on macOS](#Docker-machine-Setup-on-macOS)
     * [Docker-machine ssh](#Docker-machine-ssh)
@@ -22,7 +22,7 @@ If you want get ```scale in```, you can get it but you know ```scale in``` cost 
 I provide scale out of solution with docker swarm.
 I recommend 16 core for each server of ```worker node``` but mininum spec is ```4 or 8 or more core```.
 
-### Docker-machine
+## Docker-machine
 > If you want run on local PC or docker-machine driver with aws or digital ocean or another cloud service that support docker-machine, Do use docker-machine.
 > But if you don't wanna docker-machine, bypass this section go to next section of [Private registry](#Private-registry)
     
@@ -30,7 +30,7 @@ I recommend 16 core for each server of ```worker node``` but mininum spec is ```
     - sample docker-stack.yml https://github.com/dockersamples/example-voting-app/blob/master/docker-stack.yml
     - https://github.com/docker/machine
 
-#### Docker-machine Setup on macOS
+### Docker-machine Setup on macOS
 ```
 brew install virtualbox
 brew install docker-machine
@@ -45,7 +45,7 @@ docker-machine ls
 VBoxManage not found. Make sure VirtualBox is installed and VBoxManage is in the path.
 ```
 
-#### Docker-machine ssh
+### Docker-machine ssh
 ```
 docker-machine ssh master
 ### or eval "$(docker-machine env master)"
@@ -81,7 +81,7 @@ docker@worker2:~$ docker swarm join --token SWMTKN-1-5jcphjyj4ykejxphj2o15yh7bz4
 This node joined a swarm as a worker.
 ```
 
-### Private registry
+## Private registry
 - Reference
     - https://docs.docker.com/engine/swarm/stack-deploy/
 ```
@@ -89,7 +89,7 @@ docker service create --name registry --publish published=5000,target=5000 regis
 curl http://localhost:5000/v2/
 ```
 
-### Initial source
+## Initial source
 ```
 git clone https://github.com/x1wins/CW-OVP.git
 cd ./CW-OVP
@@ -97,7 +97,7 @@ git fetch
 git checkout master # or feature/docker-stack
 ```
 
-### Update source 
+## Update source 
 > if you change source, use ```git pull or fetch```
 ```
 cd CW-OVP/
@@ -105,12 +105,12 @@ git pull
 git reset --hard origin/master # or origin/feature/docker-stack
 ```
 
-#### Update s3 
+## Update s3 
 ```
 vi .env.dev.s3
 ```
 
-### Build image
+## Build image
 - build image and change tag with localhost:5000
     ```
     docker build -t cw-ovp:latest .
@@ -122,12 +122,12 @@ vi .env.dev.s3
     docker build -t 127.0.0.1:5000/cw-ovp . 
     ```
 
-### Push Image to Pirvate registry
+## Push Image to Pirvate registry
 ```
 docker push 127.0.0.1:5000/cw-ovp
 ```
 
-### Run stack
+## Run stack
 ```
 docker stack deploy --compose-file docker-stack.yml CW-OVP
 docker exec -it 1f7193e6042e bundle exec rails webpacker:install
@@ -138,12 +138,12 @@ docker exec -it 1f7193e6042e bundle exec rake db:migrate
 - CW-OVP url
     - http://192.168.99.100:3000/
 
-#### Stop stack
+## Stop stack
 ```
 docker stack rm CW-OVP
 ```
 
-#### Trouble shooting
+## Trouble shooting
 - https://stackoverflow.com/a/45373282/1399891
 ```
 docker service ps --no-trunc {serviceName}
