@@ -47,11 +47,11 @@ services:
     networks:
       - backend
     deploy:
-      replicas: 2
+      replicas: 1
       restart_policy:
         condition: on-failure
       placement:
-        constraints: [node.role == worker]
+        constraints: [node.role == manager]
   sidekiq:
     image: 127.0.0.1:5000/cw-ovp
     command: bundle exec sidekiq -c 10
