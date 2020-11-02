@@ -168,7 +168,7 @@ kchi30notd2m        registry            replicated          1/1                 
 - https://stackoverflow.com/a/61822322/1399891
 ```
 docker service update --image 127.0.0.1:5000/cw-ovp CW-OVP_web
-# docker service update --image <username>/<repo> <servicename>    
+# docker service update --image <username>/<repo> <servicename>
 ```
 
 ## Trouble shooting
@@ -180,3 +180,24 @@ docker service ps --no-trunc kged4le7e3jn
 mkdir /home/docker/CW-OVP/tmp/redis                                                                                                                                               
 mkdir /home/docker/CW-OVP/tmp/db
 ```
+## Swarm management UI
+### Docker swarm visualizer
+- https://github.com/dockersamples/docker-swarm-visualizer
+```
+docker service create \
+  --name=viz \
+  --publish=8080:8080/tcp \
+  --constraint=node.role==manager \
+  --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+  dockersamples/visualizer
+```
+### Portainer
+- https://www.portainer.io/installation/
+- https://github.com/portainer/portainer
+- you can connect http://192.168.99.100:9000 with web browser
+```
+$ curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-agent-stack.yml
+$ docker stack deploy --compose-file=portainer-agent-stack.yml portainer
+```
+![docker_swarm_visualizer](/docker_swarm_visualizer.png)
+![docker_swarm_portainer](/docker_swarm_portainer_screenshot.png)
