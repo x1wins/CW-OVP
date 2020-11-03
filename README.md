@@ -11,7 +11,9 @@
     * [Storage config](#Storage-config)
     * [How To Run Development mode](#How-To-Run-Development-mode)
     * [How To Run Development mode with Docker-compose](#How-To-Run-Development-mode-with-Docker-compose)
-* [How To Run Docker swarm mode with docker-stack.yml](/DOCKER-SWARM.md)    
+* [Deploy](#Deploy)    
+    * [How To Run Docker swarm mode with docker-stack.yml](How-To-Run-Docker-swarm-mode-with-docker-stack.yml)    
+    * [How To deploy CW-OVP on Swarm mode with Jenkins](#How-To-deploy-CW-OVP-on-Swarm-mode-with-Jenkins)    
 * [Sample video file download](#Sample-video-file-download)    
 
 ## Introduction
@@ -197,12 +199,14 @@ OVP(online video platform)란<br/>
         docker-compose --env-file .env.dev.s3 restart web
         docker-compose --env-file .env.dev.s3 restart sidekiq
         ```
+       
+## Deploy       
 ### How To Run Docker swarm mode with docker-stack.yml
 [DOCKER-SWARM.md](/DOCKER-SWARM.md)
 
-![visualizer_screenshot](/visualizer_screenshot.png)
+### How To deploy CW-OVP on Swarm mode with Jenkins
+[DOCKER-SWARM-JENKINS.md](/DOCKER-SWARM-JENKINS.md)
 
-       
 ### Sample video file download
 - http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4              
 - https://filesamples.com/samples/video/avi/sample_1920x1080.avi
