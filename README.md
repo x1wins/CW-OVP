@@ -12,7 +12,7 @@
     * [How To Run Development mode](#How-To-Run-Development-mode)
     * [How To Run Development mode with Docker-compose](#How-To-Run-Development-mode-with-Docker-compose)
 * [Deploy](#Deploy)    
-    * [How To Run Docker swarm mode with docker-stack.yml](How-To-Run-Docker-swarm-mode-with-docker-stack.yml)    
+    * [How To Run Docker swarm mode with docker-stack.yml](#How-To-Run-Docker-swarm-mode-with-docker-stack.yml)    
     * [How To deploy CW-OVP on Swarm mode with Jenkins](#How-To-deploy-CW-OVP-on-Swarm-mode-with-Jenkins)    
 * [Sample video file download](#Sample-video-file-download)    
 
