@@ -12,8 +12,8 @@
     * [How To Run Development mode](#How-To-Run-Development-mode)
     * [How To Run Development mode with Docker-compose](#How-To-Run-Development-mode-with-Docker-compose)
 * [Deploy](#Deploy)    
-    * [How To Run Docker swarm mode with docker-stack.yml](#How-To-Run-Docker-swarm-mode-with-docker-stack.yml)    
-    * [How To deploy CW-OVP on Swarm mode with Jenkins](#How-To-deploy-CW-OVP-on-Swarm-mode-with-Jenkins)    
+    * [Docker Swarm](#Docker-Swarm)    
+    * [Docker Swarm with Jenkins](#Docker-Swarm-with-Jenkins)    
 * [Sample video file download](#Sample-video-file-download)    
 
 ## Introduction
@@ -201,10 +201,10 @@ OVP(online video platform)란<br/>
         ```
        
 ## Deploy       
-### How To Run Docker swarm mode with docker-stack.yml
+### Docker Swarm
 [DOCKER-SWARM.md](/DOCKER-SWARM.md)
 
-### How To deploy CW-OVP on Swarm mode with Jenkins
+### Docker Swarm with Jenkins
 [DOCKER-SWARM-JENKINS.md](/DOCKER-SWARM-JENKINS.md)
 
 ### Sample video file download
