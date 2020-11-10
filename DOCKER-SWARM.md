@@ -107,7 +107,7 @@ git checkout master # or feature/docker-stack
 cd CW-OVP/
 git pull
 git checkout master
-git reset --hard origin/master # or origin/feature/docker-stack
+git reset --hard origin/master # or origin/feature/docker-machine
 ```
 
 ## Update s3
