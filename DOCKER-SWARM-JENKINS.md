@@ -25,7 +25,6 @@ git checkout master
 git reset --hard origin/master
 
 cat <<EOT > .env.dev.s3
-BACKUP_INTERVAL=2m
 AWS_ACCESS_KEY_ID=[your key]
 AWS_SECRET_ACCESS_KEY=[your key]
 REGION=[your region] # us-west-1
