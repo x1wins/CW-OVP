@@ -34,9 +34,10 @@ CDN_BUCKET=[your bucket]
 AWS_CLOUDFRONT_DOMAIN=[your cdn domain]
 EOT
 
-docker build -t 127.0.0.1:5000/cw-ovp .
-docker push 127.0.0.1:5000/cw-ovp
-docker service update --image 127.0.0.1:5000/cw-ovp CW-OVP_web
+# Example : docker build -t 127.0.0.1:5000/cw-ovp .
+docker build -t [your registry host:port]/cw-ovp . 
+docker push [your registry host:port]/cw-ovp
+docker service update --image [your registry host:port]/cw-ovp CW-OVP_web
 ```
 
 ![jenkins-1-0.png](/screenshot/jenkins-1-0.png)
