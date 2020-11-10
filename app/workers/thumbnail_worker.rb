@@ -20,13 +20,11 @@ class ThumbnailWorker
           thumbnail_url = Storage::Url::Full::Thumbnail.call(encode, base_url, thumbnail_filename)
           encode.assets.create(format: 'image', url: thumbnail_url)
           encode.thumbnails.attach(io: File.open(thumbnail_file_full_path), filename: thumbnail_filename, content_type: "image/png")
-          thumbnail_rails_url = Rails.application.routes.url_helpers.rails_blob_path(encode.thumbnails.last, disposition: "attachment", only_path: true)
           message = "Extracted #{i}th Thumbnail"
-          Message::Send.call(Message::Event::THUNBNAIL_PROCESSING, Message::Body.new(encode, nil, message, nil, thumbnail_rails_url))
+          Message::Send.call(Message::Event::THUNBNAIL_PROCESSING, Message::Body.new(encode, nil, message, nil, thumbnail_url))
           if i == Encode::THUMBNAIL_COUNT
             message = "Completed Extracting Thumbnail"
-            first_thumbnail_rails_url = Rails.application.routes.url_helpers.rails_blob_path(encode.thumbnails.first, disposition: "attachment", only_path: true)
-            Message::Send.call(Message::Event::THUMBNAIL_RAILS_URL, Message::Body.new(encode, nil, message, nil, first_thumbnail_rails_url))
+            Message::Send.call(Message::Event::THUMBNAIL_RAILS_URL, Message::Body.new(encode, nil, message, nil, thumbnail_url))
           end
         end
       end
