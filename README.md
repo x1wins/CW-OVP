@@ -56,16 +56,24 @@ OVP(online video platform)란<br/>
 ## Roadmap
 * Transcoding
     * [x] processing percentage show
-    * [ ] webhook - http callback call when transcoding complete
-    * [ ] rest api, apikey, webhook id for transcoding request
+    * [ ] webhook for http callback when transcoding complete
+    * [ ] rest api for transcoding request with upload
     * [ ] transcoding worker scale out with multiple node
+    * [ ] Profile
+        - Protocal
+            - [x] hls
+            - [ ] mpeg-dash
+        - codec
+            - [x] h.264
+            - [ ] h.265
+        - per 360p,480p,720p,1080p resolution transcoding to parallel distributed processing
 * setting
     * [ ] webhook url config
     * [ ] apikey config for rest api authentication
 * history
 * meta
-    * [ ] tree category
-        * [ ] video node
+    * [ ] category - tree structure
+        * [ ] video node        
 * member
 
 ## Getting started
