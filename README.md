@@ -6,6 +6,7 @@
     * [KO](#KO)
 * [Skill Stack](#Skill-Stack)
 * [Preview](#Preview)
+* [Feature](#Feature)
 * [Roadmap](#Roadmap)
 * [Getting started](#Getting-started)
     * [Storage config](#Storage-config)
@@ -42,16 +43,20 @@ OVP(online video platform)란<br/>
 |Sidekiq|background job, queue|
 |Postresql or Cubrid|database|
 |Docker, docker-compose|install environment|
-    
-- Hosting
-    * localhost
-    * AWS S3, CloudFront - required Active storage config
 
 ## Preview
 1. Encode Form, Show - realtime progress bar, logs
     ![show](/screenshot/cw_ovp_show.png)          
 2. Encode Index - realtime percentage progress
     ![index](/screenshot/cw_ovp_index.png)
+
+## Feature
+- HLS Packaging encoding with ffmpeg
+- Generate Adaptive Streaming
+- Real time base on web UI with websocket(Action Cable), ruby on rails
+- Open source(MIT licence) and Free, but need hardware…
+- Clustering with docker swarm
+- required AWS s3, cloudfront
 
 ## Roadmap
 * Transcoding
