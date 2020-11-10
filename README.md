@@ -6,6 +6,7 @@
     * [KO](#KO)
 * [Skill Stack](#Skill-Stack)
 * [Preview](#Preview)
+* [Feature](#Feature)
 * [Roadmap](#Roadmap)
 * [Getting started](#Getting-started)
     * [Storage config](#Storage-config)
@@ -43,10 +44,6 @@ OVP(online video platform)란<br/>
 |Sidekiq|background job, queue|
 |Postresql or Cubrid|database|
 |Docker, docker-compose|install environment|
-    
-- Hosting
-    * localhost
-    * AWS S3, CloudFront - required Active storage config
 
 ## Preview
 1. Encode Form, Show - realtime progress bar, logs
@@ -54,43 +51,48 @@ OVP(online video platform)란<br/>
 2. Encode Index - realtime percentage progress
     ![index](/screenshot/cw_ovp_index.png)
 
+## Feature
+- HLS Packaging encoding with ffmpeg
+- Generate Adaptive Streaming
+- Real time base on web UI with websocket(Action Cable), ruby on rails
+- Open source(MIT licence) and Free, but need hardware…
+- Clustering with docker swarm
+- required AWS s3, cloudfront
+
 ## Roadmap
 * Transcoding
     * [x] processing percentage show
-    * [ ] webhook - http callback call when transcoding complete
-    * [ ] rest api, apikey, webhook id for transcoding request
+    * [ ] webhook for http callback when transcoding complete
+    * [ ] rest api for transcoding request with upload
     * [ ] transcoding worker scale out with multiple node
+    * [ ] Profile
+        - Protocal
+            - [x] hls
+            - [ ] mpeg-dash
+        - codec
+            - [x] h.264
+            - [ ] h.265
+        - per 360p,480p,720p,1080p resolution transcoding to parallel distributed processing
 * setting
     * [ ] webhook url config
     * [ ] apikey config for rest api authentication
 * history
 * meta
-    * [ ] tree category
-        * [ ] video node
+    * [ ] category - tree structure
+        * [ ] video node        
 * member
 
 ## Getting started
-### Storage config        
-1. AWS S3 Storage
-    1. open ```development.rb``` update below of code
-        ```
-            config.active_storage.service = :amazon
-        ```
-    2. path config. open ```encode.rb```
-        ```
-           def storage_path
-               "/storage"
-           end
-        ```        
-    3. how to make s3 bucket and AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+### Storage config
+* AWS S3 Storage
+    1. how to make s3 bucket and AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
         - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/Upload-file-to-S3-with-AWS-CLI-d12442012c
-    4. how to made cloud front with AWS_CLOUDFRONT_DOMAIN 
+    2. how to made cloud front with AWS_CLOUDFRONT_DOMAIN 
         - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/using-cloud-front-with-s3-51d2eb17bb
-    5. Update ```.env.dev.s3``` file for s3, cloudfront
+    3. Update ```.env.dev.s3``` file for s3, cloudfront
         1. open ```.env.dev.s3```
         2. add below of code and update each value                                                              
             ```
-                BACKUP_INTERVAL=2m
                 AWS_ACCESS_KEY_ID=[Change key id]
                 AWS_SECRET_ACCESS_KEY=[Change access key]
                 REGION=[Change region (us-west-1 or us-west-2 or us-east-1...)]  
@@ -100,7 +102,7 @@ OVP(online video platform)란<br/>
             ```    
         3. Check config
             ```docker-compose --env-file .env.dev.s3 config```
-    6. Run              
+    4. Run              
         ```docker-compose --env-file .env.dev.s3 up```   
 
 ### How To Run Development mode
