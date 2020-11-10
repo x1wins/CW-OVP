@@ -83,37 +83,15 @@ OVP(online video platform)란<br/>
 
 ## Getting started
 ### Storage config
-1. local stroage
-    1. open ```development.rb``` update below of code
-        ```
-            config.active_storage.service = :local
-        ```
-    2. path config. open ```encode.rb```
-        ```
-            def storage_path
-                "public"
-            end
-        ```        
-2. AWS S3 Storage
-    1. open ```development.rb``` update below of code
-        ```
-            config.active_storage.service = :amazon
-        ```
-    2. path config. open ```encode.rb```
-        ```
-           def storage_path
-               "/storage"
-           end
-        ```        
-    3. how to make s3 bucket and AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+* AWS S3 Storage
+    1. how to make s3 bucket and AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
         - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/Upload-file-to-S3-with-AWS-CLI-d12442012c
-    4. how to made cloud front with AWS_CLOUDFRONT_DOMAIN 
+    2. how to made cloud front with AWS_CLOUDFRONT_DOMAIN 
         - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/using-cloud-front-with-s3-51d2eb17bb
-    5. Update ```.env.dev.s3``` file for s3, cloudfront
+    3. Update ```.env.dev.s3``` file for s3, cloudfront
         1. open ```.env.dev.s3```
         2. add below of code and update each value                                                              
             ```
-                BACKUP_INTERVAL=2m
                 AWS_ACCESS_KEY_ID=[Change key id]
                 AWS_SECRET_ACCESS_KEY=[Change access key]
                 REGION=[Change region (us-west-1 or us-west-2 or us-east-1...)]  
@@ -123,7 +101,7 @@ OVP(online video platform)란<br/>
             ```    
         3. Check config
             ```docker-compose --env-file .env.dev.s3 config```
-    6. Run              
+    4. Run              
         ```docker-compose --env-file .env.dev.s3 up```   
 
 ### How To Run Development mode
