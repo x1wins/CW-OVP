@@ -21,6 +21,14 @@ class ThumbnailWorker
           encode.assets.create(format: 'image', url: thumbnail_url)
           encode.thumbnails.attach(io: File.open(thumbnail_file_full_path), filename: thumbnail_filename, content_type: "image/png")
           message = "Extracted #{i}th Thumbnail"
+
+          cdn_bucket = ENV['CDN_BUCKET']
+          thumbnail_relative_path = Storage::Url::Relative::Thumbnail.call(encode)
+          thumbnail_local_full_path = Storage::Path::Local::Thumbnail.call(encode)
+          cdn_file_path = "#{thumbnail_relative_path}/#{thumbnail_filename}"
+          cp_thumbnail_to_cdn_cmd = `sh app/encoding/cp.sh #{cdn_bucket} "#{cdn_file_path}" #{thumbnail_file_full_path}`
+          Sidekiq.logger.info " cp_thumbnail_to_cdn_cmd #{cdn_bucket} #{cdn_file_path} #{thumbnail_file_full_path}"
+
           Message::Send.call(Message::Event::THUNBNAIL_PROCESSING, Message::Body.new(encode, nil, message, nil, thumbnail_url))
           if i == Encode::THUMBNAIL_COUNT
             message = "Completed Extracting Thumbnail"
@@ -32,8 +40,8 @@ class ThumbnailWorker
       cdn_bucket = ENV['CDN_BUCKET']
       thumbnail_relative_path = Storage::Url::Relative::Thumbnail.call(encode)
       thumbnail_local_full_path = Storage::Path::Local::Thumbnail.call(encode)
-      move_thumbnail_to_cdn_cmd = `sh app/encoding/mv.sh #{cdn_bucket} #{thumbnail_relative_path} #{thumbnail_local_full_path}`
-      Sidekiq.logger.debug "move_thumbnail_to_cdn_cmd : #{move_thumbnail_to_cdn_cmd}"
+      rm_thumbnail_to_cdn_cmd = `sh app/encoding/rm.sh #{cdn_bucket} #{thumbnail_relative_path} #{thumbnail_local_full_path}`
+
       thumbnail_cdn_url = ""
       for asset in encode.assets
         thumbnail_cdn_url += (asset.url+"<br/>") if asset.format == 'image'
