@@ -41,19 +41,25 @@ docker service update --image [your registry host:port]/cw-ovp CW-OVP_web
 ```
 
 ## How to configure Jenkins for build and deploy
-1. Install ```publish over ssh``` plugin
+1 [Install ```publish over ssh``` plugin](#Install-publish-over-ssh-plugin)
+2 [Input ssh connect infomation for target server](#Input-ssh-connect-infomation-for-target-server)
+3 [Create Freestyle project](#Create-Freestyle-project)
+3 [Input Your Script](#Input-Your-Script)
+3 [Click Build Now](#Click-Build-Now)
+
+#### Install ```publish over ssh``` plugin
     ![jenkins-1-0.png](/screenshot/jenkins-1-0.png)
     ![jenkins-1-0.png](/screenshot/jenkins-1-1.png)
     ![jenkins-1-0.png](/screenshot/jenkins-1-2.png)
-2. Input ssh connect infomation for target server
+#### Input ssh connect infomation for target server
     ![jenkins-1-0.png](/screenshot/jenkins-1-3.png)
-3. Create Freestyle project
+#### Create Freestyle project
     ![jenkins-1-0.png](/screenshot/jenkins-2-1.png)
-4. Input Your Script
+#### Input Your Script
     1. Build triggers
     2. Post-build Actions  
     3. Send build artifacts over SSH
     4. Exec command
     ![jenkins-1-0.png](/screenshot/jenkins-2-2.png)
-5. Click ```Build Now```
+#### Click ```Build Now```
     ![jenkins-1-0.png](/screenshot/jenkins-3.png)
