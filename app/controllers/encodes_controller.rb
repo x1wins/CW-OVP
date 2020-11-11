@@ -30,8 +30,6 @@ class EncodesController < ApplicationController
     respond_to do |format|
       if @encode.save
         Message::Send.call(Message::Event::CREATED, Message::Body.new(@encode, nil, nil, @encode.file.filename, nil))
-        ThumbnailWorker.perform_async(@encode.id)
-        EncodeWorker.perform_async(@encode.id)
         format.html { redirect_to @encode, notice: 'Encode was successfully created.' }
         format.json { render :show, status: :created, location: @encode }
       else
