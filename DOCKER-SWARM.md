@@ -106,6 +106,7 @@ git checkout master # or feature/docker-stack
 ```
 cd CW-OVP/
 git pull
+git checkout master
 git reset --hard origin/master # or origin/feature/docker-stack
 ```
 
@@ -199,5 +200,19 @@ docker service create \
 curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-agent-stack.yml
 docker stack deploy --compose-file=portainer-agent-stack.yml portainer
 ```
+### Swarmprom
+- https://github.com/stefanprodan/swarmprom
+```
+$ git clone https://github.com/stefanprodan/swarmprom.git
+$ cd swarmprom
+
+ADMIN_USER=admin \
+ADMIN_PASSWORD=admin \
+SLACK_URL=https://hooks.slack.com/services/TOKEN \
+SLACK_CHANNEL=devops-alerts \
+SLACK_USER=alertmanager \
+docker stack deploy -c docker-compose.yml mon
+```
+
 ![docker_swarm_visualizer](/docker_swarm_visualizer.png)
 ![docker_swarm_portainer](/docker_swarm_portainer_screenshot.png)
