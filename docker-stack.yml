@@ -68,8 +68,11 @@ services:
         condition: on-failure
       placement:
         constraints: [node.role == worker]
+    volumes:
+      - local-storage:/storage
 networks:
   backend:
 volumes:
   db-data:
   redis-data:
+  local-storage:
