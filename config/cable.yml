@@ -1,11 +1,11 @@
 development:
   adapter: redis
-  url: <%= ENV.fetch("REDIS_URL") { ENV['REDIS_SERVER_URL'] } %>
+  url: <%= ENV['CABLE_REDIS_SERVER_URL'] %>
 
 test:
   adapter: test
 
 production:
   adapter: redis
-  url: <%= ENV.fetch("REDIS_URL") { ENV['REDIS_SERVER_URL'] } %>
+  url: <%= ENV['CABLE_REDIS_SERVER_URL'] %>
   channel_prefix: CW_Encoding_production
