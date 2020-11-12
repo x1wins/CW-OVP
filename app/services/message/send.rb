@@ -6,7 +6,7 @@ module Message
     end
 
     def call
-      # ActionCable.server.broadcast "encode_channel", event: @event, body: @body
+      ActionCable.server.broadcast "encode_channel", event: @event, body: @body
     end
   end
 end
