@@ -1,6 +1,6 @@
 class EncodeWorker
   include Sidekiq::Worker
-  sidekiq_options retry: 3
+  sidekiq_options retry: 3, backtrace: true
 
   def perform(encode_id)
     encode = Encode.find(encode_id)
