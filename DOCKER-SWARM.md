@@ -73,6 +73,12 @@ To add a worker to this swarm, run the following command:
 To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 ```
 
+if you want get token for worker again
+- https://docs.docker.com/engine/reference/commandline/swarm_join-token/
+```
+docker swarm join-token worker
+```
+
 ```
 docker-machine ssh worker1
    ( '>')
