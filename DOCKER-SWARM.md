@@ -42,6 +42,16 @@ docker-machine create -d virtualbox worker2
 docker-machine ls
 ```
 
+aws
+- https://blog.scottlowe.org/2016/03/22/using-docker-machine-with-aws/
+```
+docker-machine create -d amazonec2 \
+--amazonec2-region us-west-1 \
+--amazonec2-instance-type "t2.micro" \
+--amazonec2-ssh-keypath ~/.ssh/ssh_key \
+aws-test
+```
+
 > if you don't have virtualbox. you got blow of message.
 ```
 VBoxManage not found. Make sure VirtualBox is installed and VBoxManage is in the path.
