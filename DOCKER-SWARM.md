@@ -105,7 +105,7 @@ This node joined a swarm as a worker.
 ```
 docker-machine ssh master
 
-docker service create --name registry --constraint 'node.role == manager' --publish published=5000,target=5000 registry:2
+docker service create --name registry --insecure-registry=[myip]:5000 --constraint 'node.role == manager' --publish published=5000,target=5000 registry:2
 curl http://localhost:5000/v2/
 ```
 
