@@ -107,6 +107,12 @@ docker-machine ssh master
 
 docker service create --name registry --insecure-registry=[myip]:5000 --constraint 'node.role == manager' --publish published=5000,target=5000 registry:2
 curl http://localhost:5000/v2/
+
+sudo vim /etc/docker/daemon.json
+{"insecure-registries":["your ip:5000"] }
+sudo service docker restart
+
+https://github.com/docker/distribution/issues/1874
 ```
 
 ## Initial source
@@ -194,6 +200,7 @@ docker service update --image 127.0.0.1:5000/cw-ovp CW-OVP_web
 docker service ps --no-trunc {serviceName}
 docker service ps --no-trunc t9zabkgynr8c
 docker service ps --no-trunc kged4le7e3jn
+
 mkdir /home/docker/CW-OVP/tmp/redis                                                                                                                                               
 mkdir /home/docker/CW-OVP/tmp/db
 ```
