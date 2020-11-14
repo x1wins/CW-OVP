@@ -63,8 +63,12 @@ class EncodeWorker
         end
 
         hls_url = Storage::Url::Full::Hls.call(encode, base_url)
-        encode.update(log: log, ended_at: Time.now, completed: true, url: hls_url)
-        encode.assets.create(format: 'video', url: hls_url)
+        ActiveRecord::Base.connection_pool.release_connection
+        ActiveRecord::Base.connection_pool.with_connection do
+          encode.update(ended_at: Time.now, completed: true, url: hls_url)
+          encode.assets.create(format: 'video', url: hls_url)
+          encode.update(log: log)
+        end
         Message::Send.call(Message::Event::COMPLETED, Message::Body.new(encode, Percentage::ToString.call(100), "Completed Move Local File To AWS S3", nil, nil))
       end
     end
