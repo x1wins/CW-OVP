@@ -8,8 +8,14 @@ class Encode < ApplicationRecord
   scope :published, -> { where(published: true) }
   scope :by_date, -> { order('id DESC') }
   before_create :default_values
+  after_create_commit :run_worker
   VALIDATED_FILE_EXTENSIONS = %w( .ts .mp4 .mov .avi .mkv )
   THUMBNAIL_COUNT = 10
+
+  def run_worker
+    ThumbnailWorker.perform_async(self.id)
+    EncodeWorker.perform_async(self.id)
+  end
 
   def default_values
     self.started_at ||= Time.now

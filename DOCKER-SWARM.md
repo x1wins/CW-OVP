@@ -42,6 +42,16 @@ docker-machine create -d virtualbox worker2
 docker-machine ls
 ```
 
+aws
+- https://blog.scottlowe.org/2016/03/22/using-docker-machine-with-aws/
+```
+docker-machine create -d amazonec2 \
+--amazonec2-region us-west-1 \
+--amazonec2-instance-type "t2.micro" \
+--amazonec2-ssh-keypath ~/.ssh/ssh_key \
+aws-test
+```
+
 > if you don't have virtualbox. you got blow of message.
 ```
 VBoxManage not found. Make sure VirtualBox is installed and VBoxManage is in the path.
@@ -61,6 +71,12 @@ To add a worker to this swarm, run the following command:
     docker swarm join --token SWMTKN-1-5jcphjyj4ykejxphj2o15yh7bz4syyxo5qg8bt25ldkhd4poez-1l2skxj2931mtjolwd43139jy 192.168.99.100:2377
 
 To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+```
+
+if you want get token for worker again
+- https://docs.docker.com/engine/reference/commandline/swarm_join-token/
+```
+docker swarm join-token worker
 ```
 
 ```
@@ -89,8 +105,14 @@ This node joined a swarm as a worker.
 ```
 docker-machine ssh master
 
-docker service create --name registry --publish published=5000,target=5000 registry:2
+docker service create --name registry --insecure-registry=[myip]:5000 --constraint 'node.role == manager' --publish published=5000,target=5000 registry:2
 curl http://localhost:5000/v2/
+
+sudo vim /etc/docker/daemon.json
+{"insecure-registries":["your ip:5000"] }
+sudo service docker restart
+
+https://github.com/docker/distribution/issues/1874
 ```
 
 ## Initial source
@@ -107,7 +129,7 @@ git checkout master # or feature/docker-stack
 cd CW-OVP/
 git pull
 git checkout master
-git reset --hard origin/master # or origin/feature/docker-stack
+git reset --hard origin/master # or origin/feature/docker-machine
 ```
 
 ## Update s3
@@ -178,6 +200,7 @@ docker service update --image 127.0.0.1:5000/cw-ovp CW-OVP_web
 docker service ps --no-trunc {serviceName}
 docker service ps --no-trunc t9zabkgynr8c
 docker service ps --no-trunc kged4le7e3jn
+
 mkdir /home/docker/CW-OVP/tmp/redis                                                                                                                                               
 mkdir /home/docker/CW-OVP/tmp/db
 ```
