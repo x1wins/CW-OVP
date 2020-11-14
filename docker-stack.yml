@@ -26,9 +26,6 @@ services:
       - backend
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 2
-        delay: 10s
       restart_policy:
         condition: on-failure
       placement:
@@ -54,7 +51,7 @@ services:
         constraints: [node.role == manager]
   sidekiq:
     image: 127.0.0.1:5000/cw-ovp
-    command: bundle exec sidekiq -c 10
+    command: bundle exec sidekiq -c 2
     env_file:
       - .env.dev.docker.compose
       - .env.dev.s3
