@@ -157,6 +157,8 @@ docker push 127.0.0.1:5000/cw-ovp
 ## Run stack
 ```
 docker stack deploy --compose-file docker-stack.yml CW-OVP
+docker image prune -a -f
+
 docker exec -it 1f7193e6042e bundle exec rails webpacker:install
 docker exec -it 1f7193e6042e bundle exec rake db:migrate 
 ```

@@ -1,6 +1,6 @@
 class ThumbnailWorker
   include Sidekiq::Worker
-  sidekiq_options retry: false, backtrace: true
+  sidekiq_options retry: 0, backtrace: true
 
   def perform(encode_id)
     encode = Encode.find(encode_id)
@@ -18,8 +18,12 @@ class ThumbnailWorker
           thumbnail_file_full_path = "#{thumbnail_local_full_path}/#{thumbnail_filename}"
           thumbnail_cmd = Bash::Thumbnail.call(uploaded_file_path, ss, thumbnail_file_full_path)
           thumbnail_url = Storage::Url::Full::Thumbnail.call(encode, base_url, thumbnail_filename)
-          encode.assets.create(format: 'image', url: thumbnail_url)
-          encode.thumbnails.attach(io: File.open(thumbnail_file_full_path), filename: thumbnail_filename, content_type: "image/png")
+
+          ActiveRecord::Base.connection_pool.release_connection
+          ActiveRecord::Base.connection_pool.with_connection do
+            encode.assets.create(format: 'image', url: thumbnail_url)
+            encode.thumbnails.attach(io: File.open(thumbnail_file_full_path), filename: thumbnail_filename, content_type: "image/png")
+          end
           message = "Extracted #{i}th Thumbnail"
 
           cdn_bucket = ENV['CDN_BUCKET']
