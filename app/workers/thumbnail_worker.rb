@@ -1,6 +1,6 @@
 class ThumbnailWorker
   include Sidekiq::Worker
-  sidekiq_options retry: false, backtrace: true
+  sidekiq_options retry: 0, backtrace: true
 
   def perform(encode_id)
     encode = Encode.find(encode_id)
