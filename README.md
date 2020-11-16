@@ -66,7 +66,7 @@ OVP(online video platform)란<br/>
     * [x] processing percentage show
     * [ ] webhook for http callback when transcoding complete
     * [ ] rest api for transcoding request with upload
-    * [ ] transcoding worker scale out with multiple node
+    * [x] transcoding worker scale out with multiple node
     * [ ] Profile
         - Protocal
             - [x] hls
