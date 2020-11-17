@@ -24,6 +24,9 @@ If you want get ```scale in```, you can get it but you know ```scale in``` cost 
 I provide scale out of solution with docker swarm.
 I recommend 16 core for each server of ```worker node``` but mininum spec is ```4 or 8 or more core```.
 
+## aws-cli config in local-PC
+https://www.changwoo.org/x1wins@changwoo.net/2020-11-04/docker-machine-create-AWS-ec2-eefe152281
+
 ## Docker-machine
 If you want run on local PC or docker-machine driver with aws or digital ocean or another cloud service that support docker-machine, Do use docker-machine.
 But if you don't wanna docker-machine, bypass this section go to next section of [Private registry](#Private-registry)
