@@ -10,8 +10,8 @@
 * [Roadmap](#Roadmap)
 * [Getting started](#Getting-started)
     * [Storage config](#Storage-config)
-    * [How To Run Development mode](#How-To-Run-Development-mode)
     * [How To Run Development mode with Docker-compose](#How-To-Run-Development-mode-with-Docker-compose)
+    * [How To Run Development mode without docker](#How-To-Run-Development-mode-without-docker)
 * [Deploy](#Deploy)    
     * [Docker Swarm](#Docker-Swarm)    
     * [Docker Swarm with Jenkins](#Docker-Swarm-with-Jenkins)    
@@ -48,10 +48,8 @@ OVP(online video platform)란<br/>
 |Docker, docker-compose|install environment|
 
 ## Preview
-1. Encode Form, Show - realtime progress bar, logs
-    ![show](/screenshot/cw_ovp_show.png)          
-2. Encode Index - realtime percentage progress
-    ![index](/screenshot/cw_ovp_index.png)
+![show](/screenshot/cw_ovp_show.png)          
+![index](/screenshot/cw_ovp_index.png)
 
 ## Feature
 - HLS Packaging encoding with ffmpeg
@@ -87,9 +85,9 @@ OVP(online video platform)란<br/>
 ## Getting started
 ### Storage config
 * AWS S3 Storage
-    1. how to make s3 bucket and AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+    1. How to make s3 bucket for AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
         - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/Upload-file-to-S3-with-AWS-CLI-d12442012c
-    2. how to made cloud front with AWS_CLOUDFRONT_DOMAIN 
+    2. How to make cloud front url for AWS_CLOUDFRONT_DOMAIN 
         - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/using-cloud-front-with-s3-51d2eb17bb
     3. Update ```.env.dev.s3``` file for s3, cloudfront
         1. open ```.env.dev.s3```
@@ -104,95 +102,17 @@ OVP(online video platform)란<br/>
             ```    
         3. Check config
             ```docker-compose --env-file .env.dev.s3 config```
-    4. Run              
-        ```docker-compose --env-file .env.dev.s3 up```   
 
-### How To Run Development mode
-1. Download source
-    1. ```git clone https://github.com/x1wins/CW-OVP.git```
-    2. ```cd ./CW-OVP```
-    3. ```bundle install```
-2. Database
-    1. postgresql with docker
-        ```bash
-            mkdir $HOME/docker/volumes/cw_ovp_development
-            docker run --rm --name cw_ovp_development \
-                  --env-file .env.dev.procfile \
-                  -v $HOME/docker/volumes/cw_ovp_development:/var/lib/postgresql/data \
-                  -p 5432:5432 -d postgres            
-            rake db:migrate
-        ```
-    2. redis with docker
-        ```bash
-            docker run --rm --name my-redis-container -p 6379:6379 -d redis
-        ```
-3. App server
-    1. bundle & webpacker install
-        ```bash
-            bundle exec rails webpacker:install 
-        ```
-    2. rails server & sidekiq
-        > http://railscasts.com/episodes/281-foreman
-        ```bash
-            yarn install --check-files
-            bundle exec foreman start --env .env.dev.procfile,.env.dev.s3
-        ```
-4. open your web browser and connect ```http://localhost:3000```       
-5. Testing
-    ```bash
-        bundle exec rspec --format documentation
-    ```
-    * result
-        ```bash
-            EncodesController
-              GET #index
-                returns a success response
-              GET #show
-                returns a success response
-              GET #new
-                returns a success response
-              POST #create
-                with valid params
-                  creates a new Encode
-                  redirects to the created encode
-                with invalid params
-                  returns a success response (i.e. to display the 'new' template)
-              DELETE #destroy
-                destroys the requested encode
-                redirects to the encodes list
-            
-            EncodesController
-              routing
-                routes to #index
-                routes to #new
-                routes to #show
-                routes to #create
-                routes to #destroy
-            
-            encodes/index
-              renders a list of encodes
-            
-            encodes/new
-              renders new encode form
-            
-            encodes/show
-              renders attributes in <p>
-            
-            Finished in 2.08 seconds (files took 2.29 seconds to load)
-            16 examples, 0 failures
-        ```
 ### How To Run Development mode with Docker-compose
 1. Download source
     1. ```git clone https://github.com/x1wins/CW-OVP.git```
     2. ```cd ./CW-OVP```
-2. Start docker-compose    
+2. Build and Run    
     1. ```docker-compose --env-file .env.dev.s3 up --build -d```
     2. ```docker-compose run --no-deps web bundle exec rails webpacker:install```
     3. ```docker-compose run --no-deps web bundle exec rake db:migrate```
     4. ```docker-compose run --no-deps web bundle exec rake db:create RAILS_ENV=test```
     4. ```docker-compose run --no-deps web bundle exec rake db:migrate RAILS_ENV=test```
-    5. ```docker-compose run --no-deps web bundle exec rspec --format documentation```
-    6. ```docker-compose run --no-deps web bundle exec rails console```
 3. Restart for updated code
     1. ```git fetch origin develop```
     2. ```git reset --hard origin/develop```
@@ -201,6 +121,13 @@ OVP(online video platform)란<br/>
         docker-compose --env-file .env.dev.s3 restart web
         docker-compose --env-file .env.dev.s3 restart sidekiq
         ```
+4. Unit testing with rspec
+    ```docker-compose run --no-deps web bundle exec rspec --format documentation```
+5. Console
+    ```docker-compose run --no-deps web bundle exec rails console```
+
+### How To Run Development mode without docker    
+[SETUP.md](/SETUP.md)       
        
 ## Deploy       
 ### Docker Swarm
