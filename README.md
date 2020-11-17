@@ -1,11 +1,11 @@
 [![Build Status](https://travis-ci.com/x1wins/CW-OVP.svg?branch=master)](https://travis-ci.com/x1wins/CW-OVP)
 
 # CW-OVP
+* [Preview](#Preview)
 * [Introduction](#Introduction)
     * [EN](#EN)
     * [KO](#KO)
 * [Skill Stack](#Skill-Stack)
-* [Preview](#Preview)
 * [Feature](#Feature)
 * [Roadmap](#Roadmap)
 * [Getting started](#Getting-started)
@@ -16,6 +16,10 @@
     * [Docker Swarm](#Docker-Swarm)    
     * [Docker Swarm with Jenkins](#Docker-Swarm-with-Jenkins)    
 * [Sample video file download](#Sample-video-file-download)    
+
+## Preview
+![show](/screenshot/cw_ovp_show.png)          
+![index](/screenshot/cw_ovp_index.png)
 
 ## Introduction
 ### EN
@@ -46,10 +50,6 @@ OVP(online video platform)란<br/>
 |Sidekiq|background job, queue|
 |Postresql or Cubrid|database|
 |Docker, docker-compose|install environment|
-
-## Preview
-![show](/screenshot/cw_ovp_show.png)          
-![index](/screenshot/cw_ovp_index.png)
 
 ## Feature
 - HLS Packaging encoding with ffmpeg
