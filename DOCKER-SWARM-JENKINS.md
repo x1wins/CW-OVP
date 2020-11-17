@@ -8,7 +8,7 @@
 We need easy, fast, clean deploy in Production.
 I used jenkins. i will show how to deploy with jenkins.
 
-## ssh userid password in docker-machine
+## default ssh userid password in local virtual docker-machine
 docker swarm credentials
 ```
 user: docker
@@ -17,27 +17,98 @@ pwd: tcuser
 - https://nozaki.me/roller/kyle/entry/articles-jenkins-sshdeploy
 - https://stackoverflow.com/questions/32646952/docker-machine-boot2docker-root-password
 
-## deploy script
-
+## How can i get ssh-key from docker-machine for aws ec2
 ```
-cd /home/docker/CW-OVP
-git pull
-git checkout master
-git reset --hard origin/master
+my-pc@my-pcui-MacBookPro my-pc-OVP % docker-machine config aws-manager1
+--tlsverify
+--tlscacert="/Users/my-pc/.docker/machine/machines/aws-manager1/ca.pem"
+--tlscert="/Users/my-pc/.docker/machine/machines/aws-manager1/cert.pem"
+--tlskey="/Users/my-pc/.docker/machine/machines/aws-manager1/key.pem"
+-H=tcp://[your ec2 ip]:2376
 
-cat <<EOT > .env.dev.s3
-AWS_ACCESS_KEY_ID=[your key]
-AWS_SECRET_ACCESS_KEY=[your key]
-REGION=[your region] # us-west-1
-BUCKET=[your bucket]
-CDN_BUCKET=[your bucket]
-AWS_CLOUDFRONT_DOMAIN=[your cdn domain]
-EOT
+my-pc@my-pcui-MacBookPro my-pc-OVP % ssh -i /Users/my-pc/.docker/machine/machines/aws-manager1/id_rsa ubuntu@[your ec2 ip] 
+Welcome to Ubuntu 16.04.4 LTS (GNU/Linux 4.4.0-1117-aws x86_64)
 
-# Example : docker build -t 127.0.0.1:5000/cw-ovp .
-docker build -t [your registry host:port]/cw-ovp . 
-docker push [your registry host:port]/cw-ovp
-docker service update --image [your registry host:port]/cw-ovp CW-OVP_web
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+101 packages can be updated.
+1 update is a security update.
+
+New release '18.04.5 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Sun Nov 15 07:05:33 2020 from xxx.xxx.xxx.xxx
+ubuntu@aws-manager1:~$ 
+```
+
+## Jenkins on docker
+```
+docker run \
+          --name jenkins-server \
+          --publish 8081:8080 \
+          --publish 50000:50000 \
+          --volume /var/jenkins:/var/jenkins_home \
+          jenkins/jenkins:lts
+```
+
+## Jenkins run on docker swarm
+```
+docker volume create jenkins_home
+docker service create \
+       --name jenkins-master \
+       --constraint 'node.role == manager' \
+       --mount source=jenkins_home,target=/var/jenkins_home \
+       --publish 50000:50000 \
+       --publish 8080:8080 \
+       --network CW-OVP_backend \
+       --replicas 1 \
+       jenkins/jenkins:lts
+```
+https://computingforgeeks.com/running-jenkins-server-in-docker-container-systemd/
+https://plugins.jenkins.io/publish-over-ssh/
+
+## Timeout setup
+1. Post-build Actions
+2. SSH Publishers	
+3. Advanced...
+4. Exec timeout (ms) -> 6000000
+
+## Jenkins shell exec
+```
+	cd ./CW-OVP/
+    git checkout master 
+    git pull origin master # git pull origin feature/docker-machine
+    git reset --hard origin/master # git reset --hard origin/feature/docker-machine
+
+	sudo docker build -t [MANAGER_IP]:5000/cw-ovp . 
+	sudo docker push [MANAGER_IP]:5000/cw-ovp
+
+	cd ..
+    sudo docker stack rm CW-OVP
+
+    # docker-stack.yml
+    cp ./CW-OVP/docker-stack.yml ./docker-stack.yml
+
+    # s3 configuration
+    cat <<EOT > .env.dev.s3
+    AWS_ACCESS_KEY_ID=[your key]
+    AWS_SECRET_ACCESS_KEY=[your key]
+    REGION=[your region] # us-west-1
+    BUCKET=[your bucket]
+    CDN_BUCKET=[your bucket]
+    AWS_CLOUDFRONT_DOMAIN=[your cdn domain]
+    EOT
+    
+    # docker service update --image [MANAGER_IP]:5000/cw-ovp CW-OVP_web
+	sudo docker stack deploy --compose-file docker-stack.yml CW-OVP 
+
+	sudo docker image prune -a -f
 ```
 
 ## How to configure Jenkins for build and deploy
