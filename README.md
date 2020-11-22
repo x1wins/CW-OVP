@@ -52,13 +52,14 @@ OVP(online video platform)란<br/>
 |Docker, docker-compose|install environment|
 
 ## Feature
+- Clustering ffmpeg worker with sidekiq on docker swarm
+   - recommand spec for scale out : 4 or 8 or more Cpu (c5.xlarge)
 - Packaging, Encoding with ffmpeg for HLS
    - Generated multiple m3u8 for Adaptive Streaming
 - Extract 10 random Thumbnail images
+- Required AWS S3, Cloudfront
 - Real time base on web UI with websocket(Action Cable), ruby on rails
 - Open source(MIT licence) and Free, but need hardware…
-- Clustering with docker swarm
-- Required AWS S3, Cloudfront
 
 ## Roadmap
 * Transcoding
