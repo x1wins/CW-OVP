@@ -44,7 +44,7 @@ OVP(online video platform)란<br/>
 |---|---|
 |FFMPEG|video transcoding|
 |h.264|Codec|
-|HLS|playlist.m3u8|
+|HLS|Protocol|
 |Ruby on Rails|web framework, websocket(action cable)|
 |Redis|queue, pub/sub|
 |Sidekiq|background job, queue|
