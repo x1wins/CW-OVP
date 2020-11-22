@@ -54,7 +54,7 @@ OVP(online video platform)란<br/>
 
 ## Feature
 - Clustering ffmpeg worker with sidekiq on docker swarm
-   - recommand spec for scale out : 4 or 8 or more Cpu (c5.xlarge)
+   - recommand spec for scale out : 4 or 8 or more Cpu per server(c5.xlarge)
 - Packaging, Encoding with ffmpeg for HLS
    - Generated multiple m3u8 for Adaptive Streaming
 - Extract 10 random Thumbnail images
