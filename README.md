@@ -52,12 +52,13 @@ OVP(online video platform)란<br/>
 |Docker, docker-compose|install environment|
 
 ## Feature
-- HLS Packaging encoding with ffmpeg
-- Generate Adaptive Streaming
+- Packaging, Encoding with ffmpeg for HLS
+   - Generated multiple m3u8 for Adaptive Streaming
+- Extract 10 random Thumnail images
 - Real time base on web UI with websocket(Action Cable), ruby on rails
 - Open source(MIT licence) and Free, but need hardware…
 - Clustering with docker swarm
-- required AWS s3, cloudfront
+- Required AWS S3, Cloudfront
 
 ## Roadmap
 * Transcoding
