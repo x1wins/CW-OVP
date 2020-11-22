@@ -48,7 +48,7 @@ OVP(online video platform)란<br/>
 |Ruby on Rails|web framework, websocket(action cable)|
 |Redis|queue, pub/sub|
 |Sidekiq|background job, queue|
-|Postresql or Cubrid|database|
+|Postresql|database|
 |Docker, docker-compose|install environment|
 |Docker Swarm|Clustering (Scale out)|
 
