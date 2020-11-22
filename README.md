@@ -54,7 +54,7 @@ OVP(online video platform)란<br/>
 ## Feature
 - Packaging, Encoding with ffmpeg for HLS
    - Generated multiple m3u8 for Adaptive Streaming
-- Extract 10 random Thumnail images
+- Extract 10 random Thumbnail images
 - Real time base on web UI with websocket(Action Cable), ruby on rails
 - Open source(MIT licence) and Free, but need hardware…
 - Clustering with docker swarm
