@@ -50,6 +50,7 @@ OVP(online video platform)란<br/>
 |Sidekiq|background job, queue|
 |Postresql or Cubrid|database|
 |Docker, docker-compose|install environment|
+|Docker Swarm|Clustering (Scale out)|
 
 ## Feature
 - Clustering ffmpeg worker with sidekiq on docker swarm
