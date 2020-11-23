@@ -7,6 +7,7 @@
     * [KO](#KO)
 * [Skill Stack](#Skill-Stack)
 * [Feature](#Feature)
+* [System Structure](#System-Structure)
 * [Minimum Requirements for Production](#Minimum-Requirements-for-Production)
 * [Roadmap](#Roadmap)
 * [Getting started](#Getting-started)
@@ -62,6 +63,9 @@ OVP(online video platform)란<br/>
 - AWS Cloudfront for CDN
 - Real time base on web UI with websocket(Action Cable), ruby on rails
 - Open source(MIT licence) and Free, but need hardware…
+
+## System Structure
+![cw-ovp-architecture.png](cw-ovp-architecture.png)
 
 ## Minimum Requirements for Production
 - Required AWS S3, Cloudfront [.env.dev.s3](/.env.dev.s3)
