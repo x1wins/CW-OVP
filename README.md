@@ -7,6 +7,7 @@
     * [KO](#KO)
 * [Skill Stack](#Skill-Stack)
 * [Feature](#Feature)
+* [Minimum Requirements for Production](#Minimum-Requirements-for-Production)
 * [Roadmap](#Roadmap)
 * [Getting started](#Getting-started)
     * [Storage config](#Storage-config)
