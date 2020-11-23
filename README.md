@@ -23,7 +23,7 @@
 
 ## Introduction
 ### EN
-OVP(online video platform) mean that online encoding and hosting service with movie file upload to online storage or cloud system.<br/>
+OVP(online video platform) mean that online transcoding, packaging and hosting service with movie file upload to online storage or cloud system.<br/>
 Internet speed was increase and many internet user need streaming service than Content provier and Broadcaster use OVP or solution for start streaming service with Mobile, web, OTT(over the top).<br/>
 Famous OVP business company is mux.com, dacast.com, vimeo.com, Dacast.com and Wowza solution.<br/>
 But Korea OVP company is not many and company should spend more than thousand of dollar per month to OVP.<br/>
@@ -42,7 +42,7 @@ OVP(online video platform)란<br/>
 ## Skill Stack
 |what use|description|
 |---|---|
-|FFMPEG|video transcoding|
+|FFMPEG|video transcoding, packaging|
 |h.264|Codec|
 |HLS|Protocol|
 |Ruby on Rails|web framework, websocket(action cable)|
@@ -54,36 +54,30 @@ OVP(online video platform)란<br/>
 
 ## Feature
 - Clustering ffmpeg worker with sidekiq on docker swarm
-   - recommand spec for scale out : 4 or 8 or more Cpu per server(c5.xlarge)
-- Packaging, Encoding with ffmpeg for HLS
-   - Generated multiple m3u8 for Adaptive Streaming
-- Extract 10 random Thumbnail images
-- Required AWS S3, Cloudfront
+- Transcoding, Packaging with ffmpeg for HLS
+    - Generated multiple m3u8 for Adaptive Streaming
+- Extract 10 random Thumbnail images during video packaging
+- AWS S3 for stored video, thumbnail assets
+- AWS Cloudfront for CDN
 - Real time base on web UI with websocket(Action Cable), ruby on rails
 - Open source(MIT licence) and Free, but need hardware…
 
+## Minimum Requirements for Production
+- Required AWS S3, Cloudfront [.env.dev.s3](/.env.dev.s3)
+- Server Spec
+    - CPU
+        - 4 or 8 more Cpu per server (c5.xlarge on aws ec2)
+    - Disk
+        - more 10 Gb
+        - if you will upload heavy video or more 10Gb, need more space
+    - Memory
+        - more 2Gb
+    - Number of Server
+        - manager server : 1
+        - worker server : 2 or more (you can easy scale out)
+
 ## Roadmap
-* Transcoding
-    * [x] processing percentage show
-    * [ ] webhook for http callback when transcoding complete
-    * [ ] rest api for transcoding request with upload
-    * [x] transcoding worker scale out with multiple node
-    * [ ] Profile
-        - Protocal
-            - [x] hls
-            - [ ] mpeg-dash
-        - codec
-            - [x] h.264
-            - [ ] h.265
-        - per 360p,480p,720p,1080p resolution transcoding to parallel distributed processing
-* setting
-    * [ ] webhook url config
-    * [ ] apikey config for rest api authentication
-* history
-* meta
-    * [ ] category - tree structure
-        * [ ] video node        
-* member
+[Roadmap](/ROADMAP.md)
 
 ## Getting started
 ### Storage config
@@ -130,9 +124,9 @@ OVP(online video platform)란<br/>
     ```docker-compose run --no-deps web bundle exec rails console```
 
 ### How To Run Development mode without docker    
-[SETUP.md](/SETUP.md)       
+[SETUP_WITHOUT_DOCKER.md](/SETUP_WITHOUT_DOCKER.md)       
        
-## Deploy       
+## Deploy
 ### Docker Swarm
 [DOCKER-SWARM.md](/DOCKER-SWARM.md)
 
