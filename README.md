@@ -25,9 +25,9 @@
 
 ## Introduction
 ### EN
-OVP(online video platform) mean that online transcoding, packaging and hosting service with movie file upload to online storage or cloud system.<br/>
+OVP(online video platform) mean that online transcoding, packaging and hosting service with video file upload to online storage or cloud system.<br/>
 Internet speed was increase and many internet user need streaming service than Content provier and Broadcaster use OVP or solution for start streaming service with Mobile, web, OTT(over the top).<br/>
-Famous OVP business company is mux.com, dacast.com, vimeo.com, Dacast.com and Wowza solution.<br/>
+Famous OVP business company is mux.com, dacast.com, vimeo.com, Dacast.com, Amazon elastic transcoding and Wowza solution.<br/>
 But Korea OVP company is not many and company should spend more than thousand of dollar per month to OVP.<br/>
 CW-OVP project will commit helping for who want ready for streaming service.<br/>
 This is why CW-OVP project was built.
