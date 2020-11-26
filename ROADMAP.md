@@ -21,4 +21,4 @@
     * [ ] category - tree structure
         * [ ] video node
 * member
-    * [ ] approved 
+    * [ ] approved after join 
