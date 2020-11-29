@@ -1,13 +1,7 @@
 <%= form_with(model: encode, local: true) do |form| %>
   <% if encode.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(encode.errors.count, "error") %> prohibited this encode from being saved:</h2>
-
-      <ul>
-        <% encode.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+    <div class="notification is-danger">
+      <strong><%= pluralize(encode.errors.count, "error") %> prohibited this encode from being saved:</strong>
     </div>
   <% end %>
 
@@ -16,7 +10,16 @@
       <%= form.label :title, class: "label" %>
     </div>
     <div class="field-body">
-      <%= form.text_field :title, class: "input", placeholder: "Title" %>
+      <div class="field">
+        <div class="control">
+        <%= form.text_field :title, class: encode.errors[:title].size > 0 ? "input is-danger": "input" , placeholder: "Title" %>
+        </div>
+        <% encode.errors[:title].each do |message| %>
+        <p class="help is-danger">
+          <%= message %>
+        </p>
+        <% end %>
+      </div>
     </div>
   </div>
 
@@ -29,7 +32,16 @@
         <span class="direct-upload__filename"><%= form.object.file.filename %></span>
         <%= form.hidden_field :file, value: form.object.file.signed_id %>
       <% else %>
-        <%= form.file_field :file, direct_upload: true, class: 'input', accept: Encode::VALIDATED_FILE_EXTENSIONS.join(',') %>
+        <div class="field">
+          <div class="control">
+            <%= form.file_field :file, direct_upload: true, class: encode.errors[:file].size > 0 ? "input is-danger": "input", accept: Encode::VALIDATED_FILE_EXTENSIONS.join(',') %>
+          </div>
+          <% encode.errors[:file].each do |message| %>
+            <p class="help is-danger">
+              <%= message %>
+            </p>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>
