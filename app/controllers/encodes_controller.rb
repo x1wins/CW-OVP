@@ -1,8 +1,7 @@
 require './lib/pagination'
-require 'open3'
 
 class EncodesController < ApplicationController
-  before_action :set_encode, only: [:show, :destroy]
+  before_action :set_encode, only: [:show]
   before_action :authenticate_user!
 
   # GET /encodes
@@ -36,16 +35,6 @@ class EncodesController < ApplicationController
         format.html { render :new }
         format.json { render json: @encode.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /encodes/1
-  # DELETE /encodes/1.json
-  def destroy
-    @encode.update(published: false)
-    respond_to do |format|
-      format.html { redirect_to encodes_url, notice: 'Encode was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
