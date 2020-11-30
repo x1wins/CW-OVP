@@ -21,4 +21,5 @@
     * [ ] category - tree structure
         * [ ] video node
 * member
-    * [ ] approved 
+    * [ ] approved after join https://github.com/heartcombo/devise/wiki/How-To:-Require-admin-to-activate-account-before-sign_in
+    * [ ] reCAPTCHA https://github.com/heartcombo/devise/wiki/How-To:-Use-Recaptcha-with-Devise
