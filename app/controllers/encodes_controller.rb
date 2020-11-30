@@ -1,8 +1,7 @@
 require './lib/pagination'
-require 'open3'
 
 class EncodesController < ApplicationController
-  before_action :set_encode, only: [:show, :destroy]
+  before_action :set_encode, only: [:show]
   before_action :authenticate_user!
 
   # GET /encodes
