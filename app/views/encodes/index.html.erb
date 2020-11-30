@@ -1,37 +1,39 @@
 <h1 class="title">Encode > List</h1>
-<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="encodes">
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Title</th>
-    <th>File name</th>
-    <th>Runtime</th>
-    <th>Url</th>
-    <th>Created at</th>
-    <th>Completed</th>
-    <th>Thumbnail</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @encodes.each do |encode| %>
-    <tr id="encode_id" data-encode-id="<%= encode.id %>">
-      <th><%= link_to encode.id, encode, class: "button is-success" %></th>
-      <td><%= link_to encode.title, encode %></td>
-      <td><%= encode.file.filename if encode.file.attached? %></td>
-      <td><%= encode.runtime %></td>
-      <td><%= encode.url %></td>
-      <td><%= encode.created_at %></td>
-      <td id="status_<%= encode.id %>"><%= encode.completed %></td>
-      <td>
-        <% if encode.thumbnails.first %>
-        <figure class="image is-32x32">
-          <%= image_tag url_for(encode.thumbnails.first) %>
-        </figure>
-        <% end %>
-      </td>
+<div class="table-container">
+  <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="encodes">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>File name</th>
+      <th>Runtime</th>
+      <th>Url</th>
+      <th>Created at</th>
+      <th>Completed</th>
+      <th>Thumbnail</th>
     </tr>
-  <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+    <% @encodes.each do |encode| %>
+      <tr id="encode_id" data-encode-id="<%= encode.id %>">
+        <th><%= link_to encode.id, encode, class: "button is-success" %></th>
+        <td><%= link_to encode.title, encode %></td>
+        <td><%= encode.file.filename if encode.file.attached? %></td>
+        <td><%= encode.runtime %></td>
+        <td><%= encode.url %></td>
+        <td><%= encode.created_at %></td>
+        <td id="status_<%= encode.id %>"><%= encode.completed %></td>
+        <td>
+          <% if encode.thumbnails.first %>
+          <figure class="image is-32x32">
+            <%= image_tag url_for(encode.thumbnails.first) %>
+          </figure>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
 <%= paginate @encodes %>
 
