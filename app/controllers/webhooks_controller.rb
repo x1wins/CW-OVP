@@ -1,6 +1,7 @@
 require './lib/pagination'
 
 class WebhooksController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_webhook, only: [:show, :edit, :update, :destroy]
 
   # GET /webhooks
@@ -73,6 +74,6 @@ class WebhooksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def webhook_params
-      params.require(:webhook).permit(:url, :api_key, :user_id, :method, :is_active)
+      params.require(:webhook).permit(:url, :api_key, :user_id, :method, :is_active).merge(user_id: current_user.id)
     end
 end
