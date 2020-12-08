@@ -8,6 +8,7 @@
 * [Skill Stack](#Skill-Stack)
 * [Feature](#Feature)
 * [System Structure](#System-Structure)
+    * [Docker Swarm with Scale out](#Docker-Swarm-with-Scale-out)
 * [Minimum Requirements for Production](#Minimum-Requirements-for-Production)
 * [Roadmap](#Roadmap)
 * [Getting started](#Getting-started)
@@ -66,6 +67,13 @@ OVP(online video platform)란<br/>
 
 ## System Structure
 ![cw-ovp-architecture.png](cw-ovp-architecture.png)
+### Docker Swarm with Scale out
+|master node|slave-1 node|slave-2 node|you can scale out slave node...|
+|---|---|---|---|
+|redis|sidekiq|sidekiq|sidekiq...|
+| |ffmpeg|ffmpeg|ffmpeg...|
+|postgresql||||
+|ruby on rails||||
 
 ## Minimum Requirements for Production
 - Required AWS S3, Cloudfront [.env.dev.s3](/.env.dev.s3)
