@@ -1,8 +1,8 @@
 require './lib/pagination'
 
 class EncodesController < ApplicationController
-  before_action :set_encode, only: [:show]
   before_action :authenticate_user!
+  before_action :set_encode, only: [:show]
 
   # GET /encodes
   # GET /encodes.json
