@@ -12,5 +12,17 @@
       </li>
       <li><%= link_to 'New Encode', new_encode_path, class: (current_page?(new_encode_path)) ? 'is-active':'' %></li>
     </ul>
+    <p class="menu-label">
+      <%= Webhook.model_name %>
+    </p>
+    <ul class="menu-list">
+      <li><%= link_to 'List', webhooks_path, class: (current_page?(webhooks_path)) ? 'is-active':'' %></li>
+      <li>
+        <ul>
+          <li><%= link_to 'Show', '#', class: (params[:id].present? and current_page?(webhook_path(params[:id]))) ? 'is-active':'' %></li>
+        </ul>
+      </li>
+      <li><%= link_to 'New Encode', new_webhook_path, class: (current_page?(new_webhook_path)) ? 'is-active':'' %></li>
+    </ul>
   </nav>
 </aside>
