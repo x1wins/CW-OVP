@@ -25,7 +25,7 @@
         <td id="status_<%= encode.id %>"><%= encode.completed %></td>
         <td>
           <% if encode.thumbnails.first %>
-          <figure class="image is-32x32">
+          <figure class="image is-16by9">
             <%= image_tag url_for(encode.thumbnails.first) %>
           </figure>
           <% end %>

@@ -83,7 +83,7 @@ function addThumbnailInIndex(td, thumbnail_url){
       var img = document.createElement("img")
       img.src = thumbnail_url
       var figure = document.createElement("figure")
-      figure.setAttribute("class","image is-32x32");
+      figure.setAttribute("class","image is-16by9");
       figure.appendChild(img);
       td.appendChild(figure);
     }
