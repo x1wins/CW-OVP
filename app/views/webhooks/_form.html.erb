@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= form.label :method %>
-    <%= form.select :method, Webhook.methods.keys, {}%>
+    <%= form.select :method, Webhook::METHOD_OPTIONS, { :include_blank => '-- Select One --' } %>
   </div>
 
   <div class="field">
