@@ -88,19 +88,4 @@ RSpec.describe EncodesController, type: :controller do
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested encode" do
-      encode = Encode.create! valid_attributes
-      put :destroy, params: {id: encode.to_param}
-      encode.reload
-      expect(encode.published).to eq false
-    end
-
-    it "redirects to the encodes list" do
-      encode = Encode.create! valid_attributes
-      delete :destroy, params: {id: encode.to_param}
-      expect(response).to redirect_to(encodes_url)
-    end
-  end
-
 end
