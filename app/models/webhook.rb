@@ -1,5 +1,5 @@
 class Webhook < ApplicationRecord
-  validates :url, presence: true
+  validates :url, presence: true, format: URI::regexp(%w[http https])
   validates :api_key, presence: true
   METHOD_OPTIONS = %w(post put get)
   validates :method, :inclusion => {:in => METHOD_OPTIONS}
