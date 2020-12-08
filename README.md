@@ -111,7 +111,9 @@ OVP(online video platform)란<br/>
                 AWS_CLOUDFRONT_DOMAIN=[Change cdn domain]
             ```    
         3. Check config
-            ```docker-compose --env-file .env.dev.s3 config```
+            ```
+            docker-compose --env-file .env.dev.s3 config
+            ```
 
 ### How To Run Development mode with Docker-compose
 1. Download source
@@ -132,9 +134,13 @@ OVP(online video platform)란<br/>
         docker-compose --env-file .env.dev.s3 restart sidekiq
         ```
 4. Unit testing with rspec
-    ```docker-compose run --no-deps web bundle exec rspec --format documentation```
+    ```
+    docker-compose run --no-deps web bundle exec rspec --format documentation
+    ```
 5. Console
-    ```docker-compose run --no-deps web bundle exec rails console```
+    ```
+    docker-compose run --no-deps web bundle exec rails console
+    ```
 
 ### How To Run Development mode without docker    
 [SETUP_WITHOUT_DOCKER.md](/SETUP_WITHOUT_DOCKER.md)       

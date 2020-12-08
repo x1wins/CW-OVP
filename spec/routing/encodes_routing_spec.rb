@@ -18,8 +18,5 @@ RSpec.describe EncodesController, type: :routing do
       expect(:post => "/encodes").to route_to("encodes#create")
     end
 
-    it "routes to #destroy" do
-      expect(:delete => "/encodes/1").to route_to("encodes#destroy", :id => "1")
-    end
   end
 end
