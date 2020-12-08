@@ -22,13 +22,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :user_id %>
-    <%= form.number_field :user_id %>
-  </div>
-
-  <div class="field">
     <%= form.label :method %>
-    <%= form.text_field :method %>
+    <%= form.select :method, Webhook.methods.keys, {}%>
   </div>
 
   <div class="field">
