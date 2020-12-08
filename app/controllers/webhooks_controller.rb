@@ -1,10 +1,14 @@
+require './lib/pagination'
+
 class WebhooksController < ApplicationController
   before_action :set_webhook, only: [:show, :edit, :update, :destroy]
 
   # GET /webhooks
   # GET /webhooks.json
   def index
-    @webhooks = Webhook.all
+    page = params[:page].presence || 1
+    per = params[:per].presence || Pagination.per
+    @webhooks = Webhook.by_date.page(page).per(per)
   end
 
   # GET /webhooks/1
