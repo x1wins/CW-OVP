@@ -89,7 +89,7 @@ OVP(online video platform)란<br/>
 * AWS S3 Storage
     1. How to make s3 bucket for AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
         - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/Upload-file-to-S3-with-AWS-CLI-d12442012c
-    2. How to make cloud front url for AWS_CLOUDFRONT_DOMAIN 
+    2. How to make cloudfront url for AWS_CLOUDFRONT_DOMAIN 
         - https://www.changwoo.org/x1wins@changwoo.net/2019-10-23/using-cloud-front-with-s3-51d2eb17bb
     3. Update ```.env.dev.s3``` file for s3, cloudfront
         1. open ```.env.dev.s3```
@@ -131,7 +131,7 @@ OVP(online video platform)란<br/>
 ### How To Run Development mode without docker    
 [SETUP_WITHOUT_DOCKER.md](/SETUP_WITHOUT_DOCKER.md)       
        
-## Deploy
+## Clustering Deploy for Production
 ### Docker Swarm
 [DOCKER-SWARM.md](/DOCKER-SWARM.md)
 
