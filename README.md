@@ -86,8 +86,8 @@ OVP(online video platform)란<br/>
     - Memory
         - more 2Gb
     - Number of Server
-        - manager server : 1
-        - worker server : 2 or more (you can easy scale out)
+        - master server : 1 or more
+        - slave server : 2 or more
 
 ## Roadmap
 [Roadmap](/ROADMAP.md)
