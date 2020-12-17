@@ -63,7 +63,7 @@ OVP(online video platform)란<br/>
 - AWS S3 for stored video, thumbnail assets
 - AWS Cloudfront for CDN
 - Real time base on web UI with websocket(Action Cable), ruby on rails
-- Open source(MIT licence) and Free, but need hardware…
+- Open source (GPL-2.0 License) and Free, but need hardware…
 
 ## System Structure
 ![cw-ovp-architecture.png](cw-ovp-architecture.png)
