@@ -1,4 +1,5 @@
 ## Webhook
+### Example Webhook Server
 * download file-post-server-py https://gist.github.com/kylemcdonald/3bb71e4b901c54073cbc#file-post-server-py
     ```
     import SimpleHTTPServer
@@ -21,14 +22,34 @@
     httpd.serve_forever()
     ```
 
-* Run sample post server for webhook
+* Run sample post method server for webhook
     ```
     % python post-server.py 
     serving at port 8000
     ```
-
-* Test webhook server with curl
+  
+### Example Webhook Client  
+* ruby client
     ```
-    % curl -i -X POST http://localhost:8000/posts -d a=b
+    % irb
+    require 'net/http'
+    require 'uri'
+    
+    begin
+        headers = {'Cookie' => 'mycookieinformationinhere'}
+        uri = URI.parse("http://localhost:8000/webhook")
+        http = Net::HTTP.new(uri.host, uri.port)
+        response = http.post(uri.path, "test=test&a=ruby&b=python&apikey=samplekey", headers)
+    rescue => e
+        puts e
+        puts "rescue"
+    ensure
+        puts "ensure #{response}"
+    end
+    ```
+
+* curl
+    ```
+    % curl -i -X POST http://localhost:8000/webhook -d a=b
     curl: (52) Empty reply from server
     ```
