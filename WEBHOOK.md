@@ -1,6 +1,6 @@
 ## Webhook
 ### Example Webhook Server
-* download file-post-server-py https://gist.github.com/kylemcdonald/3bb71e4b901c54073cbc#file-post-server-py
+* download post-server.py https://gist.github.com/kylemcdonald/3bb71e4b901c54073cbc
     ```
     import SimpleHTTPServer
     import SocketServer
@@ -47,9 +47,22 @@
         puts "ensure #{response}"
     end
     ```
+    ```
+    # result
+    % python post-server.py
+    serving at port 8000
+    a=ruby&b=python&apikey=samplekey
+    ```
 
 * curl
     ```
     % curl -i -X POST http://localhost:8000/webhook -d a=b
     curl: (52) Empty reply from server
+    ```
+    
+    ```
+    # result
+    % python post-server.py
+    serving at port 8000
+    a=b
     ```
