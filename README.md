@@ -66,7 +66,7 @@ OVP(online video platform)란<br/>
 - Open source(MIT licence) and Free, but need hardware…
 
 ## System Structure
-![cw-ovp-architecture.png](cw-ovp-architecture.png)
+![cw-ovp-system-structure.png](cw-ovp-system-structure.png)
 ### Docker Swarm with Scale out
 |master node|slave-1 node|slave-2 node|you can scale out slave node...|
 |---|---|---|---|
