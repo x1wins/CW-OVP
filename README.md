@@ -66,7 +66,7 @@ OVP(online video platform)란<br/>
 - Open source (GPL-2.0 License) and Free, but need hardware…
 
 ## System Structure
-![cw-ovp-architecture.png](cw-ovp-architecture.png)
+![cw-ovp-system-structure.png](cw-ovp-system-structure.png)
 ### Docker Swarm with Scale out
 |master node|slave-1 node|slave-2 node|you can scale out slave node...|
 |---|---|---|---|
@@ -86,8 +86,8 @@ OVP(online video platform)란<br/>
     - Memory
         - more 2Gb
     - Number of Server
-        - master server : 1 or more
-        - slave server : 2 or more
+        - master : 1 or more
+        - slave : 2 or more
 
 ## Roadmap
 [Roadmap](/ROADMAP.md)
