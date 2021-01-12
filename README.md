@@ -86,8 +86,8 @@ OVP(online video platform)란<br/>
     - Memory
         - more 2Gb
     - Number of Server
-        - master server : 1 or more
-        - slave server : 2 or more
+        - master : 1 or more
+        - slave : 2 or more
 
 ## Roadmap
 [Roadmap](/ROADMAP.md)
