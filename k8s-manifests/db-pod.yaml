@@ -90,6 +90,7 @@ spec:
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: db-data
+          subPath: postgres
   restartPolicy: OnFailure
   volumes:
     - name: db-data
