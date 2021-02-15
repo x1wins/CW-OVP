@@ -10,6 +10,8 @@ metadata:
     io.kompose.service: db
   name: db
 spec:
+  nodeSelector:
+    nodetype: database
   containers:
     - env:
         - name: CABLE_REDIS_SERVER_URL

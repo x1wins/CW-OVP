@@ -85,3 +85,8 @@ pod "web" deleted
 service "web" deleted
 ```
 
+Label
+```
+% kubectl label nodes <your-node-name> nodetype=database
+```
+https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
