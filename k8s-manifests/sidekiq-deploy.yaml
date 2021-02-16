@@ -124,3 +124,10 @@ spec:
                 configMapKeyRef:
                   key: WEB_TITLE
                   name: env-dev-docker-compose
+          volumeMounts:
+            - mountPath: /storage
+              name: local-storage
+      volumes:
+        - name: local-storage
+          persistentVolumeClaim:
+            claimName: local-storage
