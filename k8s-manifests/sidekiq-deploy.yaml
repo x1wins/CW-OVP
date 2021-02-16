@@ -129,5 +129,4 @@ spec:
               name: local-storage
       volumes:
         - name: local-storage
-          persistentVolumeClaim:
-            claimName: local-storage
+          emptyDir: {}
