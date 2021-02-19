@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-stack.yml convert
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.network/backend: "true"
+    io.kompose.service: redis
+  name: redis
+spec:
+  containers:
+    - command:
+        - redis-server
+        - --appendonly
+        - "yes"
+      image: redis:latest
+      name: redis
+      ports:
+        - containerPort: 6379
+      resources: {}
+      volumeMounts:
+        - mountPath: /data
+          name: redis-data
+  restartPolicy: OnFailure
+  volumes:
+    - name: redis-data
+      persistentVolumeClaim:
+        claimName: redis-data
+status: {}

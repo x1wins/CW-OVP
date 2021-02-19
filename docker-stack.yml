@@ -31,7 +31,7 @@ services:
       placement:
         constraints: [node.role == manager]
   web:
-    image: 127.0.0.1:5000/cw-ovp
+    image: x1wins/cw-ovp
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     env_file:
       - .env.dev.docker.compose
@@ -50,7 +50,7 @@ services:
       placement:
         constraints: [node.role == manager]
   sidekiq:
-    image: 127.0.0.1:5000/cw-ovp
+    image: x1wins/cw-ovp
     command: bundle exec sidekiq -c 2
     env_file:
       - .env.dev.docker.compose
