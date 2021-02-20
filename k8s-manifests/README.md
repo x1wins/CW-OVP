@@ -170,3 +170,7 @@ hidden env file on git
 git update-index --assume-unchanged ./k8s-manifests/env-dev-s3-configmap.yaml
 ```
 
+pvc delete
+```
+kubectl delete pvc --all 
+```

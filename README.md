@@ -18,6 +18,7 @@
 * [Deploy](#Deploy)    
     * [Docker Swarm](#Docker-Swarm)    
     * [Docker Swarm with Jenkins](#Docker-Swarm-with-Jenkins)    
+    * [Kubernetes](#kubernetes)    
 * [Sample video file download](#Sample-video-file-download)    
 
 ## Preview
@@ -151,6 +152,9 @@ OVP(online video platform)란<br/>
 
 ### Docker Swarm with Jenkins
 [DOCKER-SWARM-JENKINS.md](/DOCKER-SWARM-JENKINS.md)
+
+### kubernetes
+[Setup k8s with kops](/k8s-manifests/SETUP_K8S.md)
 
 ### Sample video file download
 - http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4              
