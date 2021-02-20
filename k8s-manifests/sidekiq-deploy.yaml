@@ -1,0 +1,132 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidekiq-deployment
+  labels:
+    app: sidekiq
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sidekiq
+  template:
+    metadata:
+      labels:
+        app: sidekiq
+    spec:
+      containers:
+        - name: sidekiq
+          image: x1wins/cw-ovp
+          args:
+            - bundle
+            - exec
+            - sidekiq
+            - -c
+            - "2"
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: AWS_ACCESS_KEY_ID
+                  name: env-dev-s3
+            - name: AWS_CLOUDFRONT_DOMAIN
+              valueFrom:
+                configMapKeyRef:
+                  key: AWS_CLOUDFRONT_DOMAIN
+                  name: env-dev-s3
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: AWS_SECRET_ACCESS_KEY
+                  name: env-dev-s3
+            - name: BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  key: BUCKET
+                  name: env-dev-s3
+            - name: CABLE_REDIS_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: CABLE_REDIS_SERVER_URL
+                  name: env-dev-docker-compose
+            - name: CDN_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  key: CDN_BUCKET
+                  name: env-dev-s3
+            - name: DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_NAME
+                  name: env-dev-docker-compose
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_PASSWORD
+                  name: env-dev-docker-compose
+            - name: DATABASE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_PORT
+                  name: env-dev-docker-compose
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_URL
+                  name: env-dev-docker-compose
+            - name: DATABASE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_USERNAME
+                  name: env-dev-docker-compose
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_DB
+                  name: env-dev-docker-compose
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: env-dev-docker-compose
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_USER
+                  name: env-dev-docker-compose
+            - name: RAILS_SERVE_STATIC_FILES
+              valueFrom:
+                configMapKeyRef:
+                  key: RAILS_SERVE_STATIC_FILES
+                  name: env-dev-docker-compose
+            - name: REDIS_CLIENT_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: REDIS_CLIENT_URL
+                  name: env-dev-docker-compose
+            - name: REDIS_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: REDIS_SERVER_URL
+                  name: env-dev-docker-compose
+            - name: REGION
+              valueFrom:
+                configMapKeyRef:
+                  key: REGION
+                  name: env-dev-s3
+            - name: WEB_LOGO_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: WEB_LOGO_URL
+                  name: env-dev-docker-compose
+            - name: WEB_TITLE
+              valueFrom:
+                configMapKeyRef:
+                  key: WEB_TITLE
+                  name: env-dev-docker-compose
+          volumeMounts:
+            - mountPath: /storage
+              name: local-storage
+      volumes:
+        - name: local-storage
+          emptyDir: {}

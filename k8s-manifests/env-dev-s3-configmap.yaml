@@ -1,0 +1,14 @@
+apiVersion: v1
+data:
+  AWS_ACCESS_KEY_ID: [Change key id]
+  AWS_CLOUDFRONT_DOMAIN: [Change cdn domain]
+  AWS_SECRET_ACCESS_KEY: [Change access key]
+  BUCKET: [Change bucket]
+  CDN_BUCKET: [Change cdn bucket]
+  REGION: [Change region]
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: sidekiq-env-dev-s3
+  name: env-dev-s3
