@@ -164,3 +164,9 @@ BUNDLE_SILENCE_ROOT_WARNING=1
 BUNDLE_APP_CONFIG=/usr/local/bundle
 HOME=/root
 ```
+
+hidden env file on git
+```
+git update-index --assume-unchanged ./k8s-manifests/env-dev-s3-configmap.yaml
+```
+
