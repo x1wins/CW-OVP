@@ -8,7 +8,6 @@
 * [Skill Stack](#Skill-Stack)
 * [Feature](#Feature)
 * [System Structure](#System-Structure)
-    * [Docker Swarm with Scale out](#Docker-Swarm-with-Scale-out)
 * [Minimum Requirements for Production](#Minimum-Requirements-for-Production)
 * [Roadmap](#Roadmap)
 * [Getting started](#Getting-started)
@@ -17,7 +16,6 @@
     * [How To Run Development mode without docker](#How-To-Run-Development-mode-without-docker)
 * [Deploy](#Deploy)    
     * [Docker Swarm](#Docker-Swarm)    
-    * [Docker Swarm with Jenkins](#Docker-Swarm-with-Jenkins)    
     * [Kubernetes](#kubernetes)    
 * [Sample video file download](#Sample-video-file-download)    
 
@@ -54,10 +52,12 @@ OVP(online video platform)란<br/>
 |Sidekiq|background job, queue|
 |Postresql|database|
 |Docker, docker-compose|install environment|
-|Docker Swarm|Clustering (Scale out)|
+|Docker Swarm|Clustering|
+|Kubernetes|Clustering|
+- you can choose Docker swarm or Kubernetes(kops or EKS) for Clustering
 
 ## Feature
-- Clustering ffmpeg worker with sidekiq on docker swarm
+- Clustering ffmpeg worker with sidekiq on Docker swarm or Kubernetes
 - Transcoding, Packaging with ffmpeg for HLS
     - Generated multiple m3u8 for Adaptive Streaming
 - Extract 10 random Thumbnail images during video packaging
@@ -68,16 +68,11 @@ OVP(online video platform)란<br/>
 
 ## System Structure
 ![cw-ovp-system-structure.png](cw-ovp-system-structure.png)
-### Docker Swarm with Scale out
-|master node|slave-1 node|slave-2 node|you can scale out slave node...|
-|---|---|---|---|
-|redis|sidekiq|sidekiq|sidekiq...|
-| |ffmpeg|ffmpeg|ffmpeg...|
-|postgresql||||
-|ruby on rails||||
+- If your node for database that got fault or something wrong, You can lost persistent in database. that's why I recommend AWS RDS for postgresql. 
 
 ## Minimum Requirements for Production
-- Required AWS S3, Cloudfront [.env.dev.s3](/.env.dev.s3)
+- Required AWS S3 for Storage
+- Required AWS Cloudfront for CDN
 - Server Spec
     - CPU
         - 4 or 8 more Cpu per server (c5.xlarge on aws ec2)
@@ -143,15 +138,12 @@ OVP(online video platform)란<br/>
     docker-compose run --no-deps web bundle exec rails console
     ```
 
-### How To Run Development mode without docker    
+### How To Run Development mode without docker
 [SETUP_WITHOUT_DOCKER.md](/SETUP_WITHOUT_DOCKER.md)       
        
-## Clustering Deploy for Production
+## Deploy
 ### Docker Swarm
 [DOCKER-SWARM.md](/DOCKER-SWARM.md)
-
-### Docker Swarm with Jenkins
-[DOCKER-SWARM-JENKINS.md](/DOCKER-SWARM-JENKINS.md)
 
 ### kubernetes
 [Setup k8s with kops](/k8s-manifests/SETUP_K8S.md)
