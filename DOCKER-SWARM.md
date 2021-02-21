@@ -16,6 +16,8 @@
 * [Changing Scale](#Changing-Scale)
 * [Update latest image](#Update-latest-image)
 * [Trouble shooting](#Trouble-shooting)
+* [Docker Swarm with Jenkins](/DOCKER-SWARM-JENKINS.md)
+
 
 ## Introduction Scale Out with Docker Swarm
 CW-OVP can have many background job for video packaging and encoding with ffmpeg. 
