@@ -127,6 +127,16 @@ spec:
           volumeMounts:
             - mountPath: /storage
               name: local-storage
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                      - sidekiq
+              topologyKey: "kubernetes.io/hostname"
       volumes:
         - name: local-storage
           emptyDir: {}
