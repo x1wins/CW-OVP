@@ -22,7 +22,7 @@ spec:
             - exec
             - sidekiq
             - -c
-            - "2"
+            - "1"
           env:
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
