@@ -75,7 +75,7 @@ OVP(online video platform)란<br/>
 - Required AWS Cloudfront for CDN
 - Server Spec
     - CPU
-        - 4 or 8 more Cpu per server (c5.xlarge on aws ec2)
+        - 8 or more Cpu per server (c5.2xlarge on aws ec2)
     - Disk
         - more 10 Gb
         - if you will upload heavy video or more 10Gb, need more space
