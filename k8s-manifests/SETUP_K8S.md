@@ -43,3 +43,8 @@ kubectl get configmap
 kubectl get services 
 ```
 > https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources
+
+```
+kubectl exec web -- bash -c 'cd /myapp && bundle exec rake db:migrate'
+kubectl exec web -- bash -c 'cd ~/myapp && RAILS_ENV=production bin/rake db:create'
+```
