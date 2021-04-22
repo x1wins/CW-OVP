@@ -52,8 +52,8 @@ aws
 ```
 docker-machine create -d amazonec2 \
 --amazonec2-region us-west-1 \
---amazonec2-instance-type "t2.micro" \
---amazonec2-ssh-keypath ~/.ssh/ssh_key \
+--amazonec2-instance-type "m5.large" \  #--amazonec2-instance-type "t2.micro" \
+--amazonec2-ssh-keypath ~/.ssh/id_rsa \ #--amazonec2-ssh-keypath ~/.ssh/ssh_key \
 aws-test
 ```
 
