@@ -35,11 +35,10 @@ This is why CW-OVP project was built.
 
 ### KO
 OVP(online video platform)란<br/>
-온라인 저장소 또는 클라우드에 영상파일을 업로드하여 인코딩과 호스팅 서비스를 제공함을 말한다.<br/>
+온라인 저장소 또는 클라우드에 비디오 파일을 업로드하여 트랜스코딩과 페키징 처리후 호스팅 서비스를 제공함을 말한다.<br/>
 인터넷 속도의 발달과 사용자들의 요구로 많은 스트리밍 서비스가 생겨나고 있고, 기존의 방송사들도 흐름에 따라  Mobile, web, OTT(over the top) 셋탑기기의 스트리밍 서비스를 제공하기 위해서 OVP(online video platform)이나 솔류션을 많이 사용하고 있다.<br/>
-대표적인 해외 OVP는 brightcove.com, mux.com, dacast.com, vimeo.com, Dacast.com 등 서비스들이 존재하며 솔류션으로는 Wowza가 존재한다.<br/>
-대부분의 스트리밍 서비스들은 OVP에 비싼 이용을 지불하여 비지니스를 진행하고 있다.<br/>
-이에 오픈소스로 OVP를 개발하여 기업이나 단체, 개인에 도움이 되고자 한다.
+대표적인 해외 OVP는 brightcove.com, mux.com, dacast.com, vimeo.com, Dacast.com, Amazon elastic transcoding 등 서비스들이 존재하며 솔류션으로는 Wowza가 존재한다.<br/>
+이에 CW-OVP 프로젝트를 오픈소스로 개발하여 기업이나 단체, 개인에 도움이 되고자 한다.
 
 ## Skill Stack
 |what use|description|
