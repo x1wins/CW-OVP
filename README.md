@@ -117,6 +117,8 @@ OVP(online video platform)란<br/>
 2. Build and Run    
     1. ```docker-compose --env-file .env.dev.s3 up --build -d```
     2. ```docker-compose run --no-deps web bundle exec rails webpacker:install```
+    2. ```docker-compose --env-file .env.dev.s3 restart web```
+    2. ```docker-compose run --no-deps web bundle exec rake db:create```
     3. ```docker-compose run --no-deps web bundle exec rake db:migrate```
     4. ```docker-compose run --no-deps web bundle exec rake db:create RAILS_ENV=test```
     4. ```docker-compose run --no-deps web bundle exec rake db:migrate RAILS_ENV=test```
@@ -138,23 +140,29 @@ OVP(online video platform)란<br/>
     ```
 6. Troubleshooting 
     1. when I got bundle error such as ```minemagic```
-    ```
-    Step 10/16 : RUN bundle install
-    ---> Running in 578d62fab6ac
-    Fetching gem metadata from https://rubygems.org/............
-    You have requested:
-     mimemagic ~> 0.4.1
-    The bundle currently has mimemagic locked at 0.3.5.
-    Try running `bundle update mimemagic`
-    If you are updating multiple gems in your Gemfile at once,
-    try passing them all to `bundle update`
-    ERROR: Service 'web' failed to build: The command '/bin/sh -c bundle install' returned a non-zero code: 7
-    The command "docker-compose build" failed and exited with 1 during .
-    Your build has been stopped.
-    ```
-    ```docker-compose run --no-deps web bundle update mimemagic```
+        1. Log of minemagic gem error
+            ```
+            Step 10/16 : RUN bundle install
+            ---> Running in 578d62fab6ac
+            Fetching gem metadata from https://rubygems.org/............
+            You have requested:
+             mimemagic ~> 0.4.1
+            The bundle currently has mimemagic locked at 0.3.5.
+            Try running `bundle update mimemagic`
+            If you are updating multiple gems in your Gemfile at once,
+            try passing them all to `bundle update`
+            ERROR: Service 'web' failed to build: The command '/bin/sh -c bundle install' returned a non-zero code: 7
+            The command "docker-compose build" failed and exited with 1 during .
+            Your build has been stopped.
+            ```
+        2. Solution
+            ```
+            docker-compose run --no-deps web bundle update mimemagic
+            ```
     2. Keep latest gem for defense vulnerability
-    ```docker-compose run --no-deps web bundle update```
+        ```
+        docker-compose run --no-deps web bundle update
+        ```
 
 ### How To Run Development mode without docker
 [SETUP_WITHOUT_DOCKER.md](/SETUP_WITHOUT_DOCKER.md)       
