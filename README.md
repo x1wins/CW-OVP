@@ -8,16 +8,16 @@
 * [Skill Stack](#Skill-Stack)
 * [Feature](#Feature)
 * [System Structure](#System-Structure)
-* [Minimum Requirements for Production](#Minimum-Requirements-for-Production)
-* [Roadmap](#Roadmap)
 * [Getting started](#Getting-started)
     * [Storage config](#Storage-config)
     * [How To Run Development mode with Docker-compose](#How-To-Run-Development-mode-with-Docker-compose)
     * [How To Run Development mode without docker](#How-To-Run-Development-mode-without-docker)
+    * [Sample video file download](#Sample-video-file-download)    
+* [Minimum Requirements for Production](#Minimum-Requirements-for-Production)
+* [Roadmap](#Roadmap)
 * [Deploy](#Deploy)    
     * [Docker Swarm](#Docker-Swarm)    
     * [Kubernetes](#kubernetes)    
-* [Sample video file download](#Sample-video-file-download)    
 
 ## Preview
 ![show](/screenshot/cw_ovp_show.png)          
@@ -68,24 +68,6 @@ OVP(online video platform)란<br/>
 ## System Structure
 ![cw-ovp-system-structure.png](cw-ovp-system-structure.png)
 - If your node for database that got fault or something wrong, You can lost persistent in database. that's why I recommend AWS RDS for postgresql. 
-
-## Minimum Requirements for Production
-- Required AWS S3 for Storage
-- Required AWS Cloudfront for CDN
-- Server Spec
-    - CPU
-        - 8 or more Cpu per server (c5.2xlarge on aws ec2)
-    - Disk
-        - more 10 Gb
-        - if you will upload heavy video or more 10Gb, need more space
-    - Memory
-        - more 2Gb
-    - Number of Server
-        - master : 1 or more
-        - slave : 2 or more
-
-## Roadmap
-[Roadmap](/ROADMAP.md)
 
 ## Getting started
 ### Storage config
@@ -166,13 +148,6 @@ OVP(online video platform)란<br/>
 
 ### How To Run Development mode without docker
 [SETUP_WITHOUT_DOCKER.md](/SETUP_WITHOUT_DOCKER.md)       
-       
-## Deploy
-### Docker Swarm
-[DOCKER-SWARM.md](/DOCKER-SWARM.md)
-
-### kubernetes
-[Setup k8s with kops](/k8s-manifests/SETUP_K8S.md)
 
 ### Sample video file download
 - http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4              
@@ -181,3 +156,28 @@ OVP(online video platform)란<br/>
 - https://filesamples.com/samples/video/mp4/sample_1920x1080.mp4
 - https://filesamples.com/samples/video/mkv/sample_1920x1080.mkv
 - https://filesamples.com/samples/video/mov/sample_1920x1080.mov
+
+## Minimum Requirements for Production
+- Required AWS S3 for Storage
+- Required AWS Cloudfront for CDN
+- Server Spec
+    - CPU
+        - 8 or more Cpu per server (c5.2xlarge on aws ec2)
+    - Disk
+        - more 10 Gb
+        - if you will upload heavy video or more 10Gb, need more space
+    - Memory
+        - more 2Gb
+    - Number of Server
+        - master : 1 or more
+        - slave : 2 or more
+
+## Roadmap
+[Roadmap](/ROADMAP.md)
+       
+## Deploy
+### Docker Swarm
+[DOCKER-SWARM.md](/DOCKER-SWARM.md)
+
+### kubernetes
+[Setup k8s with kops](/k8s-manifests/SETUP_K8S.md)
