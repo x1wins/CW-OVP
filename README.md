@@ -145,6 +145,47 @@ OVP(online video platform)란<br/>
         ```
         docker-compose run --no-deps web bundle update
         ```
+    3. no space left on device
+        1. https://www.changwoo.org/x1wins@changwoo.net/2021-02-12/write-myapp-tmp-redis-appendonly-aof-9ff1127366
+        1. Log
+            ```
+            % docker-compose --env-file .env.dev.s3 up --build
+            Building web
+            Step 1/16 : FROM ruby:2.6.3
+             ---> 8fe6e1f7b421
+            Step 2/16 : RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - &&     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&     apt-get update &&     apt-get install -qq -y build-essential nodejs yarn vim     libpq-dev postgresql-client ffmpeg
+             ---> Using cache
+             ---> 14eb2f07d9e5
+            Step 3/16 : RUN apt-get update &&     apt-get install -y         python3         python3-pip         python3-setuptools         groff         less     && pip3 install --upgrade pip     && apt-get clean
+             ---> Using cache
+             ---> c57e46926299
+            Step 4/16 : RUN pip3 --no-cache-dir install --upgrade awscli
+             ---> Using cache
+             ---> 7e8e641bfc90
+            Step 5/16 : RUN mkdir /myapp
+             ---> Using cache
+             ---> a0a39c82945a
+            Step 6/16 : RUN mkdir /storage
+             ---> Using cache
+             ---> 66348ad31ef0
+            Step 7/16 : WORKDIR /myapp
+             ---> Using cache
+             ---> 47b601075951
+            Step 8/16 : COPY . /myapp
+            ERROR: Service 'web' failed to build : Error processing tar file(exit status 1): write /myapp/tmp/storage/og/op/ogopd3w9xnrwq0b6kqf8beh726xu: no space left on device
+            ```
+        2. Solution
+            ```
+            % docker system prune
+            WARNING! This will remove:
+              - all stopped containers
+              - all networks not used by at least one container
+              - all dangling images
+              - all dangling build cache
+            
+            Are you sure you want to continue? [y/N] y
+            ```
+       
 
 ### How To Run Development mode without docker
 [SETUP_WITHOUT_DOCKER.md](/SETUP_WITHOUT_DOCKER.md)       
