@@ -4,5 +4,6 @@ class Webhook < ApplicationRecord
   METHOD_OPTIONS = %w(post put get)
   validates :method, :inclusion => {:in => METHOD_OPTIONS}
   scope :by_date, -> { order('id DESC') }
+  scope :active, -> { where(is_active: true) }
   enum methods: { post: "post", put: "put", get: "get"}
 end
