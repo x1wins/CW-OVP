@@ -24,6 +24,24 @@
   </div>
 
   <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <%= form.label :callback_id, class: "label" %>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+        <%= form.text_field :callback_id, class: "input" , placeholder: "Callback ID" %>
+        </div>
+        <% encode.errors[:callback_id].each do |message| %>
+        <p class="help is-danger">
+          <%= message %>
+        </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
     <div class="field-label">
       <%= form.label :file, class: "label" %>
     </div>

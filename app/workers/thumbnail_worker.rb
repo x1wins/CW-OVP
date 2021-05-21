@@ -47,11 +47,15 @@ class ThumbnailWorker
       rm_thumbnail_to_cdn_cmd = `sh app/encoding/rm.sh #{cdn_bucket} #{thumbnail_relative_path} #{thumbnail_local_full_path}`
 
       thumbnail_cdn_url = ""
+      br_tag = "<br/>"
+      format = "image"
       for asset in encode.assets
-        thumbnail_cdn_url += (asset.url+"<br/>") if asset.format == 'image'
+        thumbnail_cdn_url += (asset.url + br_tag) if asset.format == format
       end
       message = "Completed COPY Thumbnail To CDN"
       Message::Send.call(Message::Event::THUMBNAIL_CDN_URL, Message::Body.new(encode, nil, message, nil, thumbnail_cdn_url))
+      webhooks = Webhook.all.active
+      webhooks.each { |webhook| Client::Submit.call(webhook, encode.callback_id, thumbnail_cdn_url.gsub(br_tag, ","), format) }
     end
   end
 end

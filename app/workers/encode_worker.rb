@@ -70,6 +70,9 @@ class EncodeWorker
           encode.update(log: log)
         end
         Message::Send.call(Message::Event::COMPLETED, Message::Body.new(encode, Percentage::ToString.call(100), "Completed Move Local File To AWS S3", nil, nil))
+        format = "video"
+        webhooks = Webhook.all.active
+        webhooks.each { |webhook| Client::Submit.call(webhook, encode.callback_id, hls_url, format) }
       end
     end
   end

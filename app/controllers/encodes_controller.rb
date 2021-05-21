@@ -1,8 +1,8 @@
 require './lib/pagination'
 
 class EncodesController < ApplicationController
-  before_action :set_encode, only: [:show]
   before_action :authenticate_user!
+  before_action :set_encode, only: [:show]
 
   # GET /encodes
   # GET /encodes.json
@@ -46,6 +46,6 @@ class EncodesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def encode_params
-      params.require(:encode).permit(:title, :file).merge(user_id: current_user.id)
+      params.require(:encode).permit(:title, :callback_id, :file).merge(user_id: current_user.id)
     end
 end

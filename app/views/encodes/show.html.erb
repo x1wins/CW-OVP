@@ -21,6 +21,10 @@
               <td><%= @encode.title %></td>
             </tr>
             <tr>
+              <td>Callback ID</td>
+              <td><%= @encode.callback_id %></td>
+            </tr>
+            <tr>
               <td>File name</td>
               <td><%= @encode.file.filename if @encode.file.attached? %></td>
             </tr>

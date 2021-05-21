@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<div class="columns">
+  <div class="column is-fullwidth">
+    <div class="card events-card">
+      <header class="card-header">
+        <p class="card-header-title">
+          Webhook Infomation
+        </p>
+      </header>
+      <div class="card-table">
+        <div class="content">
+          <table class="table is-fullwidth is-striped is-hoverable">
+            <tbody>
+              <tr>
+                <td>Api key</td>
+                <td><%= @webhook.url %></td>
+              </tr>
+              <tr>
+                <td>Url</td>
+                <td><%= @webhook.api_key %></td>
+              </tr>
+              <tr>
+                <td>User</td>
+                <td><%= @webhook.user_id %></td>
+              </tr>
+              <tr>
+                <td>Method</td>
+                <td><%= @webhook.method %></td>
+              </tr>
+              <tr>
+                <td>Is active</td>
+                <td><%= @webhook.is_active %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= link_to 'Edit', edit_webhook_path(@webhook), class: "button is-primary" %>
+<%= link_to 'Back', webhooks_path, class: "button is-warning" %>
