@@ -8,16 +8,16 @@
 * [Skill Stack](#Skill-Stack)
 * [Feature](#Feature)
 * [System Structure](#System-Structure)
-* [Minimum Requirements for Production](#Minimum-Requirements-for-Production)
-* [Roadmap](#Roadmap)
 * [Getting started](#Getting-started)
     * [Storage config](#Storage-config)
     * [How To Run Development mode with Docker-compose](#How-To-Run-Development-mode-with-Docker-compose)
     * [How To Run Development mode without docker](#How-To-Run-Development-mode-without-docker)
+    * [Sample video file download](#Sample-video-file-download)    
+* [Minimum Requirements for Production](#Minimum-Requirements-for-Production)
+* [Roadmap](#Roadmap)
 * [Deploy](#Deploy)    
     * [Docker Swarm](#Docker-Swarm)    
     * [Kubernetes](#kubernetes)    
-* [Sample video file download](#Sample-video-file-download)    
 
 ## Preview
 ![show](/screenshot/cw_ovp_show.png)          
@@ -68,24 +68,6 @@ OVP(online video platform)란<br/>
 ## System Structure
 ![cw-ovp-system-structure.png](cw-ovp-system-structure.png)
 - If your node for database that got fault or something wrong, You can lost persistent in database. that's why I recommend AWS RDS for postgresql. 
-
-## Minimum Requirements for Production
-- Required AWS S3 for Storage
-- Required AWS Cloudfront for CDN
-- Server Spec
-    - CPU
-        - 8 or more Cpu per server (c5.2xlarge on aws ec2)
-    - Disk
-        - more 10 Gb
-        - if you will upload heavy video or more 10Gb, need more space
-    - Memory
-        - more 2Gb
-    - Number of Server
-        - master : 1 or more
-        - slave : 2 or more
-
-## Roadmap
-[Roadmap](/ROADMAP.md)
 
 ## Getting started
 ### Storage config
@@ -163,16 +145,50 @@ OVP(online video platform)란<br/>
         ```
         docker-compose run --no-deps web bundle update
         ```
+    3. no space left on device
+        1. https://www.changwoo.org/x1wins@changwoo.net/2021-02-12/write-myapp-tmp-redis-appendonly-aof-9ff1127366
+        1. Log
+            ```
+            % docker-compose --env-file .env.dev.s3 up --build
+            Building web
+            Step 1/16 : FROM ruby:2.6.3
+             ---> 8fe6e1f7b421
+            Step 2/16 : RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - &&     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - &&     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&     apt-get update &&     apt-get install -qq -y build-essential nodejs yarn vim     libpq-dev postgresql-client ffmpeg
+             ---> Using cache
+             ---> 14eb2f07d9e5
+            Step 3/16 : RUN apt-get update &&     apt-get install -y         python3         python3-pip         python3-setuptools         groff         less     && pip3 install --upgrade pip     && apt-get clean
+             ---> Using cache
+             ---> c57e46926299
+            Step 4/16 : RUN pip3 --no-cache-dir install --upgrade awscli
+             ---> Using cache
+             ---> 7e8e641bfc90
+            Step 5/16 : RUN mkdir /myapp
+             ---> Using cache
+             ---> a0a39c82945a
+            Step 6/16 : RUN mkdir /storage
+             ---> Using cache
+             ---> 66348ad31ef0
+            Step 7/16 : WORKDIR /myapp
+             ---> Using cache
+             ---> 47b601075951
+            Step 8/16 : COPY . /myapp
+            ERROR: Service 'web' failed to build : Error processing tar file(exit status 1): write /myapp/tmp/storage/og/op/ogopd3w9xnrwq0b6kqf8beh726xu: no space left on device
+            ```
+        2. Solution
+            ```
+            % docker system prune
+            WARNING! This will remove:
+              - all stopped containers
+              - all networks not used by at least one container
+              - all dangling images
+              - all dangling build cache
+            
+            Are you sure you want to continue? [y/N] y
+            ```
+       
 
 ### How To Run Development mode without docker
 [SETUP_WITHOUT_DOCKER.md](/SETUP_WITHOUT_DOCKER.md)       
-       
-## Deploy
-### Docker Swarm
-[DOCKER-SWARM.md](/DOCKER-SWARM.md)
-
-### kubernetes
-[Setup k8s with kops](/k8s-manifests/SETUP_K8S.md)
 
 ### Sample video file download
 - http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4              
@@ -181,3 +197,28 @@ OVP(online video platform)란<br/>
 - https://filesamples.com/samples/video/mp4/sample_1920x1080.mp4
 - https://filesamples.com/samples/video/mkv/sample_1920x1080.mkv
 - https://filesamples.com/samples/video/mov/sample_1920x1080.mov
+
+## Minimum Requirements for Production
+- Required AWS S3 for Storage
+- Required AWS Cloudfront for CDN
+- Server Spec
+    - CPU
+        - 8 or more Cpu per server (c5.2xlarge on aws ec2)
+    - Disk
+        - more 10 Gb
+        - if you will upload heavy video or more 10Gb, need more space
+    - Memory
+        - more 2Gb
+    - Number of Server
+        - master : 1 or more
+        - slave : 2 or more
+
+## Roadmap
+[Roadmap](/ROADMAP.md)
+       
+## Deploy
+### Docker Swarm
+[DOCKER-SWARM.md](/DOCKER-SWARM.md)
+
+### kubernetes
+[Setup k8s with kops](/k8s-manifests/SETUP_K8S.md)
