@@ -1,37 +1,91 @@
 <%= form_with(model: webhook, local: true) do |form| %>
   <% if webhook.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(webhook.errors.count, "error") %> prohibited this webhook from being saved:</h2>
-
-      <ul>
-        <% webhook.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+    <div class="notification is-danger">
+      <strong><%= pluralize(webhook.errors.count, "error") %> prohibited this webhook from being saved:</strong>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :url %>
-    <%= form.text_field :url %>
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <%= form.label :url, class: "label" %>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <%= form.text_field :url, class: webhook.errors[:url].size > 0 ? "input is-danger": "input" , placeholder: "url" %>
+        </div>
+        <% webhook.errors[:url].each do |message| %>
+          <p class="help is-danger">
+            <%= message %>
+          </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <%= form.label :api_key, class: "label" %>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <%= form.text_field :api_key, class: webhook.errors[:api_key].size > 0 ? "input is-danger": "input" , placeholder: "api_key" %>
+        </div>
+        <% webhook.errors[:api_key].each do |message| %>
+          <p class="help is-danger">
+            <%= message %>
+          </p>
+        <% end %>
+      </div>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :api_key %>
-    <%= form.text_field :api_key %>
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <%= form.label :method, class: "label" %>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <%= form.select :method, Webhook::METHOD_OPTIONS, { :include_blank => '-- Select One --' }, class: webhook.errors[:method].size > 0 ? "input is-danger": "input" %>
+        </div>
+        <% webhook.errors[:method].each do |message| %>
+          <p class="help is-danger">
+            <%= message %>
+          </p>
+        <% end %>
+      </div>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :method %>
-    <%= form.select :method, Webhook::METHOD_OPTIONS, { :include_blank => '-- Select One --' } %>
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <%= form.label :is_active do %>
+            <%= form.check_box :is_active %>
+            is_active
+          <% end %>
+        </div>
+        <% webhook.errors[:is_active].each do |message| %>
+          <p class="help is-danger">
+            <%= message %>
+          </p>
+        <% end %>
+      </div>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :is_active %>
-    <%= form.check_box :is_active %>
+  <div class="field is-horizontal">
+    <div class="field-label">
+      <!-- Left empty for spacing -->
+    </div>
+    <div class="field-body">
+      <%= form.submit class: "button is-primary" %>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>
