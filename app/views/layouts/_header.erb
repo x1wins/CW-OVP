@@ -18,6 +18,10 @@
   </div>
 
   <div id="navbarExampleTransparentExample" class="navbar-menu">
+    <div class="navbar-start">
+      <%= link_to Encode.model_name, encodes_path, class: "navbar-item #{'is-active' if controller.controller_name == EncodesController.controller_name || current_page?(root_path)}" %>
+      <%= link_to Webhook.model_name, webhooks_path, class: "navbar-item #{'is-active' if controller.controller_name == WebhooksController.controller_name }" %>
+    </div>
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
