@@ -1,33 +1,34 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Webhooks</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Url</th>
-      <th>Api key</th>
-      <th>User</th>
-      <th>Method</th>
-      <th>Is active</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @webhooks.each do |webhook| %>
+<h1 class="title">Webhooks > List</h1>
+<div class="table-container">
+  <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="encodes">
+    <thead>
       <tr>
-        <td><%= webhook.url %></td>
-        <td><%= webhook.api_key %></td>
-        <td><%= webhook.user_id %></td>
-        <td><%= webhook.method %></td>
-        <td><%= webhook.is_active %></td>
-        <td><%= link_to 'Show', webhook %></td>
-        <td><%= link_to 'Edit', edit_webhook_path(webhook) %></td>
-        <td><%= link_to 'Destroy', webhook, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Url</th>
+        <th>Api key</th>
+        <th>User</th>
+        <th>Method</th>
+        <th>Is active</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @webhooks.each do |webhook| %>
+        <tr>
+          <td><%= webhook.url %></td>
+          <td><%= webhook.api_key %></td>
+          <td><%= webhook.user_id %></td>
+          <td><%= webhook.method %></td>
+          <td><%= webhook.is_active %></td>
+          <td>
+            <%= link_to 'Show', webhook, class: "button is-link" %>
+            <%= link_to 'Edit', edit_webhook_path(webhook), class: "button is-primary" %>
+            <%= link_to 'Destroy', webhook, method: :delete, data: { confirm: 'Are you sure?' }, class: "button is-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <%= link_to 'New Webhook', new_webhook_path, class: "button is-primary" %>
