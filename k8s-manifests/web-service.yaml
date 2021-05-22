@@ -6,7 +6,7 @@ metadata:
     kompose.version: 1.22.0 (HEAD)
   creationTimestamp: null
   labels:
-    io.kompose.service: web
+    app: web
   name: web
 spec:
   type: LoadBalancer
@@ -15,6 +15,6 @@ spec:
       port: 3000
       targetPort: 3000
   selector:
-    io.kompose.service: web
+    app: web
 status:
   loadBalancer: {}
