@@ -51,3 +51,10 @@ kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=development bundle exec rake
 # production
 kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bin/rake db:create'
 ```
+9. Dashboard
+> https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+kubectl proxy
+```
+Open web browser with ```http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.```
