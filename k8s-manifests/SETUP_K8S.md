@@ -43,6 +43,32 @@ kubectl get configmap
 kubectl get services 
 ```
 > https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources
+8. Update
+    > https://stackoverflow.com/a/40368520/1399891
+    1. set image and rollout
+    ```
+    export IMAGE_URL=x1wins/cw-ovp
+    # Update sidekiq
+    kubectl set image deployment/sidekiq-deployment sidekiq=${IMAGE_URL}  --record
+    kubectl rollout status deployment/sidekiq-deployment
+    # Update web
+    kubectl set image deployment/web-deployment web=${IMAGE_URL}  --record
+    kubectl rollout status deployment/web-deployment
+    
+    # or
+    kubectl rollout restart deployment/sidekiq-deployment
+    kubectl rollout restart deployment/web-deployment
+    ```
+    2. Double check digest in k8s node and local docker image
+    ```
+    #
+    % kubectl get pod web-deployment-c9499f695-nx6sd -o json | grep image
+        "imageID": "docker-pullable://cw-ovp@sha256:cb0f03db72341c46521d2b18e5463c3c6039229761d7f01bfde457e6c8ed2e2d",
+    
+    % docker images --digests
+    REPOSITORY                                            TAG                 DIGEST                                                                    IMAGE ID       CREATED         SIZE
+    x1wins/cw-ovp                                         latest              sha256:cb0f03db72341c46521d2b18e5463c3c6039229761d7f01bfde457e6c8ed2e2d   509addaaa0ec   47 hours ago    5.34GB
+    ```
 
 8. rake db:migrate
 ```
