@@ -4,25 +4,9 @@
 ```
 kubectl label nodes <your-node-name> nodetype=database
 ```
-3. Set s3, cloudfront env
+3. Update s3, cloudfront env
 [env-dev-s3-configmap.yaml](/k8s-manifests/env-dev-s3-configmap.yaml)
-```
-apiVersion: v1
-data:
-  AWS_ACCESS_KEY_ID: [Change key id]
-  AWS_CLOUDFRONT_DOMAIN: [Change cdn domain]
-  AWS_SECRET_ACCESS_KEY: [Change access key]
-  BUCKET: [Change bucket]
-  CDN_BUCKET: [Change cdn bucket]
-  REGION: [Change region]
-kind: ConfigMap
-metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: sidekiq-env-dev-s3
-  name: env-dev-s3
-```
-4. Set database env (if you want)
+4. Update database env (if you want)
 [env-dev-docker-compose-configmap.yaml](/k8s-manifests/env-dev-docker-compose-configmap.yaml)
 5. Create deploy, pod, pvc 
 ```
@@ -43,7 +27,7 @@ kubectl get configmap
 kubectl get services 
 ```
 > https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources
-8. Update
+8. Update image
     > https://stackoverflow.com/a/40368520/1399891
     1. set image and rollout
     ```
