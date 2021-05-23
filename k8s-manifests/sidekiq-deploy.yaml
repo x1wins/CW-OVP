@@ -17,6 +17,7 @@ spec:
       containers:
         - name: sidekiq
           image: x1wins/cw-ovp
+          imagePullPolicy: Always
           args:
             - bundle
             - exec

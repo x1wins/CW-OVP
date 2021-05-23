@@ -17,6 +17,7 @@ spec:
       containers:
         - name: web
           image: x1wins/cw-ovp
+          imagePullPolicy: Always
           args:
             - bash
             - -c
