@@ -1,29 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sidekiq-deployment
+  name: web-deployment
   labels:
-    app: sidekiq
+    app: web
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: sidekiq
+      app: web
   template:
     metadata:
       labels:
-        app: sidekiq
+        app: web
     spec:
       containers:
-        - name: sidekiq
+        - name: web
           image: x1wins/cw-ovp
           imagePullPolicy: Always
           args:
-            - bundle
-            - exec
-            - sidekiq
+            - bash
             - -c
-            - "1"
+            - rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'
+          ports:
+            - containerPort: 3000
+          resources: {}
           env:
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
@@ -125,9 +126,6 @@ spec:
                 configMapKeyRef:
                   key: WEB_TITLE
                   name: env-dev-docker-compose
-          volumeMounts:
-            - mountPath: /storage
-              name: local-storage
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -136,8 +134,5 @@ spec:
                   - key: "app"
                     operator: In
                     values:
-                      - sidekiq
+                      - web
               topologyKey: "kubernetes.io/hostname"
-      volumes:
-        - name: local-storage
-          emptyDir: {}

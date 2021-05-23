@@ -4,25 +4,9 @@
 ```
 kubectl label nodes <your-node-name> nodetype=database
 ```
-3. Set s3, cloudfront env
+3. Update s3, cloudfront env
 [env-dev-s3-configmap.yaml](/k8s-manifests/env-dev-s3-configmap.yaml)
-```
-apiVersion: v1
-data:
-  AWS_ACCESS_KEY_ID: [Change key id]
-  AWS_CLOUDFRONT_DOMAIN: [Change cdn domain]
-  AWS_SECRET_ACCESS_KEY: [Change access key]
-  BUCKET: [Change bucket]
-  CDN_BUCKET: [Change cdn bucket]
-  REGION: [Change region]
-kind: ConfigMap
-metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: sidekiq-env-dev-s3
-  name: env-dev-s3
-```
-4. Set database env (if you want)
+4. Update database env (if you want)
 [env-dev-docker-compose-configmap.yaml](/k8s-manifests/env-dev-docker-compose-configmap.yaml)
 5. Create deploy, pod, pvc 
 ```
@@ -43,8 +27,44 @@ kubectl get configmap
 kubectl get services 
 ```
 > https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources
+8. Update image
+    > https://stackoverflow.com/a/40368520/1399891
+    1. set image and rollout
+    ```
+    export IMAGE_URL=x1wins/cw-ovp
+    # Update sidekiq
+    kubectl set image deployment/sidekiq-deployment sidekiq=${IMAGE_URL}  --record
+    kubectl rollout status deployment/sidekiq-deployment
+    # Update web
+    kubectl set image deployment/web-deployment web=${IMAGE_URL}  --record
+    kubectl rollout status deployment/web-deployment
+    
+    # or
+    kubectl rollout restart deployment/sidekiq-deployment
+    kubectl rollout restart deployment/web-deployment
+    ```
+    2. Double check digest in k8s node and local docker image
+    ```
+    #
+    % kubectl get pod web-deployment-c9499f695-nx6sd -o json | grep image
+        "imageID": "docker-pullable://cw-ovp@sha256:cb0f03db72341c46521d2b18e5463c3c6039229761d7f01bfde457e6c8ed2e2d",
+    
+    % docker images --digests
+    REPOSITORY                                            TAG                 DIGEST                                                                    IMAGE ID       CREATED         SIZE
+    x1wins/cw-ovp                                         latest              sha256:cb0f03db72341c46521d2b18e5463c3c6039229761d7f01bfde457e6c8ed2e2d   509addaaa0ec   47 hours ago    5.34GB
+    ```
 
+8. rake db:migrate
 ```
-kubectl exec web -- bash -c 'cd /myapp && bundle exec rake db:migrate'
-kubectl exec web -- bash -c 'cd ~/myapp && RAILS_ENV=production bin/rake db:create'
+# development
+kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=development bundle exec rake db:migrate'
+# production
+kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bin/rake db:create'
 ```
+9. Dashboard
+> https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+kubectl proxy
+```
+Open web browser with ```http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.```
