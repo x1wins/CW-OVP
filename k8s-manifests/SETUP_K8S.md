@@ -54,12 +54,14 @@ kubectl get services
     x1wins/cw-ovp                                         latest              sha256:cb0f03db72341c46521d2b18e5463c3c6039229761d7f01bfde457e6c8ed2e2d   509addaaa0ec   47 hours ago    5.34GB
     ```
 
-8. rake db:migrate
+8. rake db:create, db:migrate
 ```
 # development
+kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=development bin/rake db:create'
 kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=development bundle exec rake db:migrate'
 # production
 kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bin/rake db:create'
+kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bundle exec rake db:migrate'
 ```
 9. Dashboard
 > https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
