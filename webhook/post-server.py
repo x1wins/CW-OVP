@@ -11,8 +11,5 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
       print post_body
 
 Handler = ServerHandler
-
 httpd = SocketServer.TCPServer(("", PORT), Handler)
-
-
 httpd.serve_forever()
