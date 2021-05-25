@@ -14,10 +14,15 @@ module Client
         callback_id = @callback_id
         callback_value = @callback_value
         callback_format = @callback_format
-        headers = {}
         uri = URI.parse(url)
         http = Net::HTTP.new(uri.host, uri.port)
-        response = http.post(uri.path, "callback_id=#{callback_id}&callback_value=#{callback_value}&callback_format=#{callback_format}&api_key=#{api_key}", headers)
+        method = @webhook.method
+        path = uri.path
+        params = "callback_id=#{callback_id}&callback_value=#{callback_value}&callback_format=#{callback_format}&api_key=#{api_key}"
+        headers = {}
+        if http.respond_to?(method)
+          response = http.public_send(method, path, params, headers)
+        end
       rescue => e
         Sidekiq.logger.info e
       ensure
