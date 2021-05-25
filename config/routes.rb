@@ -1,7 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  get 'users/index'
+  match '/users',   to: 'users#index',   via: 'get'
   resources :webhooks
   devise_for :users
   resources :encodes, :except => [:edit, :update, :delete]
