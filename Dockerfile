@@ -22,6 +22,7 @@ COPY . /myapp
 RUN gem update --system
 RUN bundle install
 RUN yarn install --check-files
+RUN RAILS_ENV=production bundle exec rake assets:precompile
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
@@ -31,5 +32,3 @@ EXPOSE 3000
 
 # Start the main process.
 CMD ["rails", "server", "-b", "0.0.0.0"]
-
-RUN RAILS_ENV=production bundle exec rake assets:precompile
