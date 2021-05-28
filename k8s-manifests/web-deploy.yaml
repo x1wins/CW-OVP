@@ -21,7 +21,7 @@ spec:
           args:
             - bash
             - -c
-            - rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'
+            - rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0' -e production
           ports:
             - containerPort: 3000
           resources: {}
