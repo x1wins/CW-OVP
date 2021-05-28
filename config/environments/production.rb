@@ -40,9 +40,9 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
-  config.action_cable.url = ENV['CONFIG_ACTION_CABLE_URL']
-  config.action_cable.allowed_request_origins = (ENV["CONFIG_ACTION_CABLE_ALLOWED_REQUEST_ORIGINS"] || "").split(",")
-  config.action_cable.disable_request_forgery_protection = ENV['CONFIG_ACTION_CABLE_DISABLE_REQUEST_FORGERY_PROTECTION']
+  # config.action_cable.url = ENV['CONFIG_ACTION_CABLE_URL']
+  # config.action_cable.allowed_request_origins = (ENV["CONFIG_ACTION_CABLE_ALLOWED_REQUEST_ORIGINS"] || "").split(",")
+  config.action_cable.disable_request_forgery_protection = false
 
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
