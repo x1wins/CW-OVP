@@ -42,11 +42,9 @@ Rails.application.configure do
   # config.action_cable.mount_path = nil
   config.action_cable.url = ENV['CONFIG_ACTION_CABLE_URL']
   config.action_cable.allowed_request_origins = [/http:\/\/*/, /https:\/\/*/]
-  # config.action_cable.allowed_request_origins = [ENV["CONFIG_ACTION_CABLE_ALLOWED_REQUEST_ORIGINS_1"]]
-  config.action_cable.disable_request_forgery_protection = ENV['CONFIG_ACTION_CABLE_DISABLE_REQUEST_FORGERY_PROTECTION']
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = ENV['CONFIG_FORCE_SSL']
+  config.force_ssl = true
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
