@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
   match '/users',   to: 'users#index',   via: 'get'
   resources :webhooks
   devise_for :users
