@@ -4,5 +4,3 @@
 import { createConsumer } from "@rails/actioncable"
 
 export default createConsumer()
-
-createConsumer('<%= ENV['CONFIG_ACTION_CABLE_URL'] %>')
