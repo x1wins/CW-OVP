@@ -132,10 +132,10 @@ spec:
                 configMapKeyRef:
                   key: RAILS_MASTER_KEY
                   name: env-dev-docker-compose
-            - name: CONFIG_ACTION_CABLE_URL
+            - name: RAILS_ACTION_CABLE_URL
               valueFrom:
                 configMapKeyRef:
-                  key: CONFIG_ACTION_CABLE_URL
+                  key: RAILS_ACTION_CABLE_URL
                   name: env-dev-docker-compose
           volumeMounts:
             - mountPath: /storage
