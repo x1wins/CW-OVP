@@ -25,7 +25,7 @@ RUN yarn install --check-files
 
 ARG RAILS_MASTER_KEY
 
-RUN bundle exec rails assets:precompile
+RUN RAILS_ENV=production bundle exec rails assets:precompile
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
