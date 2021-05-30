@@ -126,6 +126,16 @@ spec:
                 configMapKeyRef:
                   key: WEB_TITLE
                   name: env-dev-docker-compose
+            - name: RAILS_MASTER_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: RAILS_MASTER_KEY
+                  name: env-dev-docker-compose
+            - name: CONFIG_ACTION_CABLE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: CONFIG_ACTION_CABLE_URL
+                  name: env-dev-docker-compose
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

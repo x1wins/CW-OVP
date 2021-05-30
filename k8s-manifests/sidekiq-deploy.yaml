@@ -24,6 +24,8 @@ spec:
             - sidekiq
             - -c
             - "1"
+            - -e
+            - production
           env:
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
@@ -124,6 +126,16 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: WEB_TITLE
+                  name: env-dev-docker-compose
+            - name: RAILS_MASTER_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: RAILS_MASTER_KEY
+                  name: env-dev-docker-compose
+            - name: CONFIG_ACTION_CABLE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: CONFIG_ACTION_CABLE_URL
                   name: env-dev-docker-compose
           volumeMounts:
             - mountPath: /storage
