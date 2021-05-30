@@ -31,8 +31,8 @@ kubectl get services
     1. build image
         ```
             docker image prune -a -f
-            # export IMAGE_URL=x1wins/cw-ovp:latest
-            export IMAGE_URL=[YOUR_PRIVATE_REGISTRY_URL]/cw-ovp:latest
+            export IMAGE_URL=x1wins/cw-ovp:latest
+            # export IMAGE_URL=[YOUR_PRIVATE_REGISTRY_URL]/cw-ovp:latest
             docker build -t cw-ovp .
             docker tag cw-ovp:latest ${IMAGE_URL}
             docker push ${IMAGE_URL}
