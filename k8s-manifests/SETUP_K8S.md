@@ -83,7 +83,38 @@ kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=development bundle exec rake
 # production
 kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bin/rake db:create'
 kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bundle exec rake db:migrate'
+kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bundle exec rake assets:precompile'
 ```
+9. Script
+    1. Bash
+    ```
+        kubectl exec --stdin --tty web-deployment-5b4cddf4dc-kc2vb -- /bin/bash
+    ```
+    2. Log
+    ```
+        kubectl exec --stdin --tty web-deployment-5b4cddf4dc-7hxm4 -- tail -f log/production.log
+    ```
+    3. Build
+    ```
+        cd CW-OVP/
+        export IMAGE_URL=[YOUR_PRIVATE_REGISTRY_URL]/cw-ovp:latest
+        export RAILS_MASTER_KEY=[RAILS_MASTER_KEY]
+   
+        git pull origin master && git reset --hard origin/master \
+        && git rev-parse HEAD \
+        && yes | docker system prune \
+        && docker build --build-arg RAILS_MASTER_KEY=${RAILS_MASTER_KEY} -t cw-ovp . \
+        && docker tag cw-ovp:latest ${IMAGE_URL} \
+        && docker push ${IMAGE_URL}
+    ```
+    2. Deploy
+    ```
+        kubectl delete -f ./k8s-manifests/env-dev-docker-compose-configmap.yaml
+        kubectl create -f ./k8s-manifests/env-dev-docker-compose-configmap.yaml
+        kubectl describe configmap env-dev-docker-compose
+        kubectl delete -f ./k8s-manifests/web-deploy.yaml
+        kubectl create -f ./k8s-manifests/web-deploy.yaml
+    ```
 9. Dashboard
 > https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
 ```
