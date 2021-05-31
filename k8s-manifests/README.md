@@ -8,7 +8,7 @@ kubectl label nodes [YOUR_NODE_NAME] nodetype=database
 [env-s3-prod-configmap.yaml](/k8s-manifests/env-s3-prod-configmap.yaml)
 4. Update database env (if you want)
 [env-prod-configmap.yaml](/k8s-manifests/env-prod-configmap.yaml)
-    - Regenerate RAILS_MASTER_KEY
+    1. Regenerate RAILS_MASTER_KEY
         ```
             rm config/credentials.yml.enc 
             rm config/master.key 
@@ -29,7 +29,10 @@ kubectl label nodes [YOUR_NODE_NAME] nodetype=database
             
             File encrypted and saved.
         ```
-    - RAILS_ACTION_CABLE_URL: "wss://[YOUR_DOMAIN]:442/cable"
+    2. RAILS_ACTION_CABLE_URL
+        ```
+            RAILS_ACTION_CABLE_URL: "wss://[YOUR_DOMAIN]:442/cable"
+        ```
         this project used Action cable(websocket). Action cable was working on HTTP in development enviroment.<br/>
         we need HTTPS for MITM in production. <br/>
         websocket use http but need TCP https://datatracker.ietf.org/doc/html/rfc6455#section-1.7 <br/> 
