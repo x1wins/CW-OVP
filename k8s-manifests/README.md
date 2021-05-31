@@ -39,7 +39,7 @@ kubectl label nodes [YOUR_NODE_NAME] nodetype=database
         - Solution
             1. open 442 port TCP protocal with SSL for only Action cable.
             2. open 443 port HTTPS protocal with SSL for only Web.
-            ![aws_ELB_442_tcp_for_actioncable.png](k8s-manifests/aws_ELB_442_tcp_for_actioncable.png)
+            ![aws_ELB_442_tcp_for_actioncable.png](aws_ELB_442_tcp_for_actioncable.png)
 5. Create deploy, pod, pvc 
 ```
 kubectl create -f ./k8s-manifests
