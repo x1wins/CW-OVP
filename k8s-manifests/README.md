@@ -8,6 +8,38 @@ kubectl label nodes [YOUR_NODE_NAME] nodetype=database
 [env-s3-prod-configmap.yaml](/k8s-manifests/env-s3-prod-configmap.yaml)
 4. Update database env (if you want)
 [env-prod-configmap.yaml](/k8s-manifests/env-prod-configmap.yaml)
+    - Regenerate RAILS_MASTER_KEY
+        ```
+            rm config/credentials.yml.enc 
+            rm config/master.key 
+            docker-compose run --no-deps web bin/rails credentials:show
+            #NOT WORKING. You should use docker exec for interactive bash shell.
+            #docker-compose run --no-deps web EDITOR=vim bin/rails credentials:edit 
+            docker exec -it cw-ovp_web_1 /bin/bash
+            root@bcde532ff8fd:/myapp# EDITOR=vim bin/rails credentials:edit
+            
+            Adding config/master.key to store the encryption key: 
+            Xxxxxxxxxxxxxxxx
+
+            Save this in a password manager your team can access.
+            
+            If you lose the key, no one, including you, can access anything encrypted with it.
+            
+                  create  config/master.key
+            
+            File encrypted and saved.
+        ```
+    - RAILS_ACTION_CABLE_URL: "wss://[YOUR_DOMAIN]:442/cable"
+        this project used Action cable(websocket). Action cable was working on HTTP in development enviroment.<br/>
+        we need HTTPS for MITM in production. <br/>
+        websocket use http but need TCP https://datatracker.ietf.org/doc/html/rfc6455#section-1.7 <br/> 
+        AWS ELB(elastic load balancer) is not support websocket with HTTP, HTTPS protocal.<br/>
+        if you open 443 port for TCP and use 443 port for Action cable. you will see ```csrf token authenticity``` on web <br/>
+        if you open 443 port for HTTPS and use 443 port for Action cable. you will see that action cable connection is not response.<br/>  
+        - Solution
+            1. open 442 port TCP protocal with SSL for only Action cable.
+            2. open 443 port HTTPS protocal with SSL for only Web.
+            ![aws_ELB_442_tcp_for_actioncable.png](k8s-manifests/aws_ELB_442_tcp_for_actioncable.png)
 5. Create deploy, pod, pvc 
 ```
 kubectl create -f ./k8s-manifests
@@ -108,7 +140,7 @@ kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bundle exec rake 
         && docker tag cw-ovp:latest ${IMAGE_URL} \
         && docker push ${IMAGE_URL}
     ```
-    2. Deploy
+    4. Deploy
     ```
         kubectl delete -f ./k8s-manifests/env-prod-configmap.yaml
         kubectl create -f ./k8s-manifests/env-prod-configmap.yaml

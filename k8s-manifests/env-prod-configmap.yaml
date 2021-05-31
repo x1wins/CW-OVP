@@ -11,7 +11,7 @@ data:
   POSTGRES_USER: docker_postgres_rails
   RAILS_SERVE_STATIC_FILES: "true"
   RAILS_MASTER_KEY: [YOUR_MASTER_KEY]
-  RAILS_ACTION_CABLE_URL: [YOUR_ACTION_CALBE_URL]
+  RAILS_ACTION_CABLE_URL: "wss://[YOUR_DOMAIN]:442/cable"
   REDIS_CLIENT_URL: redis://redis:6379/0
   REDIS_SERVER_URL: redis://redis:6379/0
   WEB_LOGO_URL: https://raw.githubusercontent.com/x1wins/CW-OVP/master/app/assets/images/CW_OVP_LOGO_200x200.png
