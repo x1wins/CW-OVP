@@ -1,177 +1,126 @@
-kubectl initdb: directory "/var/lib/postgresql/data" exists but is not empty
-
-# db-pod.yaml
+1. setup k8s cluster with kops
+> https://www.changwoo.org/x1wins@changwoo.net/2021-02-20/setup-k8s-cluster-with-kops-52fc8a54c4
+2. Set Database node
 ```
-      volumeMounts:
-        - mountPath: /var/lib/postgresql/data
-          name: db-data
-          subPath: postgres #Add subPath
+kubectl label nodes [YOUR_NODE_NAME] nodetype=database
 ```
-
-Solution
+3. Update s3, cloudfront env
+[env-s3-prod-configmap.yaml](/k8s-manifests/env-s3-prod-configmap.yaml)
+4. Update database env (if you want)
+[env-prod-configmap.yaml](/k8s-manifests/env-prod-configmap.yaml)
+5. Create deploy, pod, pvc 
 ```
-kubectl delete pod db
+kubectl create -f ./k8s-manifests
+```
+6. Delete
+```
+kubectl delete -f ./k8s-manifests
+kubectl delete pvc --all
+```
+7. Get
+```
+kubectl get node
 kubectl get pod
-kubectl create -f db-pod.yaml #Don't use kubectl apply -f db-pod.yaml 
+kubectl get deploy
+kubectl get pvc
+kubectl get configmap
+kubectl get services 
 ```
-https://stackoverflow.com/a/51174380/1399891
-
-
-rake db:migrate 
+> https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources
+8. How to Update Image
+    1. build image
+        ```
+            docker image prune -a -f
+            export IMAGE_URL=x1wins/cw-ovp:latest
+            # export IMAGE_URL=[YOUR_PRIVATE_REGISTRY_URL]/cw-ovp:latest
+            docker build -t cw-ovp .
+            docker tag cw-ovp:latest ${IMAGE_URL}
+            docker push ${IMAGE_URL}
+        ```
+    3. Update 
+        there is a few method for update image. you can choose following for update image.
+        1. set image and rollout
+            ```
+                export IMAGE_URL=x1wins/cw-ovp
+                # export IMAGE_URL=[YOUR_PRIVATE_REGISTRY_URL]/cw-ovp:latest
+           
+                # Update sidekiq
+                kubectl set image deployment/sidekiq-deployment sidekiq=${IMAGE_URL}  --record
+                kubectl rollout status deployment/sidekiq-deployment
+                # Update web
+                kubectl set image deployment/web-deployment web=${IMAGE_URL}  --record
+                kubectl rollout status deployment/web-deployment
+                
+                # or
+                kubectl rollout restart deployment/sidekiq-deployment
+                kubectl rollout restart deployment/web-deployment
+            ```
+        2. Force update
+            web-deployment.yaml sidekiq-deployment.yaml has ```imagePullPolicy: "Always"``` this option will be auto update when changed image version to new one.
+            but sometime auto update not working. we can force update with following command. 
+            > https://stackoverflow.com/a/40368520/1399891
+            ```
+                kubectl delete -f ./k8s-manifests/web-deploy.yaml
+                kubectl create -f ./k8s-manifests/web-deploy.yaml
+                
+                kubectl delete -f ./k8s-manifests/sidekiq-deploy.yaml
+                kubectl create -f ./k8s-manifests/sidekiq-deploy.yaml
+            ```
+    4. Double check digest in remote k8s and local docker image
+        ```
+            % kubectl get pod web-deployment-c9499f695-nx6sd -o json | grep image
+                "imageID": "docker-pullable://cw-ovp@sha256:cb0f03db72341c46521d2b18e5463c3c6039229761d7f01bfde457e6c8ed2e2d",
+            
+            % docker images --digests
+            REPOSITORY                                            TAG                 DIGEST                                                                    IMAGE ID       CREATED         SIZE
+            x1wins/cw-ovp                                         latest              sha256:cb0f03db72341c46521d2b18e5463c3c6039229761d7f01bfde457e6c8ed2e2d   509addaaa0ec   47 hours ago    5.34GB
+        ```
+8. rake db:create, db:migrate
 ```
-% kubectl get pods
-NAME                                READY   STATUS    RESTARTS   AGE
-db                                  1/1     Running   0          6m47s
-nginx-deployment-66b6c48dd5-fj95z   1/1     Running   0          6d20h
-nginx-deployment-66b6c48dd5-h9xmh   1/1     Running   0          6d20h
-nginx-deployment-66b6c48dd5-l8tpb   1/1     Running   0          5d22h
-redis                               1/1     Running   0          37m
-sidekiq                             1/1     Running   0          37m
-web                                 1/1     Running   0          37m
+# development
+kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=development bin/rake db:create'
+kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=development bundle exec rake db:migrate'
+# production
+kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bin/rake db:create'
+kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bundle exec rake db:migrate'
+kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bundle exec rake assets:precompile'
 ```
+9. Script
+    1. Bash
+    ```
+        kubectl exec --stdin --tty web-deployment-5b4cddf4dc-kc2vb -- /bin/bash
+    ```
+    2. Log
+    ```
+        kubectl exec --stdin --tty web-deployment-5b4cddf4dc-7hxm4 -- tail -f log/production.log
+    ```
+    3. Build
+    ```
+        cd CW-OVP/
+        export IMAGE_URL=[YOUR_PRIVATE_REGISTRY_URL]/cw-ovp:latest
+        export RAILS_MASTER_KEY=[RAILS_MASTER_KEY]
+        export GIT_BRANCH=master
+   
+        git checkout ${GIT_BRANCH} && git pull origin ${GIT_BRANCH} && git reset --hard origin/${GIT_BRANCH} \
+        && git branch -a && git rev-parse HEAD && git --no-pager log -n 60 --all --decorate --oneline --graph \
+        && yes | docker system prune \
+        && docker build --build-arg RAILS_MASTER_KEY=${RAILS_MASTER_KEY} -t cw-ovp . \
+        && docker tag cw-ovp:latest ${IMAGE_URL} \
+        && docker push ${IMAGE_URL}
+    ```
+    2. Deploy
+    ```
+        kubectl delete -f ./k8s-manifests/env-prod-configmap.yaml
+        kubectl create -f ./k8s-manifests/env-prod-configmap.yaml
+        kubectl describe configmap env-prod
+        kubectl delete -f ./k8s-manifests/web-deploy.yaml
+        kubectl create -f ./k8s-manifests/web-deploy.yaml
+    ```
+9. Dashboard
+> https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
 ```
-$ kubectl exec web                              \
-          -- bash -c                                               \
-          'cd /myapp && RAILS_ENV=development bin/rails db:migrate RAILS_ENV=development'
-kubectl exec web bundle exec rails webpacker:install
-
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+kubectl proxy
 ```
-https://bigbinary.com/blog/managing-rails-tasks-such-as-db-migrate-and-db-seed-on-kuberenetes-while-performing-rolling-deployments
-
-Get
-```
-% kubectl get pod 
-NAME                                READY   STATUS    RESTARTS   AGE
-nginx-deployment-66b6c48dd5-fj95z   1/1     Running   0          6d23h
-nginx-deployment-66b6c48dd5-h9xmh   1/1     Running   0          6d23h
-nginx-deployment-66b6c48dd5-l8tpb   1/1     Running   0          6d1h
-
-% kubectl get deploy
-NAME               READY   UP-TO-DATE   AVAILABLE   AGE
-nginx-deployment   3/3     3            3           6d23h
-```
-
-Create
-```
-% kubectl create -f ./k8s-manifests 
-networkpolicy.networking.k8s.io/backend created
-persistentvolumeclaim/db-data created
-pod/db created
-service/db created
-persistentvolumeclaim/local-storage created
-persistentvolumeclaim/redis-data created
-pod/redis created
-service/redis created
-deployment.apps/sidekiq-deployment created
-pod/sidekiq created
-pod/web created
-service/web created
-```
-
-Delete
-```
-% kubectl delete -f ./k8s-manifests/      
-networkpolicy.networking.k8s.io "backend" deleted
-persistentvolumeclaim "db-data" deleted
-pod "db" deleted
-service "db" deleted
-persistentvolumeclaim "local-storage" deleted
-persistentvolumeclaim "redis-data" deleted
-pod "redis" deleted
-service "redis" deleted
-deployment.apps "sidekiq-deployment" deleted
-pod "sidekiq" deleted
-pod "web" deleted
-service "web" deleted
-```
-
-Label
-```
-% kubectl label nodes <your-node-name> nodetype=database
-```
-https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
-
-Env
-```
-% kubectl exec web -- printenv
-PATH=/usr/local/bundle/bin:/usr/local/bundle/gems/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-HOSTNAME=web
-CABLE_REDIS_SERVER_URL=redis://redis:6379/1
-DATABASE_URL=postgres://db
-POSTGRES_DB=cw_ovp_development
-POSTGRES_USER=docker_postgres_rails
-REDIS_CLIENT_URL=redis://redis:6379/0
-AWS_SECRET_ACCESS_KEY=XXXXXXXX
-DATABASE_PASSWORD=mysecretpassword
-REGION=us-west-1
-WEB_LOGO_URL=https://raw.githubusercontent.com/x1wins/CW-OVP/master/app/assets/images/CW_OVP_LOGO_200x200.png
-BUCKET=vod-origin
-DATABASE_PORT=5432
-POSTGRES_PASSWORD=mysecretpassword
-REDIS_SERVER_URL=redis://redis:6379/0
-RAILS_SERVE_STATIC_FILES=true
-WEB_TITLE=CW-OVP
-AWS_ACCESS_KEY_ID=XXXXXXXX
-AWS_CLOUDFRONT_DOMAIN=https://XXXXXXXX.cloudfront.net
-CDN_BUCKET=xxxxxx
-DATABASE_NAME=cw_ovp_development
-DATABASE_USERNAME=docker_postgres_rails
-REDIS_SERVICE_HOST=100.65.19.172
-KUBERNETES_PORT_443_TCP_PORT=443
-NGINX_DEPLOYMENT_PORT_80_TCP_PROTO=tcp
-DB_SERVICE_PORT=5432
-DB_PORT_5432_TCP=tcp://100.67.100.210:5432
-REDIS_PORT_6379_TCP=tcp://100.65.19.172:6379
-WEB_PORT_3000_TCP_PROTO=tcp
-WEB_PORT_3000_TCP_PORT=3000
-KUBERNETES_SERVICE_HOST=100.64.0.1
-DB_PORT=tcp://100.67.100.210:5432
-REDIS_SERVICE_PORT=6379
-WEB_PORT=tcp://100.70.204.34:3000
-KUBERNETES_PORT_443_TCP=tcp://100.64.0.1:443
-KUBERNETES_PORT_443_TCP_PROTO=tcp
-NGINX_DEPLOYMENT_SERVICE_HOST=100.69.166.242
-NGINX_DEPLOYMENT_SERVICE_PORT=80
-DB_PORT_5432_TCP_PORT=5432
-REDIS_PORT_6379_TCP_PROTO=tcp
-REDIS_PORT_6379_TCP_ADDR=100.65.19.172
-WEB_PORT_3000_TCP_ADDR=100.70.204.34
-KUBERNETES_SERVICE_PORT_HTTPS=443
-DB_PORT_5432_TCP_ADDR=100.67.100.210
-KUBERNETES_SERVICE_PORT=443
-KUBERNETES_PORT_443_TCP_ADDR=100.64.0.1
-DB_SERVICE_PORT_5432=5432
-DB_PORT_5432_TCP_PROTO=tcp
-DB_SERVICE_HOST=100.67.100.210
-WEB_SERVICE_HOST=100.70.204.34
-WEB_SERVICE_PORT_3000=3000
-WEB_PORT_3000_TCP=tcp://100.70.204.34:3000
-NGINX_DEPLOYMENT_PORT_80_TCP=tcp://100.69.166.242:80
-NGINX_DEPLOYMENT_PORT_80_TCP_ADDR=100.69.166.242
-REDIS_PORT=tcp://100.65.19.172:6379
-REDIS_PORT_6379_TCP_PORT=6379
-WEB_SERVICE_PORT=3000
-NGINX_DEPLOYMENT_PORT=tcp://100.69.166.242:80
-REDIS_SERVICE_PORT_6379=6379
-KUBERNETES_PORT=tcp://100.64.0.1:443
-NGINX_DEPLOYMENT_PORT_80_TCP_PORT=80
-RUBY_MAJOR=2.6
-RUBY_VERSION=2.6.3
-RUBY_DOWNLOAD_SHA256=XXXXXXXX
-GEM_HOME=/usr/local/bundle
-BUNDLE_PATH=/usr/local/bundle
-BUNDLE_SILENCE_ROOT_WARNING=1
-BUNDLE_APP_CONFIG=/usr/local/bundle
-HOME=/root
-```
-
-hidden env file on git
-```
-git update-index --assume-unchanged ./k8s-manifests/env-prod-configmap.yaml
-git update-index --assume-unchanged ./k8s-manifests/env-s3-prod-configmap.yaml
-```
-
-pvc delete
-```
-kubectl delete pvc --all 
-```
+Open web browser 
+> http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
