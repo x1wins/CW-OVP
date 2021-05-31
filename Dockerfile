@@ -22,9 +22,6 @@ COPY . /myapp
 RUN gem update --system
 RUN bundle install
 RUN yarn install --check-files
-
-ARG RAILS_MASTER_KEY
-
 RUN RAILS_ENV=production bundle exec rails assets:precompile
 
 # Add a script to be executed every time the container starts.
