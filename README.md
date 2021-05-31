@@ -16,8 +16,8 @@
 * [Minimum Requirements for Production](#Minimum-Requirements-for-Production)
 * [Roadmap](#Roadmap)
 * [Deploy](#Deploy)    
-    * [Docker Swarm](#Docker-Swarm)    
     * [Kubernetes](#kubernetes)    
+    * [Docker Swarm](#Docker-Swarm)    
 * [Webhook](#Webhook)
 
 ## Preview
@@ -218,11 +218,11 @@ OVP(online video platform)란<br/>
 [Roadmap](/ROADMAP.md)
        
 ## Deploy
+### kubernetes
+[K8s with kops for Production](/k8s-manifests/README.md)
+
 ### Docker Swarm
 [DOCKER-SWARM.md](/DOCKER-SWARM.md)
-
-### kubernetes
-[Setup k8s with kops](/k8s-manifests/SETUP_K8S.md)
 
 ## Webhook
 [Webhook](/webhook/README.md)

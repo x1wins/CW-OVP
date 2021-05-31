@@ -23,6 +23,9 @@ RUN gem update --system
 RUN bundle install
 RUN yarn install --check-files
 
+ARG RAILS_MASTER_KEY
+RUN if [ "$RAILS_MASTER_KEY" ] ; then RAILS_MASTER_KEY=${RAILS_MASTER_KEY} RAILS_ENV=production bundle exec rails assets:precompile ; fi
+
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh

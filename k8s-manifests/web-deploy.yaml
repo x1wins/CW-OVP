@@ -30,102 +30,112 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: AWS_ACCESS_KEY_ID
-                  name: env-dev-s3
+                  name: env-s3-prod
             - name: AWS_CLOUDFRONT_DOMAIN
               valueFrom:
                 configMapKeyRef:
                   key: AWS_CLOUDFRONT_DOMAIN
-                  name: env-dev-s3
+                  name: env-s3-prod
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 configMapKeyRef:
                   key: AWS_SECRET_ACCESS_KEY
-                  name: env-dev-s3
+                  name: env-s3-prod
             - name: BUCKET
               valueFrom:
                 configMapKeyRef:
                   key: BUCKET
-                  name: env-dev-s3
+                  name: env-s3-prod
             - name: CABLE_REDIS_SERVER_URL
               valueFrom:
                 configMapKeyRef:
                   key: CABLE_REDIS_SERVER_URL
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: CDN_BUCKET
               valueFrom:
                 configMapKeyRef:
                   key: CDN_BUCKET
-                  name: env-dev-s3
+                  name: env-s3-prod
             - name: DATABASE_NAME
               valueFrom:
                 configMapKeyRef:
                   key: DATABASE_NAME
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: DATABASE_PASSWORD
               valueFrom:
                 configMapKeyRef:
                   key: DATABASE_PASSWORD
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: DATABASE_PORT
               valueFrom:
                 configMapKeyRef:
                   key: DATABASE_PORT
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: DATABASE_URL
               valueFrom:
                 configMapKeyRef:
                   key: DATABASE_URL
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: DATABASE_USERNAME
               valueFrom:
                 configMapKeyRef:
                   key: DATABASE_USERNAME
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
                   key: POSTGRES_DB
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: POSTGRES_PASSWORD
               valueFrom:
                 configMapKeyRef:
                   key: POSTGRES_PASSWORD
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: POSTGRES_USER
               valueFrom:
                 configMapKeyRef:
                   key: POSTGRES_USER
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: RAILS_SERVE_STATIC_FILES
               valueFrom:
                 configMapKeyRef:
                   key: RAILS_SERVE_STATIC_FILES
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: REDIS_CLIENT_URL
               valueFrom:
                 configMapKeyRef:
                   key: REDIS_CLIENT_URL
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: REDIS_SERVER_URL
               valueFrom:
                 configMapKeyRef:
                   key: REDIS_SERVER_URL
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: REGION
               valueFrom:
                 configMapKeyRef:
                   key: REGION
-                  name: env-dev-s3
+                  name: env-s3-prod
             - name: WEB_LOGO_URL
               valueFrom:
                 configMapKeyRef:
                   key: WEB_LOGO_URL
-                  name: env-dev-docker-compose
+                  name: env-prod
             - name: WEB_TITLE
               valueFrom:
                 configMapKeyRef:
                   key: WEB_TITLE
-                  name: env-dev-docker-compose
+                  name: env-prod
+            - name: RAILS_MASTER_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: RAILS_MASTER_KEY
+                  name: env-prod
+            - name: RAILS_ACTION_CABLE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: RAILS_ACTION_CABLE_URL
+                  name: env-prod
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

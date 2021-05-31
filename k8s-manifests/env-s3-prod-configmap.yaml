@@ -8,7 +8,6 @@ data:
   REGION: [Change region]
 kind: ConfigMap
 metadata:
-  creationTimestamp: null
   labels:
-    io.kompose.service: sidekiq-env-dev-s3
-  name: env-dev-s3
+    name: env-s3-prod
+  name: env-s3-prod

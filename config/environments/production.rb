@@ -1,3 +1,5 @@
+Rails.application.routes.default_url_options[:protocol] = 'https'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -16,7 +18,7 @@ Rails.application.configure do
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
-  # config.require_master_key = true
+  config.require_master_key = true
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
@@ -40,11 +42,14 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
-  config.action_cable.url = ENV['CONFIG_ACTION_CABLE_URL']
-  config.action_cable.allowed_request_origins = (ENV["CONFIG_ACTION_CABLE_ALLOWED_REQUEST_ORIGINS"] || "").split(",")
+  config.action_cable.url = ENV['RAILS_ACTION_CABLE_URL']
+  config.action_cable.allowed_request_origins = [/http:\/\/*/, /https:\/\/*/]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  # config.force_ssl = true
+  # if config.force_ssl
+  #   Rails.application.routes.default_url_options[:protocol] = 'https'
+  # end
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -109,4 +114,13 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  Sidekiq.configure_server do |config|
+    config.redis = { url: ENV['REDIS_SERVER_URL'] }
+  end
+
+  Sidekiq.configure_client do |config|
+    config.redis = { url: ENV['REDIS_CLIENT_URL'] }
+  end
 end
+
