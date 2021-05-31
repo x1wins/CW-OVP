@@ -5,9 +5,9 @@
 kubectl label nodes [YOUR_NODE_NAME] nodetype=database
 ```
 3. Update s3, cloudfront env
-[env-dev-s3-configmap.yaml](/k8s-manifests/env-dev-s3-configmap.yaml)
+[env-s3-prod-configmap.yaml](/k8s-manifests/env-s3-prod-configmap.yaml)
 4. Update database env (if you want)
-[env-dev-docker-compose-configmap.yaml](/k8s-manifests/env-dev-docker-compose-configmap.yaml)
+[env-prod-configmap.yaml](/k8s-manifests/env-prod-configmap.yaml)
 5. Create deploy, pod, pvc 
 ```
 kubectl create -f ./k8s-manifests
@@ -110,9 +110,9 @@ kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bundle exec rake 
     ```
     2. Deploy
     ```
-        kubectl delete -f ./k8s-manifests/env-dev-docker-compose-configmap.yaml
-        kubectl create -f ./k8s-manifests/env-dev-docker-compose-configmap.yaml
-        kubectl describe configmap env-dev-docker-compose
+        kubectl delete -f ./k8s-manifests/env-prod-configmap.yaml
+        kubectl create -f ./k8s-manifests/env-prod-configmap.yaml
+        kubectl describe configmap env-prod
         kubectl delete -f ./k8s-manifests/web-deploy.yaml
         kubectl create -f ./k8s-manifests/web-deploy.yaml
     ```

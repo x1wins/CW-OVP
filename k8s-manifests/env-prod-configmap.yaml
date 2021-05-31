@@ -18,7 +18,6 @@ data:
   WEB_TITLE: CW-OVP
 kind: ConfigMap
 metadata:
-  creationTimestamp: null
   labels:
-    io.kompose.service: db-env-dev-docker-compose
-  name: env-dev-docker-compose
+    name: env-prod
+  name: env-prod
