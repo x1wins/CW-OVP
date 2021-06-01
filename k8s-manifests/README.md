@@ -30,19 +30,20 @@ kubectl label nodes [YOUR_NODE_NAME] nodetype=database
             File encrypted and saved.
         ```
     2. RAILS_ACTION_CABLE_URL
-        ```
-            RAILS_ACTION_CABLE_URL: "wss://[YOUR_DOMAIN]:442/cable"
-        ```
-        this project used Action cable(websocket). Action cable was working on HTTP in development enviroment.<br/>
-        we need HTTPS for MITM in production. <br/>
-        websocket use http but need TCP https://datatracker.ietf.org/doc/html/rfc6455#section-1.7 <br/> 
+        this project used Action cable(websocket). Action cable was working on TCP protocol with AWS ELB(elastic load balancer) in development enviroment.<br/>
+        but we need HTTPS for secure to MITM in production. <br/>
+        websocket use http when handshake and use TCP after end of handshake https://datatracker.ietf.org/doc/html/rfc6455#section-1.7 <br/> 
+        if you open 443 port for SSL(TCP) and use 443 port for Action cable. you will see ```csrf token authenticity``` on web <br/>
+        if you open 443 port for HTTPS(HTTP) and use 443 port for Action cable. you will see that action cable connection is not response.<br/>  
         AWS ELB(elastic load balancer) is not support websocket with HTTP, HTTPS protocal.<br/>
-        if you open 443 port for TCP and use 443 port for Action cable. you will see ```csrf token authenticity``` on web <br/>
-        if you open 443 port for HTTPS and use 443 port for Action cable. you will see that action cable connection is not response.<br/>  
         - Solution
-            1. open 442 port TCP protocal with SSL for only Action cable.
-            2. open 443 port HTTPS protocal with SSL for only Web.
             ![aws_ELB_442_tcp_for_actioncable.png](aws_ELB_442_tcp_for_actioncable.png)
+            1. open 443 port HTTPS protocal for only Web.
+            2. open 442 port SSL protocal for only Action cable.
+            3. Change Action cable default port 443 to 442 or another number.
+                ```
+                    RAILS_ACTION_CABLE_URL: "wss://[YOUR_DOMAIN]:442/cable"
+                ```
 5. Create deploy, pod, pvc 
 ```
 kubectl create -f ./k8s-manifests
