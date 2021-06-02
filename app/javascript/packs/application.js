@@ -17,4 +17,6 @@ require("packs/bulma")
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-require("video.js")
+require("video.js/dist/video.js")
+require("video.js/dist/video-js.css")
+require("@videojs/themes/dist/sea/index.css")
