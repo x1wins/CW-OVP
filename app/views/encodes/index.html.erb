@@ -22,16 +22,17 @@
       <th>Created at</th>
       <th>Completed</th>
       <th>Thumbnail</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
     <% @encodes.each do |encode| %>
       <tr id="encode_id" data-encode-id="<%= encode.id %>">
-        <th><%= link_to encode.id, encode, class: "button is-success" %></th>
-        <td><%= link_to encode.title, encode %></td>
+        <th><%= encode.id %></th>
+        <td><%= encode.title %></td>
         <td><%= encode.file.filename if encode.file.attached? %></td>
         <td><%= encode.runtime %></td>
-        <td><%= link_to encode.url, "#", :id => "open-modal", :data => { :video => encode.url, :poster => url_for(encode.thumbnails.first) } %></td>
+        <td><%= encode.url %></td>
         <td><%= encode.created_at %></td>
         <td id="status_<%= encode.id %>"><%= encode.completed %></td>
         <td>
@@ -40,6 +41,10 @@
             <%= image_tag url_for(encode.thumbnails.first) %>
           </figure>
           <% end %>
+        </td>
+        <td>
+          <%= link_to "Show", encode, class: "button is-link" %>
+          <%= link_to "Play", "#", id: "open-modal", class: "button is-primary", data: { :video => encode.url, :poster => url_for(encode.thumbnails.first) } if encode.completed %>
         </td>
       </tr>
     <% end %>
