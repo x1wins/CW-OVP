@@ -1,17 +1,52 @@
-<video-js controls preload class="vjs-theme-sea" id="vid1" data-setup='{"liveui": true,"fluid": true}'>
-  <source src="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8" type="application/x-mpegurl">
-</video-js>
+<!-- cdnjs : use a specific version of Video.js (change the version numbers as necessary) -->
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.10.2/video-js.min.css" rel="stylesheet">-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.10.2/video.min.js"></script>-->
+<% rand = rand(100) %>
+<%= rand %>
+<video
+  id="my-player-<%= rand %>"
+  class="video-js"
+  controls
+  preload="auto"
+  poster="//vjs.zencdn.net/v/oceans.png"
+  data-setup='{}'>
+  <source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
+  <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
+  <source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>
+  <p class="vjs-no-js">
+    To view this video please enable JavaScript, and consider upgrading to a
+    web browser that
+    <a href="https://videojs.com/html5-video-support/" target="_blank">
+      supports HTML5 video
+    </a>
+  </p>
+</video>
+<script>
+    var options = {};
+
+    var player = videojs('my-player-<%= rand %>', options, function onPlayerReady() {
+        videojs.log('Your player is ready!');
+
+        // In this context, `this` is the player that was created by Video.js.
+        // this.play();
+
+        // How about an event listener?
+        this.on('ended', function() {
+            videojs.log('Awww...over so soon?!');
+        });
+    });
+</script>
+
 
 <a id="open-modal" href="#">Open modal</a>
-
 <div class="modal">
   <div class="modal-background"></div>
   <div class="modal-content">
+
   </div>
   <button class="modal-close is-large" aria-label="close"></button>
 </div>
 <h1 class="title">Encode > List</h1>
-
 <div class="table-container">
   <table class="table is-narrow is-hoverable is-fullwidth" id="encodes">
     <thead>

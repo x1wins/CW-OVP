@@ -1,4 +1,5 @@
 document.addEventListener("turbolinks:load", function() {
+    console.log("turbolinks:load modal");
     const questionBlock = document.querySelector('a#open-modal');
     if(questionBlock == null){
         return;

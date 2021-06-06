@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= action_cable_meta_tag %>
+    <!-- unpkg : use a specific version of Video.js (change the version numbers as necessary) -->
+    <script src="https://unpkg.com/video.js@7.10.2/dist/video.min.js"></script>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
   </head>
