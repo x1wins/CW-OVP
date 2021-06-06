@@ -6,8 +6,44 @@ document.addEventListener("turbolinks:load", function() {
     var videoType = "application/x-mpegURL";
     var posterUrl = "";
 
-    var linkToOpenModals = document.querySelectorAll('a#open-modal');
-    linkToOpenModals.forEach(function(link) {
+    var thumbnailLinkToOpenModals = document.querySelectorAll('a#open-thumbnail-modal');
+    thumbnailLinkToOpenModals.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            thumbnails = this.getAttribute("data-thumbnails");
+            console.log("data-thumbnails : " + thumbnails);
+            var jsonData = JSON.parse(thumbnails);
+            jsonData.forEach(function(asset) {
+                if(asset.format == 'image'){
+                    url = asset.url;
+                    var img = document.createElement('img');
+                    img.setAttribute('src', url);
+                    var videoCntent = document.getElementById(parentViewId);
+                    videoCntent.append(img);
+                }
+            });
+
+            var modal = document.querySelector('.modal');  // assuming you have only 1
+            var html = document.querySelector('html');
+            modal.classList.add('is-active');
+            html.classList.add('is-clipped');
+            var closeCompoments = modal.querySelectorAll('.modal-background, .modal-close.is-large');
+            closeCompoments.forEach(function(compoment) {
+                compoment.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var videoCntent = document.getElementById(parentViewId);
+                    while (videoCntent.firstChild) {
+                        videoCntent.removeChild(videoCntent.lastChild);
+                    }
+                    modal.classList.remove('is-active');
+                    html.classList.remove('is-clipped');
+                });
+            });
+        });
+    });
+
+    var playLinkToOpenModals = document.querySelectorAll('a#open-play-modal');
+    playLinkToOpenModals.forEach(function(link) {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             console.log("data-video" + this.getAttribute("data-video"));

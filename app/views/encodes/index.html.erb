@@ -44,7 +44,8 @@
         </td>
         <td>
           <%= link_to "Show", encode, class: "button is-link" %>
-          <%= link_to "Play", "#", id: "open-modal", class: "button is-primary", data: { :video => encode.url, :poster => url_for(encode.thumbnails.first) } if encode.completed %>
+          <%= link_to "Play", "#", id: "open-play-modal", class: "button is-primary", data: { :video => encode.url, :poster => url_for(encode.thumbnails.first) } if encode.completed %>
+          <%= link_to "Thumbnail", "#", id: "open-thumbnail-modal", class: "button is-info", data: { thumbnails: encode.assets } if encode.completed %>
         </td>
       </tr>
     <% end %>
