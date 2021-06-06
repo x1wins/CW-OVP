@@ -54,7 +54,7 @@ function buildVideo(videoUrl, videoType, posterUrl){
     var obj, source;
     obj = document.createElement('video');
     obj.setAttribute('id', 'my-player');
-    obj.setAttribute('class', 'video-js');
+    obj.setAttribute('class', 'video-js vjs-theme-sea');
     obj.setAttribute('width', '640');
     obj.setAttribute('data-height', '264');
     obj.setAttribute('controls', ' ');
