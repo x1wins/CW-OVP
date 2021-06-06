@@ -6,25 +6,28 @@ document.addEventListener("turbolinks:load", function() {
     var videoType = "application/x-mpegURL";
     var posterUrl = "";
 
-    const questionBlock = document.querySelector('a#open-modal');
-    if(questionBlock == null){
-        return;
-    }
-    questionBlock.addEventListener('click', function(event) {
-        event.preventDefault();
-        console.log("document.querySelector a#open-modal");
-        appendPlayer(parentViewId, playerId, videoUrl, videoType, posterUrl);
-        var modal = document.querySelector('.modal');  // assuming you have only 1
-        var html = document.querySelector('html');
-        modal.classList.add('is-active');
-        html.classList.add('is-clipped');
-        var closeCompoments = modal.querySelectorAll('.modal-background, .modal-close.is-large');
-        closeCompoments.forEach(function(compoment) {
-            compoment.addEventListener('click', function(e) {
-                e.preventDefault();
-                removePlayer(playerId);
-                modal.classList.remove('is-active');
-                html.classList.remove('is-clipped');
+    var linkToOpenModals = document.querySelectorAll('a#open-modal');
+    linkToOpenModals.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("data-video" + this.getAttribute("data-video"));
+            console.log("data-poster" + this.getAttribute("data-poster"));
+            console.log("document.querySelector a#open-modal");
+            videoUrl = this.getAttribute("data-video");
+            posterUrl = this.getAttribute("data-poster");
+            appendPlayer(parentViewId, playerId, videoUrl, videoType, posterUrl);
+            var modal = document.querySelector('.modal');  // assuming you have only 1
+            var html = document.querySelector('html');
+            modal.classList.add('is-active');
+            html.classList.add('is-clipped');
+            var closeCompoments = modal.querySelectorAll('.modal-background, .modal-close.is-large');
+            closeCompoments.forEach(function(compoment) {
+                compoment.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    removePlayer(playerId);
+                    modal.classList.remove('is-active');
+                    html.classList.remove('is-clipped');
+                });
             });
         });
     });

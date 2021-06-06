@@ -2,7 +2,6 @@
 <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.10.2/video-js.min.css" rel="stylesheet">-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.10.2/video.min.js"></script>-->
 
-<a id="open-modal" href="#">Open modal</a>
 <div class="modal">
   <div class="modal-background"></div>
   <div class="modal-content">
@@ -32,7 +31,7 @@
         <td><%= link_to encode.title, encode %></td>
         <td><%= encode.file.filename if encode.file.attached? %></td>
         <td><%= encode.runtime %></td>
-        <td><%= encode.url %></td>
+        <td><%= link_to encode.url, "#", :id => "open-modal", :data => { :video => encode.url, :poster => url_for(encode.thumbnails.first) } %></td>
         <td><%= encode.created_at %></td>
         <td id="status_<%= encode.id %>"><%= encode.completed %></td>
         <td>
