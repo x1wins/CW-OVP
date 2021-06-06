@@ -80,13 +80,13 @@ function appendPlayer(parentViewId, playerId, videoUrl, videoType, posterUrl) {
     removePlayer(playerId);
     var videoCntent = document.getElementById(parentViewId);
     if(videoCntent){
-        v = buildVideo(videoUrl, videoType, posterUrl);
+        v = buildVideoElement(videoUrl, videoType, posterUrl);
         videoCntent.append(v);
         var player = videojs(v);
     }
 }
 
-function buildVideo(videoUrl, videoType, posterUrl){
+function buildVideoElement(videoUrl, videoType, posterUrl){
     var obj, source;
     obj = document.createElement('video');
     obj.setAttribute('id', 'my-player');
