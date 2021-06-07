@@ -19,5 +19,5 @@ require("packs/modal")
 // const imagePath = (name) => images(name, true)
 
 require("video.js/dist/video.js")
-require("video.js/dist/video-js.css")
-require("@videojs/themes/dist/sea/index.css")
+import "video.js/dist/video-js.css"
+import "@videojs/themes/dist/sea/index.css"
