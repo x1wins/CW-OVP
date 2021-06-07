@@ -25,7 +25,7 @@ RUN yarn install --check-files
 
 ARG RAILS_MASTER_KEY
 RUN if [ "$RAILS_MASTER_KEY" ] ; then RAILS_MASTER_KEY=${RAILS_MASTER_KEY} RAILS_ENV=production bundle exec rails assets:precompile ; fi
-RUN if [ "$RAILS_MASTER_KEY" ] ; then RAILS_MASTER_KEY=${RAILS_MASTER_KEY} RAILS_ENV=production bundle exec rails webpacker:install ; fi
+RUN if [ "$RAILS_MASTER_KEY" ] ; then RAILS_MASTER_KEY=${RAILS_MASTER_KEY} RAILS_ENV=production bundle exec rails webpacker:compile ; fi
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
