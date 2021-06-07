@@ -1,6 +1,9 @@
+import { appendThumbnails } from './thumbnail'
+import { appendPlayer, removePlayer } from './video'
+
 document.addEventListener("turbolinks:load", function() {
     console.log("turbolinks:load modal");
-    var parentViewId = 'video-content';
+    var parentViewId = 'modal-content';
     var playerId = 'my-player';
     var videoUrl = "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8";
     var videoType = "application/x-mpegURL";
@@ -10,19 +13,9 @@ document.addEventListener("turbolinks:load", function() {
     thumbnailLinkToOpenModals.forEach(function(link) {
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            thumbnails = this.getAttribute("data-thumbnails");
-            console.log("data-thumbnails : " + thumbnails);
-            var jsonData = JSON.parse(thumbnails);
-            jsonData.forEach(function(asset) {
-                if(asset.format == 'image'){
-                    url = asset.url;
-                    var img = document.createElement('img');
-                    img.setAttribute('src', url);
-                    var videoCntent = document.getElementById(parentViewId);
-                    videoCntent.append(img);
-                }
-            });
-
+            var dataThumbnails = this.getAttribute("data-thumbnails");
+            var thumbnails = JSON.parse(dataThumbnails);
+            appendThumbnails(thumbnails, parentViewId);
             var modal = document.querySelector('.modal');  // assuming you have only 1
             var html = document.querySelector('html');
             modal.classList.add('is-active');
@@ -31,9 +24,9 @@ document.addEventListener("turbolinks:load", function() {
             closeCompoments.forEach(function(compoment) {
                 compoment.addEventListener('click', function(e) {
                     e.preventDefault();
-                    var videoCntent = document.getElementById(parentViewId);
-                    while (videoCntent.firstChild) {
-                        videoCntent.removeChild(videoCntent.lastChild);
+                    var modalContent = document.getElementById(parentViewId);
+                    while (modalContent.firstChild) {
+                        modalContent.removeChild(modalContent.lastChild);
                     }
                     modal.classList.remove('is-active');
                     html.classList.remove('is-clipped');
@@ -68,38 +61,3 @@ document.addEventListener("turbolinks:load", function() {
         });
     });
 });
-
-function removePlayer(playerId){
-    var oldPlayer = document.getElementById(playerId);
-    if(oldPlayer){
-        videojs(oldPlayer).dispose();
-    }
-}
-
-function appendPlayer(parentViewId, playerId, videoUrl, videoType, posterUrl) {
-    removePlayer(playerId);
-    var videoCntent = document.getElementById(parentViewId);
-    if(videoCntent){
-        v = buildVideoElement(videoUrl, videoType, posterUrl);
-        videoCntent.append(v);
-        var player = videojs(v);
-    }
-}
-
-function buildVideoElement(videoUrl, videoType, posterUrl){
-    var obj, source;
-    obj = document.createElement('video');
-    obj.setAttribute('id', 'my-player');
-    obj.setAttribute('class', 'video-js vjs-theme-sea');
-    obj.setAttribute('width', '640');
-    obj.setAttribute('data-height', '264');
-    obj.setAttribute('controls', ' ');
-    obj.setAttribute('poster', posterUrl);
-    obj.setAttribute('preload', 'auto');
-    obj.setAttribute('data-setup', '{}');
-    source = document.createElement('source');
-    source.setAttribute('type', videoType);
-    source.setAttribute('src', videoUrl);
-    obj.append(source);
-    return obj;
-}
