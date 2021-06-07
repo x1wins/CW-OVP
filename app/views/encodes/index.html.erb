@@ -1,3 +1,12 @@
+<!-- cdnjs : use a specific version of Video.js (change the version numbers as necessary) -->
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.10.2/video-js.min.css" rel="stylesheet">-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.10.2/video.min.js"></script>-->
+
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content" id="modal-content"></div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>
 <h1 class="title">Encode > List</h1>
 <div class="table-container">
   <table class="table is-narrow is-hoverable is-fullwidth" id="encodes">
@@ -11,13 +20,14 @@
       <th>Created at</th>
       <th>Completed</th>
       <th>Thumbnail</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
     <% @encodes.each do |encode| %>
       <tr id="encode_id" data-encode-id="<%= encode.id %>">
-        <th><%= link_to encode.id, encode, class: "button is-success" %></th>
-        <td><%= link_to encode.title, encode %></td>
+        <th><%= encode.id %></th>
+        <td><%= encode.title %></td>
         <td><%= encode.file.filename if encode.file.attached? %></td>
         <td><%= encode.runtime %></td>
         <td><%= encode.url %></td>
@@ -29,6 +39,11 @@
             <%= image_tag url_for(encode.thumbnails.first) %>
           </figure>
           <% end %>
+        </td>
+        <td>
+          <%= link_to "Show", encode, class: "button is-link" %>
+          <%= link_to "Play", "#", id: "open-play-modal", class: "button is-primary", data: { :video => encode.url, :poster => url_for(encode.thumbnails.first) } if encode.completed %>
+          <%= link_to "Thumbnail", "#", id: "open-thumbnail-modal", class: "button is-info", data: { thumbnails: encode.assets } if encode.completed %>
         </td>
       </tr>
     <% end %>
