@@ -1,3 +1,5 @@
+import videojs from 'video.js';
+
 function removePlayer(playerId){
     var oldPlayer = document.getElementById(playerId);
     if(oldPlayer){
