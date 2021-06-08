@@ -169,6 +169,8 @@ hidden env file on git
 ```
 git update-index --assume-unchanged ./k8s-manifests/env-prod-configmap.yaml
 git update-index --assume-unchanged ./k8s-manifests/env-s3-prod-configmap.yaml
+git update-index --assume-unchanged ./k8s-manifests/sidekiq-deploy.yaml
+git update-index --assume-unchanged ./k8s-manifests/web-deploy.yaml
 ```
 
 pvc delete

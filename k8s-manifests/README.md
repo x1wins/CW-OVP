@@ -137,7 +137,7 @@ kubectl exec web -- bash -c 'cd /myapp && RAILS_ENV=production bundle exec rake 
         export RAILS_MASTER_KEY=[RAILS_MASTER_KEY]
         export GIT_BRANCH=master
    
-        git checkout ${GIT_BRANCH} && git pull origin ${GIT_BRANCH} && git reset --hard origin/${GIT_BRANCH} \
+        git checkout ${GIT_BRANCH} && git fetch origin ${GIT_BRANCH} && git reset --hard origin/${GIT_BRANCH} \
         && git branch -a && git rev-parse HEAD && git --no-pager log -n 60 --all --decorate --oneline --graph \
         && yes | docker system prune \
         && docker build --build-arg RAILS_MASTER_KEY=${RAILS_MASTER_KEY} -t cw-ovp . \
