@@ -27,7 +27,7 @@
         <td><%= encode.file.filename if encode.file.attached? %></td>
         <td><%= encode.runtime %></td>
         <td><%= encode.url %></td>
-        <td><%= encode.created_at %></td>
+        <td id="created-at"><%= encode.created_at %></td>
         <td id="status_<%= encode.id %>"><%= encode.completed %></td>
         <td>
           <% if encode.thumbnails.first %>
