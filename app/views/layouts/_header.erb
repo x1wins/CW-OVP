@@ -19,20 +19,20 @@
 
   <div id="navbarExampleTransparentExample" class="navbar-menu">
     <div class="navbar-start">
-      <%= link_to Encode.model_name, encodes_path, class: "navbar-item #{'is-active' if controller.controller_name == EncodesController.controller_name || current_page?(root_path)}" %>
-      <%= link_to Webhook.model_name, webhooks_path, class: "navbar-item #{'is-active' if controller.controller_name == WebhooksController.controller_name }" %>
-      <%= link_to User.model_name, users_path, class: "navbar-item #{'is-active' if controller.controller_name == UsersController.controller_name }" %>
+      <%= fa_icon_link_to(id: nil, link_url: encodes_path, icon_name: "photo-video", class_name: "navbar-item #{'is-active' if controller.controller_name == EncodesController.controller_name || current_page?(root_path)}", text: Encode.model_name ) %>
+      <%= fa_icon_link_to(id: nil, link_url: webhooks_path, icon_name: "satellite-dish", class_name: "navbar-item #{'is-active' if controller.controller_name == WebhooksController.controller_name }", text: Webhook.model_name ) %>
+      <%= fa_icon_link_to(id: nil, link_url: users_path, icon_name: "users", class_name: "navbar-item #{'is-active' if controller.controller_name == UsersController.controller_name }", text: User.model_name ) %>
     </div>
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
           <% if user_signed_in? %>
-            <%= link_to "Sidekiq", sidekiq_web_path, class: "button is-danger", target: "_blank" %>
-            <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "button is-primary") %>
-            <%= link_to('Edit registration', edit_user_registration_path, class: "button is-light") %>
+            <%= fa_icon_link_to(id: nil, link_url: sidekiq_web_path, icon_name: "database", class_name: "button is-danger", text: "Sidekiq", target: "_blank" ) %>
+            <%= fa_icon_link_to(id: nil, link_url: destroy_user_session_path, icon_name: "sign-out-alt", class_name: "button is-primary", text: "Logout", method: :delete ) %>
+            <%= fa_icon_link_to(id: nil, link_url: edit_user_registration_path, icon_name: "user-edit", class_name: "button is-light", text: "Edit registration" ) %>
           <% else %>
-            <%= link_to('Login', new_user_session_path, class: "is-primary") %>
-            <%= link_to('Register', new_user_registration_path, class: "is-light") %>
+            <%= fa_icon_link_to(id: nil, link_url: new_user_session_path, icon_name: "sign-in-alt", class_name: "button is-primary", text: "Login" ) %>
+            <%= fa_icon_link_to(id: nil, link_url: new_user_registration_path, icon_name: "user-plus", class_name: "button is-light", text: "Register" ) %>
           <% end %>
         </div>
       </div>

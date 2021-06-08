@@ -40,5 +40,5 @@
   </div>
 </div>
 
-<%= link_to 'Edit', edit_webhook_path(@webhook), class: "button is-primary" %>
-<%= link_to 'Back', webhooks_path, class: "button is-warning" %>
+<%= fa_icon_link_to(id: nil, link_url: edit_webhook_path(@webhook), icon_name: "edit", class_name: "button is-primary", text: "Edit" ) %>
+<%= fa_icon_link_to(id: nil, link_url: webhooks_path, icon_name: "arrow-left", class_name: "button is-warning", text: "Back" ) %>
