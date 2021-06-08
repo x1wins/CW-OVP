@@ -2,6 +2,7 @@
 * [Project init](#Project-init)
 * [Added .idea/*](#Added-.idea/*)
 * [Devise](#Devise)
+* [Added assets](#Added-assets)
 * [Postgresql](#Postgresql)
 * [Model](#Model)
 
@@ -23,6 +24,14 @@ gem 'devise'
 rails generate devise:install
 rails generate devise User
 rails db:migrate
+```
+
+### Added assets
+```
+docker-compose run --no-deps web yarn add @fortawesome/fontawesome-free
+docker-compose run --no-deps web yarn add bulma
+docker-compose run --no-deps web yarn add bulma-dracula
+docker-compose run --no-deps web yarn add animate.css 
 ```
 
 ### Postgresql
