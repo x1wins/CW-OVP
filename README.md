@@ -145,6 +145,7 @@ OVP(online video platform)란<br/>
     2. Keep latest gem for defense vulnerability
         ```
         docker-compose run --no-deps web bundle update
+        docker-compose run --no-deps web yarn upgrade --latest
         ```
     3. no space left on device
         1. https://www.changwoo.org/x1wins@changwoo.net/2021-02-12/write-myapp-tmp-redis-appendonly-aof-9ff1127366

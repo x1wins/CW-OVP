@@ -5,7 +5,7 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "4.2.2",
+    "@rails/webpacker": "5.4.0",
     "@videojs/themes": "^1.0.1",
     "turbolinks": "^5.2.0",
     "video.js": "^7.12.3"
