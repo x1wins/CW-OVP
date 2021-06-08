@@ -12,7 +12,6 @@ document.addEventListener("turbolinks:load", function() {
             var date = new Date(createdAt.textContent);
             var timeAgoText = timeAgo.format(date);
             createdAt.innerHTML += ("<br/>" + timeAgoText);
-            console.log("timeAgo : " + timeAgoText);
         });
     }
 });
