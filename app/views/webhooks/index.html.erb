@@ -21,9 +21,9 @@
           <td><%= webhook.method %></td>
           <td><%= webhook.is_active %></td>
           <td>
-            <%= link_to 'Show', webhook, class: "button is-link" %>
-            <%= link_to 'Edit', edit_webhook_path(webhook), class: "button is-primary" %>
-            <%= link_to 'Destroy', webhook, method: :delete, data: { confirm: 'Are you sure?' }, class: "button is-danger" %>
+            <%= fa_icon_link_to(id: nil, link_url: webhook, icon_name: "newspaper", class_name: "button is-link", text: "Show", data: nil ) %>
+            <%= fa_icon_link_to(id: nil, link_url: edit_webhook_path(webhook), icon_name: "edit", class_name: "button is-primary", text: "Edit", data: nil ) %>
+            <%= fa_icon_link_to(id: nil, link_url: webhook, icon_name: "trash", class_name: "button is-danger", text: "Destroy", data: { confirm: 'Are you sure?' }, method: :delete ) %>
           </td>
         </tr>
       <% end %>
@@ -31,4 +31,4 @@
   </table>
 </div>
 
-<%= link_to 'New Webhook', new_webhook_path, class: "button is-primary" %>
+<%= fa_icon_link_to(id: nil, link_url: new_webhook_path, icon_name: "plus", class_name: "button is-primary", text: "New Webhook", data: nil ) %>
