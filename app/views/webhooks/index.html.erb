@@ -8,6 +8,7 @@
         <th>User</th>
         <th>Method</th>
         <th>Is active</th>
+        <th>Created at</th>
         <th></th>
       </tr>
     </thead>
@@ -20,6 +21,7 @@
           <td><%= webhook.user_id %></td>
           <td><%= webhook.method %></td>
           <td><%= webhook.is_active %></td>
+          <td id="created-at"><%= webhook.created_at %></td>
           <td>
             <%= fa_icon_link_to(id: nil, link_url: webhook, icon_name: "newspaper", class_name: "button is-link", text: "Show", data: nil ) %>
             <%= fa_icon_link_to(id: nil, link_url: edit_webhook_path(webhook), icon_name: "edit", class_name: "button is-primary", text: "Edit", data: nil ) %>

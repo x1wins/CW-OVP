@@ -5,6 +5,7 @@
     <tr>
       <th>Email</th>
       <th>remember_created_at</th>
+      <th>Created at</th>
     </tr>
     </thead>
     <tbody>
@@ -12,6 +13,7 @@
       <tr>
         <td><%= user.email %></td>
         <td><%= user.remember_created_at %></td>
+        <td id="created-at"><%= user.created_at %></td>
       </tr>
     <% end %>
     </tbody>

@@ -3850,6 +3850,13 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
+javascript-time-ago@^2.3.6:
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/javascript-time-ago/-/javascript-time-ago-2.3.6.tgz#a78fd16b214c6b8d91e0f2cc0955648eecd92a7a"
+  integrity sha512-OZLtmx+o+LyfLLi7oKsz7taNCx2uguf1qsdN3KCYDe89L7D1OT1BcR/E0HgK5EYqvXxpPEl0oiuypFC7ugyeJA==
+  dependencies:
+    relative-time-format "^1.0.5"
+
 jest-worker@^26.5.0:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-26.6.2.tgz#7f72cbc4d643c365e27b9fd775f9d0eaa9c7a8ed"
@@ -5785,6 +5792,11 @@ regjsparser@^0.6.4:
   integrity sha512-ZqbNRz1SNjLAiYuwY0zoXW8Ne675IX5q+YHioAGbCw4X96Mjl2+dcX9B2ciaeyYjViDAfvIjFpQjJgLttTEERQ==
   dependencies:
     jsesc "~0.5.0"
+
+relative-time-format@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/relative-time-format/-/relative-time-format-1.0.5.tgz#3fb7c76ae39156afe0a3a7ff0cb7bf30aa0f0fb6"
+  integrity sha512-MAgx/YKcUQYJpIaWcfetPstElnWf26JxVis4PirdwVrrymFdbxyCSm6yENpfB1YuwFbtHSHksN3aBajVNxk10Q==
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
