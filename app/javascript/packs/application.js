@@ -20,9 +20,9 @@ require("packs/timeago")
 // const imagePath = (name) => images(name, true)
 
 require("video.js/dist/video.js")
+require("javascript-time-ago/modules/TimeAgo.js")
+
 require("video.js/dist/video-js.css")
 require("@videojs/themes/dist/sea/index.css")
-require("bulma-dracula/src/bulma-dracula.scss")
 require("@fortawesome/fontawesome-free/css/all.css")
-require("javascript-time-ago/modules/TimeAgo.js")
 require("../stylesheets/custom_dracula.scss")
