@@ -1,0 +1,8 @@
+
+//a.navbar-item.is-active:not(:focus):not(:hover), .navbar-link.is-active:not(:focus):not(:hover) {
+//  background-color: $dracula-pink;
+//}
+@import "~bulma-dracula/src/bulma-dracula-vars.scss";
+$navbar-item-active-background-color: #ff79c6;
+//$navbar-item-hover-background-color: #ff79c6;
+@import "~bulma/bulma.sass";
