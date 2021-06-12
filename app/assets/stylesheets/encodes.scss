@@ -5,3 +5,10 @@
   height: 300px;
   overflow-y: scroll;
 }
+
+.table-container {
+  overflow: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  white-space: nowrap;
+}
