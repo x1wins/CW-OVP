@@ -1,6 +1,10 @@
 <% if notice.present? %>
-  <p class="notification is-success">
-    <button class="delete"></button>
-    <%= notice %>
-  </p>
+  <div class="columns">
+    <div class="column">
+      <p class="notification is-success">
+        <button class="delete"></button>
+        <%= notice %>
+      </p>
+    </div>
+  </div>
 <% end %>
