@@ -17,20 +17,20 @@
         </div>
       </header>
       <div class="section">
+        <% if notice.present? %>
         <div class="columns">
-          <main class="column">
-            <div class="columns is-multiline">
-              <div class="column is-fullwidth">
-                <% if notice.present? %>
-                <p class="notification">
-                  <button class="delete"></button>
-                  <%= notice %>
-                </p>
-                <% end %>
-                <%= yield %>
-              </div>
-            </div>
-          </main>
+          <div class="column is-full">
+            <p class="notification">
+              <button class="delete"></button>
+              <%= notice %>
+            </p>
+          </div>
+        </div>
+        <% end %>
+        <div class="columns">
+          <div class="column is-full">
+            <%= yield %>
+          </div>
         </div>
       </div>
 
