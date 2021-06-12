@@ -5,9 +5,13 @@
     controller_index_path = '#'
   end
 %>
-  <nav class="breadcrumb is-large" aria-label="breadcrumbs">
-    <ul>
-      <li><%= link_to controller_name.classify, controller_index_path %> </li>
-      <li class="is-active"><a href="#" aria-current="page"><%= action_name %></a></li>
-    </ul>
-  </nav>
+<div class="columns">
+  <div class="column">
+    <nav class="breadcrumb is-large" aria-label="breadcrumbs">
+      <ul>
+        <li><%= link_to controller_name.classify, controller_index_path %> </li>
+        <li class="is-active"><a href="#" aria-current="page"><%= action_name %></a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
