@@ -17,9 +17,11 @@
         </div>
       </header>
       <div class="section">
-        <%= render "layouts/breadcrumb", controller_index_path: encodes_path, controller_name: controller_name.classify, action_name: controller.action_name.capitalize %>
-      </div>
-      <div class="section">
+        <div class="columns">
+          <div class="column">
+              <%= render "layouts/breadcrumb", controller_name: controller_name, action_name: controller.action_name.capitalize %>
+          </div>
+        </div>
         <div class="columns">
           <main class="column">
             <div class="columns is-multiline">

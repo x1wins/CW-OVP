@@ -1,6 +1,13 @@
-<nav class="breadcrumb is-large" aria-label="breadcrumbs">
-  <ul>
-    <li><%= link_to controller_name, controller_index_path %> </li>
-    <li class="is-active"><a href="#" aria-current="page"><%= action_name %></a></li>
-  </ul>
-</nav>
+<%
+  begin
+    controller_index_path = (url_for :controller => controller_name, :action => 'index') || '#'
+  rescue => e
+    controller_index_path = '#'
+  end
+%>
+  <nav class="breadcrumb is-large" aria-label="breadcrumbs">
+    <ul>
+      <li><%= link_to controller_name.classify, controller_index_path %> </li>
+      <li class="is-active"><a href="#" aria-current="page"><%= action_name %></a></li>
+    </ul>
+  </nav>
