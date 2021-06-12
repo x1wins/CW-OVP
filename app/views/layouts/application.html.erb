@@ -19,6 +19,11 @@
       <div class="section">
         <div class="columns">
           <div class="column">
+            <%= render "layouts/notice" %>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
             <%= render "layouts/breadcrumb", controller_name: controller_name, action_name: controller.action_name.capitalize %>
           </div>
         </div>
