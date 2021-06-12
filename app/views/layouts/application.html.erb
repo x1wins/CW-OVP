@@ -21,12 +21,7 @@
           <main class="column">
             <div class="columns is-multiline">
               <div class="column is-fullwidth">
-                <% if notice.present? %>
-                <p class="notification">
-                  <button class="delete"></button>
-                  <%= notice %>
-                </p>
-                <% end %>
+                <%= render "layouts/notice" %>
                 <%= yield %>
               </div>
             </div>
