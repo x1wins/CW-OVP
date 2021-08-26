@@ -5,7 +5,7 @@ RSpec.describe "encodes/index", type: :view do
     @user = FactoryBot.create(:user)
     @title = "hello"
     assign(:encodes, Kaminari.paginate_array([
-      Encode.create!(title: "hello", user: @user, file: Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.mp4")))
+      Encode.create!(title: "hello", user: @user, file: FactoryHelpers.upload_file('spec/factories/sample.mp4', 'video/mp4', true))
     ]).page(1))
   end
 

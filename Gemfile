@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.3', '>= 6.0.3.1'
+gem 'rails', '~> 6.1', '>= 6.1.4.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
@@ -55,7 +55,7 @@ gem 'redis-namespace'
 gem 'sidekiq'
 
 group :test do
-  gem 'rspec-rails', '4.0.0.beta3'
+  gem 'rspec-rails', '~> 5.0', '>= 5.0.2'
   gem 'rspec-sidekiq'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
