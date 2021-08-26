@@ -55,7 +55,7 @@ gem 'redis-namespace'
 gem 'sidekiq'
 
 group :test do
-  gem 'rspec-rails', '4.0.0.beta3'
+  gem 'rspec-rails', '~> 5.0', '>= 5.0.2'
   gem 'rspec-sidekiq'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
