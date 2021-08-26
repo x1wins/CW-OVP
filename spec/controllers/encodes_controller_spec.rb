@@ -31,11 +31,11 @@ RSpec.describe EncodesController, type: :controller do
   end
 
   let(:valid_attributes) {
-    {title: "hello", user: @user, file: Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.mp4"))}
+    {title: "hello", user: @user, file: FactoryHelpers.upload_file('spec/factories/sample.mp4', 'video/mp4', true)}
   }
 
   let(:invalid_attributes) {
-    {title: "", user: @user, file: Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.mp4"))}
+    {title: "", user: @user, file: FactoryHelpers.upload_file('spec/factories/sample.mp4', 'video/mp4', true)}
   }
 
   # This should return the minimal set of values that should be in the session

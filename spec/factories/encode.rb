@@ -2,7 +2,7 @@
 FactoryBot.define do
   factory :encode do
     title { Faker::Ancient.god }
-    file { Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.mp4")) }
+    file { FactoryHelpers.upload_file('spec/factories/sample.mp4', 'video/mp4', true) }
     user  { create(:user) }
   end
 end
