@@ -5,7 +5,7 @@
 * [Introduction](#Introduction)
     * [EN](#EN)
     * [KO](#KO)
-* [Skill Stack](#Skill-Stack)
+* [Tech Stack](#Tech-Stack)
 * [Feature](#Feature)
 * [System Structure](#System-Structure)
 * [Getting started](#Getting-started)
@@ -41,7 +41,7 @@ OVP(online video platform)란<br/>
 대표적인 해외 OVP는 brightcove.com, mux.com, dacast.com, vimeo.com, Dacast.com, Amazon elastic transcoding 등 서비스들이 존재하며 솔류션으로는 Wowza가 존재한다.<br/>
 이에 CW-OVP 프로젝트를 오픈소스로 개발하여 기업이나 단체, 개인에 도움이 되고자 한다.
 
-## Skill Stack
+## Tech Stack
 |what use|description|
 |---|---|
 |FFMPEG|video transcoding, packaging|
@@ -92,6 +92,10 @@ OVP(online video platform)란<br/>
             ```
             docker-compose --env-file .env.dev.s3 config
             ```
+    4. ignore changed ```.env.dev.s3``` file when ```git commit``` 
+       ```
+          git update-index --assume-unchanged .env.dev.s3
+       ```
 
 ### How To Run Development mode with Docker-compose
 1. Download source
