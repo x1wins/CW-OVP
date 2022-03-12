@@ -92,6 +92,10 @@ OVP(online video platform)란<br/>
             ```
             docker-compose --env-file .env.dev.s3 config
             ```
+    4. ignore changed ```.env.dev.s3``` file when ```git commit``` 
+       ```
+          git update-index --assume-unchanged .env.dev.s3
+       ```
 
 ### How To Run Development mode with Docker-compose
 1. Download source
