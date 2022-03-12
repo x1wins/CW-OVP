@@ -1,10 +1,14 @@
 FROM ruby:2.6.3
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get update && \
-    apt-get install -qq -y build-essential nodejs yarn vim \
-    libpq-dev postgresql-client ffmpeg
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+
+RUN wget https://dl.yarnpkg.com/debian/pubkey.gpg
+RUN curl https://deb.nodesource.com/setup_12.x | bash
+RUN cat pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install -y build-essential nodejs yarn vim libpq-dev postgresql-client ffmpeg
+# remove pubkey
+RUN rm pubkey.gpg
+
 RUN apt-get update && \
     apt-get install -y \
         python3 \
