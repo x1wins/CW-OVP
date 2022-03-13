@@ -24,7 +24,7 @@ RUN mkdir /storage
 WORKDIR /myapp
 COPY . /myapp
 RUN gem update --system
-RUN bundle install
+RUN bundle check || bundle install --jobs 4
 RUN yarn install --check-files
 
 ARG RAILS_MASTER_KEY
