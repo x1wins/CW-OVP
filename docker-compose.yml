@@ -29,6 +29,9 @@ services:
     volumes:
       - .:/myapp
       - ~/storage:/storage
+      - bundle_path:/bundle
+    environment:
+      - BUNDLE_PATH=/bundle/vendor
     ports:
       - "3000:3000"
     depends_on:
@@ -45,6 +48,9 @@ services:
     volumes:
       - .:/myapp
       - ~/storage:/storage
+      - bundle_path:/bundle
+    environment:
+      - BUNDLE_PATH=/bundle/vendor
     depends_on:
       - redis
     networks:
@@ -52,3 +58,5 @@ services:
 networks:
   cw_ovp_network:
     driver: bridge
+volumes:
+  bundle_path:
