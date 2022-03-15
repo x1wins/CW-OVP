@@ -20,7 +20,7 @@ services:
       - "6379:6379"
     networks:
       - cw_ovp_network
-  app: &app_base
+  web: &app_base
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     env_file:
@@ -41,7 +41,7 @@ services:
     command: bundle exec sidekiq -c 10
     ports: []
     depends_on:
-      - app
+      - web
 networks:
   cw_ovp_network:
     driver: bridge
