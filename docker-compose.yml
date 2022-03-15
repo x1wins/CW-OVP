@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 services:
   db:
     image: postgres:10.10
@@ -20,7 +20,7 @@ services:
       - "6379:6379"
     networks:
       - cw_ovp_network
-  web:
+  app: &app_base
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     env_file:
@@ -37,18 +37,11 @@ services:
     networks:
       - cw_ovp_network
   sidekiq:
-    build: .
+    <<: *app_base
     command: bundle exec sidekiq -c 10
-    env_file:
-      - .env.dev.docker.compose
-      - .env.dev.s3
-    volumes:
-      - .:/myapp
-      - ~/storage:/storage
+    ports: []
     depends_on:
-      - redis
-    networks:
-      - cw_ovp_network
+      - app
 networks:
   cw_ovp_network:
     driver: bridge
