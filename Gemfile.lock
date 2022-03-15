@@ -138,10 +138,12 @@ GEM
     marcel (1.0.1)
     method_source (1.0.0)
     mini_mime (1.1.1)
+    mini_portile2 (2.6.1)
     minitest (5.14.4)
     msgpack (1.4.2)
     nio4r (2.5.8)
-    nokogiri (1.12.3-x86_64-linux)
+    nokogiri (1.12.3)
+      mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     pg (1.2.3)
@@ -262,6 +264,7 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
+  aarch64-linux
   x86_64-linux
 
 DEPENDENCIES
@@ -294,7 +297,7 @@ DEPENDENCIES
   webpacker (~> 4.0)
 
 RUBY VERSION
-   ruby 2.6.3p62
+   ruby 3.0.0p0
 
 BUNDLED WITH
    2.2.26
