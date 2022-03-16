@@ -1,4 +1,4 @@
-FROM ruby:2.6.3
+FROM ruby:3.0.0
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 
 RUN wget https://dl.yarnpkg.com/debian/pubkey.gpg
