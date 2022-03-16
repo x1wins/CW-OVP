@@ -3,6 +3,18 @@ When transcoding or extract thumbnail image complete, you can get callback with 
 ![/webhook/webhooks_screenshot.png](webhooks_screenshot.png)
 this following Exaple Webhook Server will get complete callback with parameters values.
 
+## Parameter
+your callback server have to ready for get parameter at below list.
+```
+callback_id=#{callback_id}&callback_value=#{callback_value}&callback_format=#{callback_format}&api_key=#{api_key}
+```
+|param|type|description|Example value|
+|---|---|---|---|
+|callback_id|string| Callback id in encode form || 
+|callback_value|comma-separated string | asset url|https://DOMAIN/playlist.m3u8 OR https://DOMAIN/thumbnail1.png,https://DOMAIN/thumbnail 2.png ...|
+|callback_format|string|asset type| image OR video| 
+|api_key|string|api key in encode form||
+
 ### Example Webhook Server
 * download post-server.py https://gist.github.com/kylemcdonald/3bb71e4b901c54073cbc
 [/webhook/post-server.py](/webhook/post-server.py)
