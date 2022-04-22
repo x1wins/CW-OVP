@@ -23,9 +23,9 @@ RUN mkdir /myapp
 RUN mkdir /storage
 WORKDIR /myapp
 COPY . /myapp
-RUN gem update --system
-RUN bundle install
-RUN yarn install --check-files
+RUN gem update --system \
+    && bundle check || bundle install --jobs 4 \
+    && yarn install --check-files
 
 ARG RAILS_MASTER_KEY
 RUN if [ "$RAILS_MASTER_KEY" ] ; then RAILS_MASTER_KEY=${RAILS_MASTER_KEY} RAILS_ENV=production bundle exec rails assets:precompile ; fi
