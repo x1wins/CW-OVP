@@ -42,6 +42,20 @@ services:
     ports: []
     depends_on:
       - web
+  webpacker:
+    <<: *app_base
+    command: ./bin/webpack-dev-server < echo 'y'
+    env_file:
+      - .env.dev.docker.compose
+      - .env.dev.s3
+    volumes:
+      - .:/myapp
+    environment:
+      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+    tty: false
+    stdin_open: false
+    ports:
+      - '3035:3035'
 networks:
   cw_ovp_network:
     driver: bridge
